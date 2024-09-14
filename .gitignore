@@ -188,9 +188,17 @@ sysinfo.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,jetbrains
 
+
+# MAC meta file
 .DS_Store
+
+# Large font file
 Assets/Shooting_test/UnityChanAdventure/Font
 
 # Nuget for Unity Packages
 /Assets/Packages/
 /Assets/Packages.meta
+
+# Netcode
+/Assets/DefaultNetworkPrefabs.asset
+/Assets/DefaultNetworkPrefabs.asset.meta
