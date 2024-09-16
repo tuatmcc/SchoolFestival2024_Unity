@@ -46,9 +46,11 @@ public class BulletController : MonoBehaviour
             // directionの更新
             velocity = rb.velocity;
         }
-        if (reflect_count == max_reflect_num+1)
+        if (reflect_count >= max_reflect_num+1)
         {
-            Destroy(this.gameObject);
+            rb.velocity = new Vector3(0, 0, 0);
+            this.transform.position = new Vector3(0, -0.4f, 0);
+            reflect_count = 0;
         }
     }
 }
