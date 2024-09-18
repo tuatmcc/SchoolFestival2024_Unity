@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RicoShot.Core.Interface;
 
-public class LocalPlayerManager : MonoBehaviour
+namespace RicoShot.Core
 {
-    // Start is called before the first frame update
-    void Start()
+    public class LocalPlayerManager : ILocalPlayerManager
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

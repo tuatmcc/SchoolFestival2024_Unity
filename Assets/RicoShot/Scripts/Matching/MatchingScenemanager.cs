@@ -1,18 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RicoShot.Matching.Interface;
 
-public class MatchingScenemanager : MonoBehaviour
+public class MatchingScenemanager : IMatchingSceneManager
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
