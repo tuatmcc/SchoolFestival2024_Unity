@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using RicoShot.Matching.Interface;
 
-public class MatchingScenemanager : IMatchingSceneManager
+namespace RicoShot.Matching
 {
+    public class MatchingScenemanager
+    {
 
+    }
 }

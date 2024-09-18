@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using RicoShot.Play.Interface;
 
-public class PlaySceneManager : IPlaySceneManager
+namespace RicoShot.Play
 {
+    public class PlaySceneManager
+    {
     
+    }
 }

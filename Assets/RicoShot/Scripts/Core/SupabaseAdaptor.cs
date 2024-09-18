@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using RicoShot.Core.Interface;
 
-public class SupabaseAdaptor : ISupabaseAdaptor
+namespace RicoShot.Core
 {
+    public class SupabaseAdaptor
+    {
 
+    }
 }

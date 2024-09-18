@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RicoShot.Result.Interface;
+using RicoShot.InputActions;
+using Zenject;
 
-public class ResultSceneManager : IResultSceneManager
+namespace RicoShot.Result
 {
-    
+    public class ResultSceneManager
+    {
+
+    }
 }
