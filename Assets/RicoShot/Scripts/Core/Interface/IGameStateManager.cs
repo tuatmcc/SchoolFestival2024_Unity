@@ -5,13 +5,10 @@ namespace RicoShot.Core.Interface
 {
     public interface IGameStateManager
     {
-        public event Action OnTitleSceneStarted;
-        public event Action OnMatchingSceneStarted;
-        public event Action OnPlaySceneStarted;
-        public event Action OnResultSceneStarted;
+        event Action<GameState> OnGameStateChanged;
 
-        public CoreInputs CoreInputs { get; }
+        CoreInputs CoreInputs { get; }
 
-        public void NextScene();
+        void NextScene();
     }
 }

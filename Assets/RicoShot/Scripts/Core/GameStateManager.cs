@@ -3,6 +3,7 @@ using RicoShot.InputActions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 
@@ -11,10 +12,7 @@ namespace RicoShot.Core
     public class GameStateManager : IGameStateManager, IInitializable, IDisposable
     {
 
-        public event Action OnTitleSceneStarted;
-        public event Action OnMatchingSceneStarted;
-        public event Action OnPlaySceneStarted;
-        public event Action OnResultSceneStarted;
+        public event Action<GameState> OnGameStateChanged;
         public CoreInputs CoreInputs { get; private set; } = null;
 
         private GameState gameState;
@@ -22,7 +20,7 @@ namespace RicoShot.Core
         public void Initialize()
         {
             gameState = GameState.Title;
-            CoreInputs = new CoreInputs();
+            CoreInputs = new();
             CoreInputs.Enable();
         }
 
@@ -32,19 +30,19 @@ namespace RicoShot.Core
             {
                 case GameState.Title:
                     gameState = GameState.Matching;
-                    OnMatchingSceneStarted?.Invoke();
+                    OnGameStateChanged?.Invoke(gameState);
                     break;
                 case GameState.Matching:
                     gameState = GameState.Play;
-                    OnPlaySceneStarted?.Invoke();
+                    OnGameStateChanged?.Invoke(gameState);
                     break;
                 case GameState.Play:
                     gameState = GameState.Result;
-                    OnResultSceneStarted?.Invoke();
+                    OnGameStateChanged?.Invoke(gameState);
                     break;
                 case GameState.Result:
                     gameState = GameState.Title;
-                    OnTitleSceneStarted?.Invoke();
+                    OnGameStateChanged?.Invoke(gameState);
                     break;
             }
         }

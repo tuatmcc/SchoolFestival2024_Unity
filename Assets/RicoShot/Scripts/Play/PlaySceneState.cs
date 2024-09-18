@@ -1,6 +1,6 @@
 namespace RicoShot.Play
 {
-    enum PlaySceneState
+    public enum PlaySceneState
     {
         Waiting,
         Countdown,

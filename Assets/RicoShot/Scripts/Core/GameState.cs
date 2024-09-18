@@ -1,6 +1,6 @@
 namespace RicoShot.Core
 {
-    enum GameState
+    public enum GameState
     {
         Title,
         Matching,

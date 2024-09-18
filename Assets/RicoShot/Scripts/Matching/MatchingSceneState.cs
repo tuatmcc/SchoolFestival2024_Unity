@@ -1,6 +1,6 @@
 namespace RicoShot.Matching
 {
-    enum MatchingSceneState
+    public enum MatchingSceneState
     {
         Matching,
         Matched,

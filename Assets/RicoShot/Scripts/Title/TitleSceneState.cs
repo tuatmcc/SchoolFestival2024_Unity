@@ -1,6 +1,6 @@
 namespace RicoShot.Title
 {
-    enum TitleSceneState
+    public enum TitleSceneState
     {
         Reading,
         FinishRead,
