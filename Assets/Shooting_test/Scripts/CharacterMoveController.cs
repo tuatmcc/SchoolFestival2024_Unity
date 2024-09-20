@@ -11,7 +11,6 @@ namespace Shooting_test
     {
         [SerializeField]
         public GameObject [] Bullets;
-        public GameObject Bullet_num;
         public Transform ShootPoint;
         public float BulletForce = 20;
 
@@ -44,7 +43,6 @@ namespace Shooting_test
 
         private void Update()
         {
-            
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -58,6 +56,7 @@ namespace Shooting_test
         {
             if (context.performed && ! OnCooltime)
             {
+                Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
                 OnCooltime = true;
                 GameObject currentBullet = Bullets[bullet_fire_count % 5];
                 bullet_fire_count++;
