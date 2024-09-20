@@ -25,7 +25,10 @@ namespace Shooting_test
             if (playerInput.actions["Draw_Ray"].IsPressed())
             {
                 Draw_Bullet_shot(shootPoint);
-                Debug.Log("押している");
+            }
+            else if (!playerInput.actions["Draw_Ray"].IsPressed())
+            {
+                Delete_BulletShot();
             }
         }
 
