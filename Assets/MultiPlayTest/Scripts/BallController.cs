@@ -43,9 +43,9 @@ namespace MultiPlayTest.Scripts
         // =================================================================
         // 移動入力をセットするRPC
         [ServerRpc]
-        private void SetMoveInputServerRpc(float x, float y)
+        private void SetMoveInputServerRpc(float x, float z)
         {
-            _moveInput = new Vector2(x, y);
+            _moveInput = new Vector2(x, z);
         }
 
         // =================================================================
@@ -57,6 +57,7 @@ namespace MultiPlayTest.Scripts
             // _moveInputから速度を計算
             var velocity = Vector3.zero;
             velocity.x = moveSpeed * _moveInput.normalized.x;
+            velocity.y = _rigidBody.velocity.y;
             velocity.z = moveSpeed * _moveInput.normalized.y;
             //移動処理
             _rigidBody.AddForce(velocity);
