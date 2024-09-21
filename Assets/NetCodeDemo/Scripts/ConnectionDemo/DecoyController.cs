@@ -10,13 +10,18 @@ public class DecoyController : NetworkBehaviour
     private Vector2 movement;
     void Start()
     {
-        
+        if (IsOwner)
+        {
+            SetPositionServerRpc(new Vector3(Random.Range(-3, 3), 3, Random.Range(-3, 3)));
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        movement = context.ReadValue<Vector2>();
-        movement *= speed;
+        if (IsOwner)
+        {
+            SetVelocityServerRpc(context.ReadValue<Vector2>());
+        }
     }
 
     void Update()
@@ -35,6 +40,18 @@ public class DecoyController : NetworkBehaviour
                 transform.position = new Vector3(Random.Range(-3, 3), 3, Random.Range(-3, 3));
             }
         }
+    }
+
+    [ServerRpc]
+    void SetVelocityServerRpc(Vector2 velocity)
+    {
+        movement = speed * velocity;
+    }
+
+    [ServerRpc]
+    void SetPositionServerRpc(Vector3 position)
+    {
+        transform.position = position;
     }
     
     [ServerRpc]
