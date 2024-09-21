@@ -11,4 +11,13 @@ public class NetworkManagerController : MonoBehaviour
         if (GUILayout.Button("Server")) NetworkManager.Singleton.StartServer();
         GUILayout.EndArea();
     }
+
+    void Start()
+    {
+    #if UNITY_SERVER
+        if (NetworkManager.Singleton.IsServer) {
+            NetworkManager.Singleton.StartServer();
+        }
+    #endif
+    }
 }

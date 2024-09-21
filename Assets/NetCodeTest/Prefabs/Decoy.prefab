@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8205408045478873825}
   - component: {fileID: -2791025489277519641}
   - component: {fileID: -1341115307318233095}
+  - component: {fileID: 7631446442587847879}
   m_Layer: 0
   m_Name: Decoy
   m_TagString: Untagged
@@ -214,5 +215,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  decoyParticles: {fileID: 4285321656185023097, guid: 744835db13a012e76b847eb5f8099c39,
+--- !u!114 &7631446442587847879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3288813930044588680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 77396292720c1a0e98f01627df6d8205,
     type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -1341115307318233095}
+        m_TargetAssemblyTypeName: DecoyController, Assembly-CSharp
+        m_MethodName: OnMove
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 4b7b42e7-6702-49b4-b3f6-56fddedee346
+    m_ActionName: NetCodeTest/Move[/Keyboard/w,/Keyboard/a,/Keyboard/s,/Keyboard/d]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: NetCoeTest
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
