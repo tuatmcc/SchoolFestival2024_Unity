@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MultiPlayTest.Scripts
+namespace MultiPlayTest.Scripts.Title
 {
     public class ChooseHostOrClient : MonoBehaviour
     {
@@ -40,15 +40,13 @@ namespace MultiPlayTest.Scripts
             // true から false にすると、接続承認応答が処理される
             response.Pending = true;
 
-            //最大人数をチェック(4人まで)
+            //最大人数をチェック
             if (NetworkManager.Singleton.ConnectedClients.Count >= maxPlayer)
             {
                 response.Approved = false; // 接続を許可しない
                 response.Pending = false; // 接続承認応答を処理する
                 return;
             }
-            
-            Debug.Log("接続承認リクエストを受信");
             
             //ここからは接続成功クライアントに向けた処理
             response.Approved = true;//接続を許可

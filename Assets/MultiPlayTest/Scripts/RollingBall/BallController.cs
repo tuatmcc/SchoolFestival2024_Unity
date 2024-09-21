@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace MultiPlayTest.Scripts
+namespace MultiPlayTest.Scripts.RollingBall
 {
     // NetworkBehaviour を継承することで，ネットワーク関連の機能を使えるようになる
     public class BallController : NetworkBehaviour

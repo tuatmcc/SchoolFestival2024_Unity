@@ -779,6 +779,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: RollingBall
+  maxPlayer: 4
 --- !u!4 &1356273772
 Transform:
   m_ObjectHideFlags: 0
