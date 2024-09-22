@@ -5,8 +5,8 @@ using RicoShot.Core.Interface;
 
 namespace RicoShot.Core
 {
-    public class LocalPlayerManager
+    public class LocalPlayerManager : ILocalPlayerManager
     {
-
+        public string LocalUserID { get; set; }
     }
 }
