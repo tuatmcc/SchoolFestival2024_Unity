@@ -6,29 +6,32 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class ButtonSelector : MonoBehaviour
+namespace RicoShot.ModeSelect
 {
-    [SerializeField] private Button leftButton;
-    [SerializeField] private Button rightButton;
-
-    [Inject] private ModeSelectSceneManager modeSelectSceneManager;
-
-    private ModeSelectInputs inputs;
-
-    private void Start()
+    public class ButtonSelector : MonoBehaviour
     {
-        inputs = modeSelectSceneManager.ModeSeletotInputs;
-        inputs.Select.SelectRight.performed += SelectRight;
-        inputs.Select.SelectLeft.performed += SelectLeft;
-    }
+        [SerializeField] private Button leftButton;
+        [SerializeField] private Button rightButton;
 
-    private void SelectRight(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        EventSystem.current.SetSelectedGameObject(leftButton.gameObject);
-    }
+        [Inject] private ModeSelectSceneManager modeSelectSceneManager;
 
-    private void SelectLeft(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        EventSystem.current.SetSelectedGameObject(rightButton.gameObject);
+        private ModeSelectInputs inputs;
+
+        private void Start()
+        {
+            inputs = modeSelectSceneManager.ModeSeletotInputs;
+            inputs.Select.SelectRight.performed += SelectRight;
+            inputs.Select.SelectLeft.performed += SelectLeft;
+        }
+
+        private void SelectRight(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            EventSystem.current.SetSelectedGameObject(leftButton.gameObject);
+        }
+
+        private void SelectLeft(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+        {
+            EventSystem.current.SetSelectedGameObject(rightButton.gameObject);
+        }
     }
 }

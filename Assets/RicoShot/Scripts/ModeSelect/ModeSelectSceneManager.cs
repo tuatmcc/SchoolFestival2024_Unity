@@ -5,31 +5,34 @@ using System;
 using UnityEngine;
 using Zenject;
 
-public class ModeSelectSceneManager : IInitializable, IDisposable
+namespace RicoShot.ModeSelect
 {
-    public ModeSelectInputs ModeSeletotInputs { get; private set; }
-
-    [Inject] private IGameStateManager gameStateManager;
-
-    ModeSelectSceneManager()
+    public class ModeSelectSceneManager : IInitializable, IDisposable
     {
-        ModeSeletotInputs = new();
-        ModeSeletotInputs.Enable();
-    }
+        public ModeSelectInputs ModeSeletotInputs { get; private set; }
 
-    public void Initialize()
-    {
+        [Inject] private IGameStateManager gameStateManager;
 
-    }
+        ModeSelectSceneManager()
+        {
+            ModeSeletotInputs = new();
+            ModeSeletotInputs.Enable();
+        }
 
-    public void SetNetworkMode(NetworkMode networkMode)
-    {
-        gameStateManager.NetworkMode = networkMode;
-        Debug.Log($"Set NetworkMode {networkMode}");
-    }
+        public void Initialize()
+        {
 
-    public void Dispose()
-    {
-        ModeSeletotInputs.Dispose();
+        }
+
+        public void SetNetworkMode(NetworkMode networkMode)
+        {
+            gameStateManager.NetworkMode = networkMode;
+            Debug.Log($"Set NetworkMode {networkMode}");
+        }
+
+        public void Dispose()
+        {
+            ModeSeletotInputs.Dispose();
+        }
     }
 }

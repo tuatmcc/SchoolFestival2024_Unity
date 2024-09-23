@@ -1,13 +1,16 @@
 using UnityEngine;
 using Zenject;
 
-public class ModeSelectSceneManagerInstaller : MonoInstaller
+namespace RicoShot.ModeSelect.DI
 {
-    public override void InstallBindings()
+    public class ModeSelectSceneManagerInstaller : MonoInstaller
     {
-        Container
-            .Bind<ModeSelectSceneManager>()
-            .To<ModeSelectSceneManager>()
-            .AsSingle();
+        public override void InstallBindings()
+        {
+            Container
+                .Bind<ModeSelectSceneManager>()
+                .To<ModeSelectSceneManager>()
+                .AsSingle();
+        }
     }
 }
