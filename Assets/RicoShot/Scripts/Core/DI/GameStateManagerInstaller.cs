@@ -2,13 +2,15 @@ using RicoShot.Core;
 using RicoShot.Core.Interface;
 using Zenject;
 
-public class GameStateManagerInstaller : MonoInstaller
+namespace RicoShot.Core.DI
 {
-    public override void InstallBindings()
+    public class GameStateManagerInstaller : MonoInstaller
     {
-        Container
-            .Bind<IGameStateManager>()
-            .To<GameStateManager>()
-            .AsSingle();
+        public override void InstallBindings()
+        {
+            Container
+                .BindInterfacesTo<GameStateManager>()
+                .AsSingle();
+        }
     }
 }

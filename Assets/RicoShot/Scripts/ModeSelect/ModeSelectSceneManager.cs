@@ -28,6 +28,7 @@ namespace RicoShot.ModeSelect
         {
             gameStateManager.NetworkMode = networkMode;
             Debug.Log($"Set NetworkMode {networkMode}");
+            gameStateManager.NextScene();
         }
 
         public void Dispose()

@@ -2,7 +2,7 @@ namespace RicoShot.Core
 {
     public enum GameState
     {
-        MpdeSelect,
+        ModeSelect,
         Title,
         Matching,
         Play,

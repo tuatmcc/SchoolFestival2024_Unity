@@ -8,8 +8,7 @@ namespace RicoShot.ModeSelect.DI
         public override void InstallBindings()
         {
             Container
-                .Bind<ModeSelectSceneManager>()
-                .To<ModeSelectSceneManager>()
+                .BindInterfacesAndSelfTo<ModeSelectSceneManager>()
                 .AsSingle();
         }
     }
