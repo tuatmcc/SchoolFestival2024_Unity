@@ -46,3 +46,5 @@ https://github.com/Unity-Technologies/ml-agents/issues/5826　を参照
 ```
 mlagents-learn config/poca/UnityChan3vs3 --run-id=<任意の文字列>
 ```
+
+![demo](https://github.com/tuatmcc/SchoolFestival2024_Unity/blob/feature/npc/demo.mp4)
