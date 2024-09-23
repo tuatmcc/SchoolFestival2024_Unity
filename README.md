@@ -44,7 +44,15 @@ https://github.com/Unity-Technologies/ml-agents/issues/5826　を参照
 
 ##### 学習の実行
 ```
-mlagents-learn config/poca/UnityChan3vs3 --run-id=<任意の文字列>
+mlagents-learn config/poca/Unit
+
+https://github.com/user-attachments/assets/d894891a-7d88-4801-9325-02b7f770dbaf
+
+yChan3vs3 --run-id=<任意の文字列>
 ```
-[デモ動画を見る](demo.mp4)
+
+### デモ動画
+https://github.com/user-attachments/assets/ea40cad7-e411-4c92-9982-289fa079f6b9
+
+
 
