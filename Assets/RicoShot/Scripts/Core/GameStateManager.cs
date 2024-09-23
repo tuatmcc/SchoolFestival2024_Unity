@@ -18,6 +18,16 @@ namespace RicoShot.Core
         public CoreInputs CoreInputs { get; private set; }
         public NetworkMode NetworkMode { get; set; }
 
+        public GameState GameState
+        { 
+            get { return gameState; } 
+            set
+            {
+                gameState = value;
+                OnGameStateChanged?.Invoke(gameState);
+            } 
+        }
+
         private GameState gameState;
 
         GameStateManager()
@@ -28,56 +38,51 @@ namespace RicoShot.Core
 
         public void Initialize()
         {
-            gameState = GameState.ModeSelect;
+            GameState = GameState.ModeSelect;
             OnGameStateChanged += TransitScene;
         }
 
         public void NextScene()
         {
-            switch (gameState)
+            switch (GameState)
             {
                 case GameState.ModeSelect:
                     switch (NetworkMode)
                     {
                         case NetworkMode.Client:
-                            gameState = GameState.Title;
+                            GameState = GameState.Title;
                             break;
                         case NetworkMode.Server:
-                            gameState = GameState.Matching;
+                            GameState = GameState.Matching;
                             break;
                     }
-                    OnGameStateChanged?.Invoke(gameState);
                     break;
                 case GameState.Title:
-                    gameState = GameState.Matching;
-                    OnGameStateChanged?.Invoke(gameState);
+                    GameState = GameState.Matching;
                     break;
                 case GameState.Matching:
-                    gameState = GameState.Play;
-                    OnGameStateChanged?.Invoke(gameState);
+                    GameState = GameState.Play;
                     break;
                 case GameState.Play:
-                    gameState = GameState.Result;
-                    OnGameStateChanged?.Invoke(gameState);
+                    GameState = GameState.Result;
                     break;
                 case GameState.Result:
                     switch (NetworkMode)
                     {
                         case NetworkMode.Client:
-                            gameState = GameState.Title;
+                            GameState = GameState.Title;
                             break;
                         case NetworkMode.Server:
-                            gameState = GameState.Matching;
+                            GameState = GameState.Matching;
                             break;
                     }
-                    OnGameStateChanged?.Invoke(gameState);
                     break;
             }
         }
 
         private void TransitScene(GameState gameState)
         {
-            switch (gameState)
+            switch (GameState)
             {
                 case GameState.Title:
                     SceneManager.LoadSceneAsync("Title");
