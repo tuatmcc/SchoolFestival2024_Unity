@@ -13,15 +13,21 @@ namespace RicoShot.Core
     {
 
         public event Action<GameState> OnGameStateChanged;
-        public CoreInputs CoreInputs { get; private set; } = null;
+
+        public CoreInputs CoreInputs { get; private set; }
+        public NetworkMode NetworkMode { get; set; }
 
         private GameState gameState;
+
+        GameStateManager()
+        {
+            CoreInputs = new();
+            CoreInputs.Enable();
+        }
 
         public void Initialize()
         {
             gameState = GameState.Title;
-            CoreInputs = new();
-            CoreInputs.Enable();
         }
 
         public void NextScene()
