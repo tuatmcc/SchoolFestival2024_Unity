@@ -1,0 +1,44 @@
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Serialization;
+
+namespace MultiPlayTest.Scripts.RollingBall
+{
+    public class GeneratePlayerOnStart : NetworkBehaviour
+    {
+        //プレイヤーのプレハブ
+        [SerializeField] private NetworkObject mplayerPrefab;
+
+        int cnt = 0;
+        public override void OnNetworkSpawn()
+        {
+            //ホスト以外の場合
+            if (IsHost == false)
+            {
+                return;
+            }
+
+            //クライアント接続時
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+
+            //すでに存在するクライアント用に関数呼び出す
+            foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+            {
+                OnClientConnected(client.ClientId);
+            }
+        }
+        public void OnClientConnected(ulong clientId)
+        {
+            // プレイヤーオブジェクト生成位置
+            var position = new Vector3(-3.26f, 5.07f, 1.69f);
+            position.x += 5 * (cnt++ % 3);
+
+            // プレイヤーオブジェクト生成
+            NetworkObject playerObject = Instantiate(mplayerPrefab, position, Quaternion.identity);
+
+            // 接続クライアントをOwnerにしてPlayerObjectとしてスポーン
+            playerObject.SpawnAsPlayerObject(clientId);
+        }
+
+    }
+}

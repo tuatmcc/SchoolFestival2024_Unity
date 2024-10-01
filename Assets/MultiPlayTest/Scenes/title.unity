@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 323ea2e70e3b7d44ba3166e9cc49e3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: RollingBall
+  nextScene: Lobby
   maxPlayer: 4
 --- !u!4 &1356273772
 Transform:

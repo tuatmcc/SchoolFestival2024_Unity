@@ -52,18 +52,18 @@ namespace MultiPlayTest.Scripts.Title
             response.Approved = true;//接続を許可
 
             //PlayerObjectを生成するかどうか
-            response.CreatePlayerObject = true;
+            response.CreatePlayerObject = false;
 
-            //生成するPrefabハッシュ値。nullの場合NetworkManagerに登録したプレハブが使用される
-            response.PlayerPrefabHash = null;
-
-            //PlayerObjectをスポーンする位置(nullの場合Vector3.zero)
-            var position = new Vector3(-3.26f, 5.07f, 1.69f);
-            position.x += 5 * (NetworkManager.Singleton.ConnectedClients.Count % 3);
-            response.Position = position;
-
-            //PlayerObjectをスポーン時の回転 (nullの場合Quaternion.identity)
-            response.Rotation = Quaternion.identity;
+            // //生成するPrefabハッシュ値。nullの場合NetworkManagerに登録したプレハブが使用される
+            // response.PlayerPrefabHash = null;
+            //
+            // //PlayerObjectをスポーンする位置(nullの場合Vector3.zero)
+            // var position = new Vector3(-3.26f, 5.07f, 1.69f);
+            // position.x += 5 * (NetworkManager.Singleton.ConnectedClients.Count % 3);
+            // response.Position = position;
+            //
+            // //PlayerObjectをスポーン時の回転 (nullの場合Quaternion.identity)
+            // response.Rotation = Quaternion.identity;
 
             response.Pending = false;
         }
