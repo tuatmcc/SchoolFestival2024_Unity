@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class BulletController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BulletController : MonoBehaviour
     private Vector3 normal;
     private int reflect_count = 0;
     private int max_reflect_num = 3;
+    [Inject] private IScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +56,7 @@ public class BulletController : MonoBehaviour
             rb.velocity = new Vector3(0, 0, 0);
             this.transform.position = new Vector3(0, -0.4f, 0);
             reflect_count = 0;
+            scoreManager.AddScore(100);
         }
         if (reflect_count >= max_reflect_num+1)
         {

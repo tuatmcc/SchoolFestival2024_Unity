@@ -38,7 +38,7 @@ namespace Shooting_test
             rotationSpeed = moveInput.x * rotationSpeedConst;
 
             rb.velocity = this.transform.rotation *  new Vector3(moveInput.x,0,moveInput.y) * speed;
-            //rb.angularVelocity = new Vector3(0, rotationSpeed, 0);
+            rb.angularVelocity = new Vector3(0, rotationSpeed, 0);
         }
 
         private void Update()

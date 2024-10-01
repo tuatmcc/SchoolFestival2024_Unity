@@ -10,7 +10,7 @@ namespace Shooting_test
         Transform transform_parent;
 
         //マウス感度
-        float sensitivity = 4f;
+        float sensitivity = 2f;
         Vector2 RStick_input = new Vector2(0,0);
 
         private void Start()
@@ -21,7 +21,7 @@ namespace Shooting_test
         void Update()
         {
             //CameraRotate_Mouse();
-            transform_parent.RotateAround(transform.position, Vector3.up, RStick_input.x*0.7f);
+            transform_parent.RotateAround(transform.position, Vector3.up, RStick_input.x*sensitivity);
         }
 
         private void CameraRotate_Mouse()
