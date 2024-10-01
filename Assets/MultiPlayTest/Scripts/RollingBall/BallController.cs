@@ -7,8 +7,7 @@ namespace MultiPlayTest.Scripts.RollingBall
     // NetworkBehaviour を継承することで，ネットワーク関連の機能を使えるようになる
     public class BallController : NetworkBehaviour
     {
-        [SerializeField] 
-        private float moveSpeed = 1;
+        [SerializeField] private float moveSpeed = 1;
 
         private Rigidbody _rigidBody;
         private Vector2 _moveInput = Vector2.zero;
