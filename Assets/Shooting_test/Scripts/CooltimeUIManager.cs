@@ -12,7 +12,7 @@ namespace Shooting_test
     {
 
         private bool OnCooltime = false;
-        private int COOLTIME = 3;
+        private int COOLTIME = 2;
         // Start is called before the first frame update
         void Start()
         {
