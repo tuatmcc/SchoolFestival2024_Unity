@@ -29,12 +29,14 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("壁衝突");
+        Debug.Log("衝突");
         if (collision.gameObject.CompareTag("Border"))
         {
             if (velocity.magnitude <= 0.1)
             {
-                Destroy(this.gameObject);
+                rb.velocity = new Vector3(0, 0, 0);
+                this.transform.position = new Vector3(0, -0.4f, 0);
+                reflect_count = 0;
             }
             reflect_count++;
             normal = collision.contacts[0].normal;
@@ -45,6 +47,13 @@ public class BulletController : MonoBehaviour
 
             // directionの更新
             velocity = rb.velocity;
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("敵にヒット");
+            rb.velocity = new Vector3(0, 0, 0);
+            this.transform.position = new Vector3(0, -0.4f, 0);
+            reflect_count = 0;
         }
         if (reflect_count >= max_reflect_num+1)
         {

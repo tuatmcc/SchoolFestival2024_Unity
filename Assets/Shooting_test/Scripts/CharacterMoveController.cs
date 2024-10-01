@@ -21,7 +21,7 @@ namespace Shooting_test
         public Animator animator;
         private int bullet_fire_count = 0;
         private bool OnCooltime = false;
-        private int COOLTIME = 3;
+        private int COOLTIME = 2;
 
         [SerializeField] private float moveSpeedConst = 5.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
