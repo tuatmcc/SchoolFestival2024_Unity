@@ -56,7 +56,9 @@ namespace Shooting_test
         {
             if (context.performed && ! OnCooltime)
             {
-                Gamepad.current.SetMotorSpeeds(0.25f, 0.75f);
+                Gamepad.current.SetMotorSpeeds(1f, 1f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                Gamepad.current.SetMotorSpeeds(0f, 0f);
                 OnCooltime = true;
                 GameObject currentBullet = Bullets[bullet_fire_count % 5];
                 bullet_fire_count++;
