@@ -107,25 +107,9 @@ namespace MultiPlayTest.Scripts.Lobby
         {
             if (!IsServer) return;
 
-            // 全プレイヤーが準備完了かを確認するフラグ
-            bool allReady = true;
-            var connectedClients = NetworkManager.Singleton.ConnectedClientsIds;
-
-            // すべての接続クライアントの準備状態を確認
-            foreach (var clientId in connectedClients)
+            if (_readyPlayerCount.Value == NetworkManager.Singleton.ConnectedClients.Count)
             {
-                if (!_playerReadyStatus.ContainsKey(clientId) || !_playerReadyStatus[clientId])
-                {
-                    allReady = false;
-                    break;
-                }
-            }
-
-            // 全員が準備完了の場合、ゲームを開始
-            if (allReady)
-            {
-                NetworkManager.Singleton.SceneManager.LoadScene(nextScene,
-                    UnityEngine.SceneManagement.LoadSceneMode.Single);
+                NetworkManager.Singleton.SceneManager.LoadScene(nextScene, UnityEngine.SceneManagement.LoadSceneMode.Single);
             }
         }
 

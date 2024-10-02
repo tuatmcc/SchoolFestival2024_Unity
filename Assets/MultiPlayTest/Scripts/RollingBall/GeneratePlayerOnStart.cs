@@ -29,7 +29,7 @@ namespace MultiPlayTest.Scripts.RollingBall
         {
             // プレイヤーオブジェクト生成位置
             var position = new Vector3(-3.26f, 5.07f, 1.69f);
-            position.x += 2 * (_cnt++ % 3);
+            position.x += 2 * (_cnt++ % 4);
 
             // プレイヤーオブジェクト生成
             NetworkObject playerObject = Instantiate(mplayerPrefab, position, Quaternion.identity);

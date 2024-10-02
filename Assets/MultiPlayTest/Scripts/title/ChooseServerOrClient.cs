@@ -24,11 +24,11 @@ namespace MultiPlayTest.Scripts.Title
             bool result = NetworkManager.Singleton.StartClient();
             if (result)
             {
-                Debug.Log("接続成功");
+                Debug.Log("クライアント起動成功");
             }
             else
             {
-                Debug.Log("接続失敗");
+                Debug.Log("クライアント起動失敗");
             }
         }
 
