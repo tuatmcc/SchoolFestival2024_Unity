@@ -1,54 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using TMPro;
-using Cysharp.Threading.Tasks;
-using System;
+using Zenject;
 
 namespace Shooting_test
 {
-    public class TimeController : MonoBehaviour
+    public class TimeController : ITimeController, IInitializable, IDisposable
     {
-        [SerializeField]
-        public TextMeshProUGUI Timer_TMP;
+        private CancellationTokenSource cts;
+        private int time_second = ITimeController.TIME_LIMIT;
+        public event Action<int> OnTimeChangedSeconds;
+        public event Action OnTimeOver;
 
-        int time_second = 180;
-        // Start is called before the first frame update
-        void Start()
+        public void Initialize()
         {
-            BattleTimer();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-        /*
-        IEnumerator BattleTimer()
-        {
-            while (time_second > 0)
+            cts = new CancellationTokenSource();
+            UniTask.Create(async () =>
             {
-                Timer_TMP.text = Seconds2SecondsAndMinutes(time_second);
-                yield return new WaitForSeconds(1);
-                time_second--;
-            }
-        }
-        */
-
-        async void BattleTimer()
-        {
-            while (time_second > 0)
-            {
-                Timer_TMP.text = Seconds2SecondsAndMinutes(time_second);
-                await UniTask.Delay(TimeSpan.FromSeconds(1));
-                time_second--;
-            }
+                while (!cts.IsCancellationRequested)
+                {
+                    OnTimeChangedSeconds?.Invoke(time_second);
+                    await UniTask.Delay(1000, cancellationToken: cts.Token);
+                    time_second--;
+                    if (time_second < 0)
+                    {
+                        OnTimeOver?.Invoke();
+                        break;
+                    }
+                }
+                return UniTask.CompletedTask;
+            }).Forget();
         }
 
-        string Seconds2SecondsAndMinutes(int seconds)
+        public void Dispose()
         {
-            return (seconds / 60).ToString() + ":" + (seconds % 60).ToString().PadLeft(2,'0');
+            cts.Cancel();
         }
     }
 }
