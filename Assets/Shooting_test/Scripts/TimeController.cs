@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
+using System;
 
 namespace Shooting_test
 {
@@ -14,7 +16,7 @@ namespace Shooting_test
         // Start is called before the first frame update
         void Start()
         {
-            StartCoroutine(BattleTimer());
+            BattleTimer();
         }
 
         // Update is called once per frame
@@ -22,13 +24,24 @@ namespace Shooting_test
         {
 
         }
-
+        /*
         IEnumerator BattleTimer()
         {
             while (time_second > 0)
             {
                 Timer_TMP.text = Seconds2SecondsAndMinutes(time_second);
                 yield return new WaitForSeconds(1);
+                time_second--;
+            }
+        }
+        */
+
+        async void BattleTimer()
+        {
+            while (time_second > 0)
+            {
+                Timer_TMP.text = Seconds2SecondsAndMinutes(time_second);
+                await UniTask.Delay(TimeSpan.FromSeconds(1));
                 time_second--;
             }
         }
