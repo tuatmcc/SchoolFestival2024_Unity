@@ -18,9 +18,6 @@ namespace MultiPlayTest.Scripts.RollingBall
                 return;
             }
 
-            //クライアント接続時
-            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
-
             //すでに存在するクライアント用に関数呼び出す
             foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
             {

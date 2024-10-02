@@ -6,7 +6,7 @@ namespace MultiPlayTest.Scripts.Title
 {
     public class ChooseHostOrClient : MonoBehaviour
     {
-        [SerializeField] private string nextScene = "RollingBall";
+        [SerializeField] private string nextScene;
 
         public void StartServer()
         {
