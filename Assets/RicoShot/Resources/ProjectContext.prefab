@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 767623035231051347}
   - component: {fileID: 1583102103328438439}
   - component: {fileID: 3807840064216899230}
-  - component: {fileID: -1728008699852314964}
-  - component: {fileID: 7742007304133578684}
+  - component: {fileID: 797644928115905352}
+  - component: {fileID: 6686879482836500992}
+  - component: {fileID: 1194139925023559025}
   m_Layer: 0
   m_Name: ProjectContext
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 3807840064216899230}
+  - {fileID: 797644928115905352}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _parentNewObjectsUnderContext: 1
@@ -78,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b1f18e37408a244eb39366a5d3d2bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-1728008699852314964
+--- !u!114 &797644928115905352
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,35 +89,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2813161705608542552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
+  m_Script: {fileID: 11500000, guid: ba38ad2ede40a1f4bb536b1ddbae03eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetworkConfig:
-    ProtocolVersion: 0
-    NetworkTransport: {fileID: 7742007304133578684}
-    PlayerPrefab: {fileID: 0}
-    Prefabs:
-      NetworkPrefabsLists:
-      - {fileID: 11400000, guid: ae5e2e9da6a08cd4ea15f5303d785e72, type: 2}
-    TickRate: 30
-    ClientConnectionBufferTimeout: 10
-    ConnectionApproval: 0
-    ConnectionData: 
-    EnableTimeResync: 0
-    TimeResyncInterval: 30
-    EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 1
-    ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
-    RpcHashSize: 0
-    LoadSceneTimeOut: 120
-    SpawnTimeout: 10
-    EnableNetworkLogs: 1
-    OldPrefabList: []
-  RunInBackground: 1
-  LogLevel: 1
---- !u!114 &7742007304133578684
+  networkDataHolder: {fileID: 1194139925023559025}
+--- !u!114 &6686879482836500992
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,21 +102,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 2813161705608542552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ProtocolType: 0
-  m_MaxPacketQueueSize: 128
-  m_MaxPayloadSize: 6144
-  m_HeartbeatTimeoutMS: 500
-  m_ConnectTimeoutMS: 1000
-  m_MaxConnectAttempts: 60
-  m_DisconnectTimeoutMS: 30000
-  ConnectionData:
-    Address: 127.0.0.1
-    Port: 7777
-    ServerListenAddress: 127.0.0.1
-  DebugSimulator:
-    PacketDelayMS: 0
-    PacketJitterMS: 0
-    PacketDropRate: 0
+  GlobalObjectIdHash: 1957042077
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1194139925023559025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2813161705608542552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b381021f2c45c0f4396adc3b87035dc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
