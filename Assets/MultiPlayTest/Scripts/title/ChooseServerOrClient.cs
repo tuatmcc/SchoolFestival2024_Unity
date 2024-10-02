@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace MultiPlayTest.Scripts.Title
 {
-    public class ChooseHostOrClient : MonoBehaviour
+    public class ChooseServerOrClient : MonoBehaviour
     {
         [SerializeField] private string nextScene;
 
