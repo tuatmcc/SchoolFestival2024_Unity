@@ -703,11 +703,8 @@ Shader "Hidden/lilToonTransparent"
     {
         Tags {"RenderType" = "TransparentCutout" "Queue" = "AlphaTest+10"}
         UsePass "Hidden/ltspass_transparent/FORWARD"
+        UsePass "Hidden/ltspass_transparent/FORWARD_ADD"
         UsePass "Hidden/ltspass_transparent/SHADOW_CASTER"
-        UsePass "Hidden/ltspass_transparent/DEPTHONLY"
-        UsePass "Hidden/ltspass_transparent/DEPTHNORMALS"
-        UsePass "Hidden/ltspass_transparent/MOTIONVECTORS"
-        UsePass "Hidden/ltspass_transparent/UNIVERSAL2D"
         UsePass "Hidden/ltspass_transparent/META"
         Pass
         {
@@ -780,7 +777,8 @@ Shader "Hidden/lilToonTransparent"
             ENDHLSL
         }
     }
-    Fallback "Universal Render Pipeline/Unlit"
+    Fallback "Unlit/Texture"
 
     CustomEditor "lilToon.lilToonInspector"
 }
+
