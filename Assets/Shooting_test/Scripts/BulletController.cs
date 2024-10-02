@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using RicoShot.Utils;
 using UnityEngine;
 using Zenject;
 
-public class BulletController : MonoBehaviour
+public class BulletController : PoolManagedMonoObject
 {
     private Vector3 velocity;
     private Rigidbody rb;

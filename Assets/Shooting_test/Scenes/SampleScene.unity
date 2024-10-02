@@ -1151,6 +1151,7 @@ GameObject:
   - component: {fileID: 1518646752}
   - component: {fileID: 1518646754}
   - component: {fileID: 1518646753}
+  - component: {fileID: 1518646755}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -1174,6 +1175,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1518646752}
   - {fileID: 1518646753}
+  - {fileID: 1518646755}
   _installerPrefabs: []
   _findSiblingMonoInstallers: 0
   _autoRun: 1
@@ -1243,6 +1245,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1518646749}
   m_CullTransparentMesh: 1
+--- !u!114 &1518646755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1518646749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e89434bdcb894ba5a3edc0b950f28209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 857436393815915552, guid: 9c6b781f476d0418dac8cd0deb4e787e,
+    type: 3}
 --- !u!1001 &1766474460
 PrefabInstance:
   m_ObjectHideFlags: 0

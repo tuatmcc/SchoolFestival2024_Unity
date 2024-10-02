@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
 using System;
+using Zenject;
 
 namespace Shooting_test
 {
@@ -25,6 +26,8 @@ namespace Shooting_test
 
         [SerializeField] private float moveSpeedConst = 5.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
+        
+        [Inject] private IBulletObjectPoolManager bulletObjectPoolManager;
 
         void Start()
         {
@@ -60,8 +63,8 @@ namespace Shooting_test
                 await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 Gamepad.current.SetMotorSpeeds(0f, 0f);
                 OnCooltime = true;
-                GameObject currentBullet = Bullets[bullet_fire_count % 5];
-                bullet_fire_count++;
+                // GameObject currentBullet = Bullets[bullet_fire_count % 5];
+                var currentBullet = bulletObjectPoolManager.Shot();
                 currentBullet.transform.position = ShootPoint.position;
                 //GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
                 currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
