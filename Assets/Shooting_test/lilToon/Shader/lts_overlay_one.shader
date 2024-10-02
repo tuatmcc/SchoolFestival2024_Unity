@@ -774,7 +774,8 @@ Shader "_lil/[Optional] lilToonOverlayOnePass"
             ENDHLSL
         }
     }
-    Fallback "Universal Render Pipeline/Unlit"
+    Fallback "Unlit/Texture"
 
     CustomEditor "lilToon.lilToonInspector"
 }
+
