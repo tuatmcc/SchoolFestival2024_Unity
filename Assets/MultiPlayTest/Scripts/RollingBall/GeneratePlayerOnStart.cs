@@ -13,7 +13,7 @@ namespace MultiPlayTest.Scripts.RollingBall
         public override void OnNetworkSpawn()
         {
             //ホスト以外の場合
-            if (IsHost == false)
+            if (IsServer == false)
             {
                 return;
             }

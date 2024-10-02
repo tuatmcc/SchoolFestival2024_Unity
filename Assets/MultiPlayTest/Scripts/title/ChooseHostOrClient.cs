@@ -8,19 +8,19 @@ namespace MultiPlayTest.Scripts.Title
     {
         [SerializeField] private string nextScene = "RollingBall";
 
-        public void StartHost()
+        public void StartServer()
         {
             // 接続承認コールバック
             NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
             // ホスト開始
-            NetworkManager.Singleton.StartHost();
+            NetworkManager.Singleton.StartServer();
             // シーンを切り替え
             NetworkManager.Singleton.SceneManager.LoadScene(nextScene, LoadSceneMode.Single);
         }
 
         public void StartClient()
         {
-            // ホストに接続
+            // サーバーに接続
             bool result = NetworkManager.Singleton.StartClient();
             if (result)
             {

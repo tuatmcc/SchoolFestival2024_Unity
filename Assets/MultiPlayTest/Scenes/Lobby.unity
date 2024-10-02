@@ -902,7 +902,7 @@ MonoBehaviour:
       type: 3}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: bd49c8efbbc50d04a93f8c0d7d666b4d, type: 2}
+      - {fileID: 11400000, guid: ae5e2e9da6a08cd4ea15f5303d785e72, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 1
@@ -1149,6 +1149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyButton: {fileID: 984230617}
   buttonText: {fileID: 1127532338}
+  nextScene: RollingBall
 --- !u!4 &2074055914
 Transform:
   m_ObjectHideFlags: 0

@@ -124,17 +124,9 @@ namespace MultiPlayTest.Scripts.Lobby
             // 全員が準備完了の場合、ゲームを開始
             if (allReady)
             {
-                StartGameClientRpc();
+                NetworkManager.Singleton.SceneManager.LoadScene(nextScene,
+                    UnityEngine.SceneManagement.LoadSceneMode.Single);
             }
-        }
-
-        // クライアント側でゲームを開始するClientRpc
-        [ClientRpc]
-        private void StartGameClientRpc()
-        {
-            // シーンを切り替える
-            NetworkManager.Singleton.SceneManager.LoadScene(nextScene,
-                UnityEngine.SceneManagement.LoadSceneMode.Single);
         }
 
         // ネットワーク生成時に呼び出される
