@@ -24,10 +24,12 @@ namespace RicoShot.Matching
                 {
                     NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
                     NetworkManager.Singleton.StartServer();
+                    Debug.Log("Server started");
                 }
                 else if (gameStateManager.NetworkMode == NetworkMode.Client)
                 {
                     NetworkManager.Singleton.StartClient();
+                    Debug.Log("Client started");
                 }
             }
         }
