@@ -58,12 +58,14 @@ public class BulletController : PoolManagedMonoObject
             this.transform.position = new Vector3(0, -0.4f, 0);
             reflect_count = 0;
             scoreManager.AddScore(100);
+            this.ReturnPool();
         }
         if (reflect_count >= max_reflect_num+1)
         {
             rb.velocity = new Vector3(0, 0, 0);
             this.transform.position = new Vector3(0, -0.4f, 0);
             reflect_count = 0;
+            this.ReturnPool();
         }
     }
 }
