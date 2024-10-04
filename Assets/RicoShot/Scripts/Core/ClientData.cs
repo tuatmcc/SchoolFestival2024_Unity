@@ -28,5 +28,10 @@ namespace RicoShot.Core
             serializer.SerializeValue(ref ClientID);
             serializer.SerializeValue(ref Team);
         }
+
+        public override string ToString()
+        {
+            return $"ClientData -> UUID: {UUID}, ClientID:{ClientID}, Team: {Team}";
+        }
     }
 }

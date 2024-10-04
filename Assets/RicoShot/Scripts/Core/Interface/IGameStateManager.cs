@@ -7,6 +7,8 @@ namespace RicoShot.Core.Interface
     {
         event Action<GameState> OnGameStateChanged;
 
+        GameState GameState { get; }
+
         CoreInputs CoreInputs { get; }
         NetworkMode NetworkMode { get; set; }
 

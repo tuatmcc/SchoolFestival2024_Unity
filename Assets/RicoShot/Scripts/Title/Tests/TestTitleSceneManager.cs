@@ -2,23 +2,24 @@ using Cysharp.Threading.Tasks;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Title.Interface;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
-public class TestTitleSceneManager : ITitleSceneManager, IInitializable
+namespace RicoShot.Title.Tests
 {
-    public TitleInputs TitleInputs => throw new System.NotImplementedException();
-
-    [Inject] IGameStateManager gameStateManager;
-
-    public void Initialize()
+    public class TestTitleSceneManager : ITitleSceneManager, IInitializable
     {
-        UniTask.Create(async () =>
+        public TitleInputs TitleInputs => throw new System.NotImplementedException();
+
+        [Inject] IGameStateManager gameStateManager;
+
+        // 1秒でMatchingへ
+        public void Initialize()
         {
-            await UniTask.Delay(1000);
-            gameStateManager.NextScene();
-        });
+            UniTask.Create(async () =>
+            {
+                await UniTask.Delay(1000);
+                gameStateManager.NextScene();
+            });
+        }
     }
 }

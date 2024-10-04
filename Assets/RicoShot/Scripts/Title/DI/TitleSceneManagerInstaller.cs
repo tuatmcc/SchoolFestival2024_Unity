@@ -1,9 +1,13 @@
+using RicoShot.Title.Tests;
 using Zenject;
 
-public class TitleSceneManagerInstaller : MonoInstaller
+namespace RicoShot.Title.DI
 {
-    public override void InstallBindings()
+    public class TitleSceneManagerInstaller : MonoInstaller
     {
-        Container.BindInterfacesTo<TestTitleSceneManager>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesTo<TestTitleSceneManager>().AsSingle();
+        }
     }
 }
