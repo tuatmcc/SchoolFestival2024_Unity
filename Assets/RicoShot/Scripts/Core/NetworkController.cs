@@ -12,13 +12,20 @@ namespace RicoShot.Core
 {
     public class NetworkController : NetworkBehaviour, INetworkController
     {
+        // 説明はインターフェース(INetworkManager)を参照
         public event Action OnClientDatasChanged;
+        public event Action OnTeamChanged;
+        public event Action OnReadyStatusChanged;
+        public event Action OnAllClientsReady;
+        public event Action OnAllClientsReadyCancelled;
         public NetworkList<ClientData> ClientDatas { get; } = new();
 
         [SerializeField] private int maxClientCount = 4;
 
         [Inject] IGameStateManager gameStateManager;
         [Inject] ILocalPlayerManager localPlayerManager;
+
+        private bool allClientReady = false;
 
         private void Awake()
         {
@@ -63,12 +70,9 @@ namespace RicoShot.Core
         {
             response.Pending = true;
 
-            lock (this) // 排他制御で接続の可否をチェック
-            {
-                response.Approved = 
-                    NetworkManager.Singleton.ConnectedClients.Count < maxClientCount ||
-                    gameStateManager.GameState == GameState.Matching;
-            }
+            response.Approved = 
+                NetworkManager.Singleton.ConnectedClients.Count < maxClientCount &&
+                gameStateManager.GameState == GameState.Matching;
 
             Debug.Log($"[Server] Approve client: {response.Approved}");
             response.Pending = false;
@@ -93,47 +97,92 @@ namespace RicoShot.Core
         private void AddClientDataRpc(ClientData clientData)
         {
             ClientDatas.Add(clientData);
-            OnClientDatasChanged?.Invoke();
             Debug.Log($"[Server] Registed ClientData: {clientData}");
+            NotifyClientDataChangedRpc();
         }
 
         // (クライアント→サーバー)クライアントのチーム情報を更新
         [Rpc(SendTo.Server)]
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
         {
-            foreach (var clientData in ClientDatas)
+            var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            clientData.UpdateTeam(team);
+            Debug.Log($"[Server] Client data changed -> {clientData}");
+            NotifyClientTeamChangedRpc();
+        }
+        
+        // (クライアント→サーバー)クライアントのReady情報を更新
+        [Rpc(SendTo.Server)]
+        public void UpdateReadyStatusRpc(bool isReady, RpcParams rpcParams = default)
+        {
+            var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            clientData.UpdateReadyStatus(isReady);
+            Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
+            NotifyReadyStatusChangedRpc();
+
+            bool allReady = true;
+            foreach (var data in ClientDatas)
             {
-                if (clientData.ClientID ==  rpcParams.Receive.SenderClientId)
+                if (!data.IsReady)
                 {
-                    clientData.UpdateTeam(team);
-                    Debug.Log($"[Server] Client changed -> {clientData}");
+                    allReady = false;
                     break;
                 }
             }
-            NotifyListChangedRpc();
+            if (allReady)
+            {
+                allClientReady = true;
+                OnAllClientsReady?.Invoke();
+            }
+            else if (!allReady && allClientReady)
+            {
+                allClientReady = false;
+                OnAllClientsReadyCancelled?.Invoke();
+            }
         }
 
         // (クライアント→サーバー)クライアント情報を削除
         [Rpc(SendTo.Server)]
         private void DeleteClientDataRpc(ulong clientId)
         {
-            foreach (var clientData in ClientDatas)
-            {
-                if (clientData.ClientID == clientId)
-                {
-                    Debug.Log($"[Server] Client data delete -> {clientData}");
-                    ClientDatas.Remove(clientData);
-                    break;
-                }
-            }
-            NotifyListChangedRpc();
+            var clientData = GetClientDataFromClientID(clientId);
+            ClientDatas.Remove(clientData);
+            Debug.Log($"[Server] Client data delete -> {clientData}");
+            NotifyClientDataChangedRpc();
         }
 
         // (サーバー→クライアント)クライアント情報の変更を通知
         [Rpc(SendTo.NotServer)]
-        private void NotifyListChangedRpc()
+        private void NotifyClientDataChangedRpc()
         {
             OnClientDatasChanged?.Invoke();
+            OnTeamChanged?.Invoke();
+            OnReadyStatusChanged?.Invoke();
+        }
+
+        // (サーバー→クライアント)クライアントのチーム変更を通知
+        [Rpc(SendTo.NotServer)]
+        private void NotifyClientTeamChangedRpc()
+        {
+            OnClientDatasChanged?.Invoke();
+            OnTeamChanged?.Invoke();
+        }
+
+        // (サーバー→クライアント)クライアントのReady状態の変更を通知
+        [Rpc(SendTo.NotServer)]
+        private void NotifyReadyStatusChangedRpc()
+        {
+            OnClientDatasChanged?.Invoke();
+            OnReadyStatusChanged?.Invoke();
+        }
+
+        private ClientData GetClientDataFromClientID(ulong clientID)
+        {
+            foreach (var clientData in ClientDatas)
+            {
+                if (clientData.ClientID == clientID) return clientData;
+            }
+            throw new InvalidOperationException();
         }
     }
 }
