@@ -24,9 +24,84 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Matching"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Test"",
+            ""id"": ""68811ac4-2b5b-47ea-9876-c4aecb940094"",
+            ""actions"": [
+                {
+                    ""name"": ""SelectLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""26250086-c5e0-448c-ba7f-81766faa8f36"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6eb062dc-2d7b-4221-aeb2-92fd73b8049b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cb041996-6318-44d3-ad84-1972c758523e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f83f690-ff24-4eff-86cb-959e312b643e"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b99d0755-5701-4175-9f2f-637e53dbdf8f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47c20e89-f74b-427c-bfb4-663980107c57"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Test
+            m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+            m_Test_SelectLeft = m_Test.FindAction("SelectLeft", throwIfNotFound: true);
+            m_Test_SelectRight = m_Test.FindAction("SelectRight", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +158,65 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Test
+        private readonly InputActionMap m_Test;
+        private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
+        private readonly InputAction m_Test_SelectLeft;
+        private readonly InputAction m_Test_SelectRight;
+        public struct TestActions
+        {
+            private @MatchingInputs m_Wrapper;
+            public TestActions(@MatchingInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @SelectLeft => m_Wrapper.m_Test_SelectLeft;
+            public InputAction @SelectRight => m_Wrapper.m_Test_SelectRight;
+            public InputActionMap Get() { return m_Wrapper.m_Test; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+            public void AddCallbacks(ITestActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+                @SelectLeft.started += instance.OnSelectLeft;
+                @SelectLeft.performed += instance.OnSelectLeft;
+                @SelectLeft.canceled += instance.OnSelectLeft;
+                @SelectRight.started += instance.OnSelectRight;
+                @SelectRight.performed += instance.OnSelectRight;
+                @SelectRight.canceled += instance.OnSelectRight;
+            }
+
+            private void UnregisterCallbacks(ITestActions instance)
+            {
+                @SelectLeft.started -= instance.OnSelectLeft;
+                @SelectLeft.performed -= instance.OnSelectLeft;
+                @SelectLeft.canceled -= instance.OnSelectLeft;
+                @SelectRight.started -= instance.OnSelectRight;
+                @SelectRight.performed -= instance.OnSelectRight;
+                @SelectRight.canceled -= instance.OnSelectRight;
+            }
+
+            public void RemoveCallbacks(ITestActions instance)
+            {
+                if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITestActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TestActions @Test => new TestActions(this);
+        public interface ITestActions
+        {
+            void OnSelectLeft(InputAction.CallbackContext context);
+            void OnSelectRight(InputAction.CallbackContext context);
         }
     }
 }

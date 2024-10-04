@@ -1,3 +1,4 @@
+using RicoShot.Matching.Tests;
 using Zenject;
 
 namespace RicoShot.Matching.DI
@@ -6,7 +7,7 @@ namespace RicoShot.Matching.DI
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<MatchingSceneManager>().AsSingle();
+            Container.BindInterfacesTo<TestMatchingSceneManager>().AsSingle();
         }
     }
 }

@@ -1,16 +1,18 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
-using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace RicoShot.Core
 {
     public class NetworkController : NetworkBehaviour, INetworkController
     {
+        public event Action OnClientDatasChanged;
         public NetworkList<ClientData> ClientDatas { get; } = new();
 
         [SerializeField] private int maxClientCount = 4;
@@ -21,7 +23,7 @@ namespace RicoShot.Core
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            ProjectContext.Instance.Container.Inject(this);
+            ProjectContext.Instance.Container.BindInterfacesTo<NetworkController>().FromInstance(this).AsSingle();
         }
 
         private void Start()
@@ -37,15 +39,16 @@ namespace RicoShot.Core
             // サーバーまたはクライアントをスタート
             if (!NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient)
             {
-                if (gameStateManager.NetworkMode == NetworkMode.Server)
+                if (gameStateManager.NetworkMode == NetworkMode.Server) // サーバーのとき
                 {
-                    NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck;
+                    NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck; // 接続チェック
                     NetworkManager.Singleton.StartServer();
                     Debug.Log("[Server] Server started");
                 }
-                else if (gameStateManager.NetworkMode == NetworkMode.Client)
+                else if (gameStateManager.NetworkMode == NetworkMode.Client) // クライアントのとき
                 {
-                    NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+                    NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; // 接続時
+                    NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect; // 接続解除時
                     NetworkManager.Singleton.StartClient();
                     Debug.Log("[Client] Client started");
                 }
@@ -75,15 +78,62 @@ namespace RicoShot.Core
         private void OnClientConnected(ulong clientId)
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
-            RegistClientRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
+            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
         }
 
-        // (クライアント→サーバー)サーバーに情報の登録を要請
+        // (クライアント)接続解除時の挙動
+        private void OnClientDisconnect(ulong clientId)
+        {
+            Debug.Log($"[Client] Disconnect");
+            DeleteClientDataRpc(clientId);
+        }
+
+        // (クライアント→サーバー)サーバーにクライアント情報の追加
         [Rpc(SendTo.Server)]
-        private void RegistClientRpc(ClientData clientData)
+        private void AddClientDataRpc(ClientData clientData)
         {
             ClientDatas.Add(clientData);
+            OnClientDatasChanged?.Invoke();
             Debug.Log($"[Server] Registed ClientData: {clientData}");
+        }
+
+        // (クライアント→サーバー)クライアントのチーム情報を更新
+        [Rpc(SendTo.Server)]
+        public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
+        {
+            foreach (var clientData in ClientDatas)
+            {
+                if (clientData.ClientID ==  rpcParams.Receive.SenderClientId)
+                {
+                    clientData.UpdateTeam(team);
+                    Debug.Log($"[Server] Client changed -> {clientData}");
+                    break;
+                }
+            }
+            NotifyListChangedRpc();
+        }
+
+        // (クライアント→サーバー)クライアント情報を削除
+        [Rpc(SendTo.Server)]
+        private void DeleteClientDataRpc(ulong clientId)
+        {
+            foreach (var clientData in ClientDatas)
+            {
+                if (clientData.ClientID == clientId)
+                {
+                    Debug.Log($"[Server] Client data delete -> {clientData}");
+                    ClientDatas.Remove(clientData);
+                    break;
+                }
+            }
+            NotifyListChangedRpc();
+        }
+
+        // (サーバー→クライアント)クライアント情報の変更を通知
+        [Rpc(SendTo.NotServer)]
+        private void NotifyListChangedRpc()
+        {
+            OnClientDatasChanged?.Invoke();
         }
     }
 }

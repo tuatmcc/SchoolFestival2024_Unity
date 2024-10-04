@@ -17,6 +17,11 @@ namespace RicoShot.Core
             this.Team = Team.Alpha;
         }
 
+        public void UpdateTeam(Team team)
+        {
+            this.Team = team;
+        }
+
         public bool Equals(ClientData other)
         {
             throw new NotImplementedException();
