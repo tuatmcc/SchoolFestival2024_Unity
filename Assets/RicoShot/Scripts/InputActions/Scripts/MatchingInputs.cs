@@ -46,6 +46,15 @@ namespace RicoShot.InputActions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""56a99a9b-8330-46b7-a7a7-80f1b5a28608"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -92,6 +101,17 @@ namespace RicoShot.InputActions
                     ""action"": ""SelectRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c10340e3-b708-4115-a185-18417aefbb41"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -102,6 +122,7 @@ namespace RicoShot.InputActions
             m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
             m_Test_SelectLeft = m_Test.FindAction("SelectLeft", throwIfNotFound: true);
             m_Test_SelectRight = m_Test.FindAction("SelectRight", throwIfNotFound: true);
+            m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -165,12 +186,14 @@ namespace RicoShot.InputActions
         private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
         private readonly InputAction m_Test_SelectLeft;
         private readonly InputAction m_Test_SelectRight;
+        private readonly InputAction m_Test_Enter;
         public struct TestActions
         {
             private @MatchingInputs m_Wrapper;
             public TestActions(@MatchingInputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @SelectLeft => m_Wrapper.m_Test_SelectLeft;
             public InputAction @SelectRight => m_Wrapper.m_Test_SelectRight;
+            public InputAction @Enter => m_Wrapper.m_Test_Enter;
             public InputActionMap Get() { return m_Wrapper.m_Test; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -186,6 +209,9 @@ namespace RicoShot.InputActions
                 @SelectRight.started += instance.OnSelectRight;
                 @SelectRight.performed += instance.OnSelectRight;
                 @SelectRight.canceled += instance.OnSelectRight;
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
             }
 
             private void UnregisterCallbacks(ITestActions instance)
@@ -196,6 +222,9 @@ namespace RicoShot.InputActions
                 @SelectRight.started -= instance.OnSelectRight;
                 @SelectRight.performed -= instance.OnSelectRight;
                 @SelectRight.canceled -= instance.OnSelectRight;
+                @Enter.started -= instance.OnEnter;
+                @Enter.performed -= instance.OnEnter;
+                @Enter.canceled -= instance.OnEnter;
             }
 
             public void RemoveCallbacks(ITestActions instance)
@@ -217,6 +246,7 @@ namespace RicoShot.InputActions
         {
             void OnSelectLeft(InputAction.CallbackContext context);
             void OnSelectRight(InputAction.CallbackContext context);
+            void OnEnter(InputAction.CallbackContext context);
         }
     }
 }

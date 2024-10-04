@@ -27,6 +27,7 @@ namespace RicoShot.Matching.Tests
             {
                 MatchingInputs.Test.SelectLeft.performed += OnSelectLeft;
                 MatchingInputs.Test.SelectRight.performed += OnSelectRight;
+                MatchingInputs.Test.Enter.performed += OnEnter;
             }
         }
 
@@ -35,11 +36,23 @@ namespace RicoShot.Matching.Tests
             networkController.UpdateTeamRpc(Team.Alpha);
         }
 
-        private void OnSelectRight(InputAction.CallbackContext obj)
+        private void OnSelectRight(InputAction.CallbackContext context)
         {
             networkController.UpdateTeamRpc(Team.Bravo);
         }
 
+        private void OnEnter(InputAction.CallbackContext context)
+        {
+            if (!networkController.AllClientsReady.Value)
+            {
+                networkController.UpdateReadyStatusRpc(true);
+            }
+            else
+            {
+                networkController.StartPlayRpc();
+            }
+        }
+        
         public void Dispose()
         {
             MatchingInputs.Dispose();

@@ -18,7 +18,10 @@ namespace RicoShot.Core.Interface
         public event Action OnAllClientsReadyCancelled;
 
         public NetworkList<ClientData> ClientDatas { get; }
+        public NetworkVariable<bool> AllClientsReady { get; }
 
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default);
+        public void UpdateReadyStatusRpc(bool isReady, RpcParams rpcParams = default);
+        public void StartPlayRpc();
     }
 }

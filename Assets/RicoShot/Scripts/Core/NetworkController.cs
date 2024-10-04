@@ -7,6 +7,7 @@ using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 using System;
+using UnityEngine.SceneManagement;
 
 namespace RicoShot.Core
 {
@@ -19,13 +20,12 @@ namespace RicoShot.Core
         public event Action OnAllClientsReady;
         public event Action OnAllClientsReadyCancelled;
         public NetworkList<ClientData> ClientDatas { get; } = new();
+        public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
         [SerializeField] private int maxClientCount = 4;
 
         [Inject] IGameStateManager gameStateManager;
         [Inject] ILocalPlayerManager localPlayerManager;
-
-        private bool allClientReady = false;
 
         private void Awake()
         {
@@ -131,12 +131,12 @@ namespace RicoShot.Core
             }
             if (allReady)
             {
-                allClientReady = true;
+                AllClientsReady.Value = true;
                 OnAllClientsReady?.Invoke();
             }
-            else if (!allReady && allClientReady)
+            else if (!allReady && AllClientsReady.Value)
             {
-                allClientReady = false;
+                AllClientsReady.Value = false;
                 OnAllClientsReadyCancelled?.Invoke();
             }
         }
@@ -149,6 +149,13 @@ namespace RicoShot.Core
             ClientDatas.Remove(clientData);
             Debug.Log($"[Server] Client data delete -> {clientData}");
             NotifyClientDataChangedRpc();
+        }
+
+        // (クライアント→サーバー)サーバーにプレイ開始を要求
+        [Rpc(SendTo.Server)]
+        public void StartPlayRpc()
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
         }
 
         // (サーバー→クライアント)クライアント情報の変更を通知
