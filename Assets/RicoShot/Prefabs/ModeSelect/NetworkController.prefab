@@ -66,3 +66,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b381021f2c45c0f4396adc3b87035dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxClientCount: 4

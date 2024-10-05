@@ -17,7 +17,7 @@ namespace RicoShot.Core.Interface
         // すべてのクライアントがReady状態のときにReadyが解除されると呼び出される
         public event Action OnAllClientsReadyCancelled;
 
-        public NetworkList<ClientData> ClientDatas { get; }
+        public NetworkClassList<ClientData> ClientDatas { get; }
         public NetworkVariable<bool> AllClientsReady { get; }
 
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default);

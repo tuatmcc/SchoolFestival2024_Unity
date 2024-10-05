@@ -1,50 +1,60 @@
+using RicoShot.Core;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace RicoShot.Core
 {
-    public struct ClientData : INetworkSerializable, IEquatable<ClientData>
+    [Serializable]
+    public class ClientData : INetworkSerializable, IEquatable<ClientData>
     {
-        public FixedString64Bytes UUID;
-        public ulong ClientID;
-        public Team Team;
-        public bool IsReady;
+        public FixedString64Bytes UUID = default;
+        public ulong ClientID = default;
+        public FixedString64Bytes Name = default;
+        public Team Team = default;
+        public bool IsReady = default;
+
+        public ClientData()
+        {
+
+        }
 
         public ClientData(FixedString64Bytes UUID, ulong ClientID)
         {
             this.UUID = UUID;
             this.ClientID = ClientID;
-            this.Team = Team.Alpha;
-            this.IsReady = false;
         }
 
-        public void UpdateTeam(Team team)
+        public override string ToString()
         {
-            this.Team = team;
+            return $"ClientData -> UUID: {UUID}, ClientID:{ClientID}, Name: {Name}, Team: {Team}, IsReady: {IsReady}";
         }
 
-        public void UpdateReadyStatus(bool isReady)
+        public void SetTeam(Team team)
         {
-            this.IsReady = isReady;
+            Team = team;
         }
 
-        public bool Equals(ClientData other)
+        public void SetReadyStatus(bool isReady)
         {
-            throw new NotImplementedException();
+            IsReady = isReady;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref UUID);
             serializer.SerializeValue(ref ClientID);
+            serializer.SerializeValue(ref Name);
             serializer.SerializeValue(ref Team);
             serializer.SerializeValue(ref IsReady);
         }
 
-        public override string ToString()
+        public bool Equals(ClientData other)
         {
-            return $"ClientData -> UUID: {UUID}, ClientID:{ClientID}, Team: {Team}, IsReady: {IsReady}";
+            return this.UUID == other.UUID;
         }
     }
 }

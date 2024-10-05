@@ -19,7 +19,7 @@ namespace RicoShot.Core
         public event Action OnReadyStatusChanged;
         public event Action OnAllClientsReady;
         public event Action OnAllClientsReadyCancelled;
-        public NetworkList<ClientData> ClientDatas { get; } = new();
+        public NetworkClassList<ClientData> ClientDatas { get; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
         [SerializeField] private int maxClientCount = 4;
@@ -97,6 +97,7 @@ namespace RicoShot.Core
         private void AddClientDataRpc(ClientData clientData)
         {
             ClientDatas.Add(clientData);
+            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Registed ClientData: {clientData}");
             NotifyClientDataChangedRpc();
         }
@@ -106,7 +107,8 @@ namespace RicoShot.Core
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
-            clientData.UpdateTeam(team);
+            clientData.SetTeam(team);
+            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client data changed -> {clientData}");
             NotifyClientTeamChangedRpc();
         }
@@ -116,7 +118,8 @@ namespace RicoShot.Core
         public void UpdateReadyStatusRpc(bool isReady, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
-            clientData.UpdateReadyStatus(isReady);
+            clientData.SetReadyStatus(isReady);
+            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
             NotifyReadyStatusChangedRpc();
 
@@ -147,7 +150,8 @@ namespace RicoShot.Core
         {
             var clientData = GetClientDataFromClientID(clientId);
             ClientDatas.Remove(clientData);
-            Debug.Log($"[Server] Client data delete -> {clientData}");
+            ClientDatas.SetDirty(true);
+            Debug.Log($"[Server] Client data delete -> ClientID: {clientId}");
             NotifyClientDataChangedRpc();
         }
 
@@ -183,11 +187,12 @@ namespace RicoShot.Core
             OnReadyStatusChanged?.Invoke();
         }
 
+        // ClientIDを基にインデックスを返す
         private ClientData GetClientDataFromClientID(ulong clientID)
         {
             foreach (var clientData in ClientDatas)
             {
-                if (clientData.ClientID == clientID) return clientData;
+                if(clientData.ClientID == clientID) return clientData;
             }
             throw new InvalidOperationException();
         }
