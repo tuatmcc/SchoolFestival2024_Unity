@@ -312,7 +312,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: CameraChange
+  m_text: Change Camera
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -401,7 +401,6 @@ GameObject:
   - component: {fileID: 329235704}
   - component: {fileID: 329235703}
   - component: {fileID: 329235706}
-  - component: {fileID: 329235705}
   m_Layer: 5
   m_Name: CameraImage
   m_TagString: Untagged
@@ -463,20 +462,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 329235700}
   m_CullTransparentMesh: 1
---- !u!114 &329235705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 329235700}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AspectMode: 3
-  m_AspectRatio: 1
 --- !u!114 &329235706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,8 +474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1934af1bb3ee215458a81541463be8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mText: {fileID: 921024254}
-  mRawImage: {fileID: 329235703}
+  resultText: {fileID: 921024254}
+  webCameraRawImage: {fileID: 329235703}
 --- !u!1 &568940750
 GameObject:
   m_ObjectHideFlags: 0
