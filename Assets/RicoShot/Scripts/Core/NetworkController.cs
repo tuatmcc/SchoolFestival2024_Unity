@@ -8,6 +8,7 @@ using UnityEngine;
 using Zenject;
 using System;
 using UnityEngine.SceneManagement;
+using Cysharp.Threading.Tasks;
 
 namespace RicoShot.Core
 {
@@ -20,6 +21,7 @@ namespace RicoShot.Core
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
         [SerializeField] private int maxClientCount = 4;
+        private bool callbackRegisted = false;
 
         [Inject] IGameStateManager gameStateManager;
         [Inject] ILocalPlayerManager localPlayerManager;
@@ -40,22 +42,32 @@ namespace RicoShot.Core
         {
             if (gameState != GameState.Matching) return;
 
-            // サーバーまたはクライアントをスタート
-            if (!NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient)
+            // サーバーまたはクライアントのコールバックを登録
+            if (!callbackRegisted)
             {
                 if (gameStateManager.NetworkMode == NetworkMode.Server) // サーバーのとき
                 {
                     NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck; // 接続チェック
-                    NetworkManager.Singleton.StartServer();
-                    Debug.Log("[Server] Server started");
+                    NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect; // 接続解除時
                 }
                 else if (gameStateManager.NetworkMode == NetworkMode.Client) // クライアントのとき
                 {
                     NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; // 接続時
-                    NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect; // 接続解除時
-                    NetworkManager.Singleton.StartClient();
-                    Debug.Log("[Client] Client started");
                 }
+                gameStateManager.OnReset += ResetNetwork;
+                callbackRegisted = true;
+            }
+
+            // サーバーまたはクライアントのスタート
+            if (gameStateManager.NetworkMode == NetworkMode.Server)
+            {
+                NetworkManager.Singleton.StartServer();
+                Debug.Log("[Server] Server started");
+            }
+            else if (gameStateManager.NetworkMode == NetworkMode.Client)
+            {
+                NetworkManager.Singleton.StartClient();
+                Debug.Log("[Client] Client started");
             }
         }
 
@@ -75,18 +87,20 @@ namespace RicoShot.Core
             response.Pending = false;
         }
 
+        // (サーバー)接続解除時の挙動
+        private void OnClientDisconnect(ulong clientId)
+        {
+            var clientData = GetClientDataFromClientID(clientId);
+            ClientDatas.Remove(clientData);
+            ClientDatas.SetDirty(true);
+            Debug.Log($"[Server] Disconnected -> ID: {clientId}");
+        }
+
         // (クライアント)接続時の挙動
         private void OnClientConnected(ulong clientId)
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
             AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
-        }
-
-        // (クライアント)接続解除時の挙動
-        private void OnClientDisconnect(ulong clientId)
-        {
-            Debug.Log($"[Client] Disconnect");
-            DeleteClientDataRpc(clientId);
         }
 
         // (クライアント→サーバー)サーバーにクライアント情報の追加
@@ -103,6 +117,7 @@ namespace RicoShot.Core
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            if (clientData.Team == team || clientData.IsReady) return;
             clientData.SetTeam(team);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client data changed -> {clientData}");
@@ -113,6 +128,7 @@ namespace RicoShot.Core
         public void UpdateReadyStatusRpc(bool isReady, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            if (clientData.IsReady == isReady) return;
             clientData.SetReadyStatus(isReady);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
@@ -152,24 +168,51 @@ namespace RicoShot.Core
             }
         }
 
-        // (クライアント→サーバー)クライアント情報を削除
-        [Rpc(SendTo.Server)]
-        private void DeleteClientDataRpc(ulong clientId)
-        {
-            var clientData = GetClientDataFromClientID(clientId);
-            ClientDatas.Remove(clientData);
-            ClientDatas.SetDirty(true);
-            Debug.Log($"[Server] Client data delete -> ClientID: {clientId}");
-        }
-
         // (クライアント→サーバー)サーバーにプレイ開始を要求
         [Rpc(SendTo.Server)]
         public void StartPlayRpc()
         {
-            if (AllClientsReady.Value)
+            // 入れ違いで全員がReadyになっていなければ何もしない
+            if (AllClientsReady.Value && gameStateManager.GameState == GameState.Matching)
             {
-                NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
+                gameStateManager.NextScene();
             }
+        }
+
+        // リセット用メソッド
+        private void ResetNetwork()
+        {
+            if (NetworkManager.Singleton.IsClient)
+            {
+                UniTask.Create(async () =>
+                {
+                    NetworkManager.Singleton.Shutdown();
+                    await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsClient);
+                    gameStateManager.ReadyToReset = true;
+                    Debug.Log($"Shutdown Client completed");
+                }).Forget();
+            }
+            else if (NetworkManager.Singleton.IsServer)
+            {
+                DisconnectClientRpc();
+                UniTask.Create(async () =>
+                {
+                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClientsList.Count == 0);
+                    ClientDatas.Clear();
+                    ClientDatas.SetDirty(true);
+                    NetworkManager.Singleton.Shutdown();
+                    await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsServer);
+                    gameStateManager.ReadyToReset = true;
+                    Debug.Log($"Shutdown Server completed");
+                }).Forget();
+            }
+        }
+
+        // (サーバー→クライアント)サーバーのシャットダウンを通知
+        [Rpc(SendTo.NotServer)]
+        private void DisconnectClientRpc()
+        {
+            ResetNetwork();
         }
 
         // ClientIDを基にインデックスを返す
@@ -179,6 +222,7 @@ namespace RicoShot.Core
             {
                 if(clientData.ClientID == clientID) return clientData;
             }
+            Debug.Log($"ID: {clientID} not found");
             throw new InvalidOperationException();
         }
     }

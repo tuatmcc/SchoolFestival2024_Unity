@@ -22,5 +22,9 @@ public class StatusPresenterManager : MonoBehaviour
             var data = networkController.ClientDatas[i];
             textMeshProList[i].text = $"{data.Name} | {data.Team} | {data.IsReady}";
         }
+        for (int i = networkController.ClientDatas.Count; i < textMeshProList.Count; i++)
+        {
+            textMeshProList[i].text = $"Name | Team | IsReady";
+        }
     }
 }

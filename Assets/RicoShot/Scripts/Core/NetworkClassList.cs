@@ -91,7 +91,7 @@ namespace RicoShot.Core
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            return SomeDataToSynchronize.Remove(item);
         }
 
         public IEnumerator<T> GetEnumerator()
