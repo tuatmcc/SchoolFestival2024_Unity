@@ -12,7 +12,7 @@ public class StatusPresenterManager : MonoBehaviour
 
     void Start()
     {
-        networkController.OnClientDatasChanged += UpdateStatusText;
+        networkController.ClientDatas.OnDataChanged += UpdateStatusText;
     }
 
     private void UpdateStatusText()

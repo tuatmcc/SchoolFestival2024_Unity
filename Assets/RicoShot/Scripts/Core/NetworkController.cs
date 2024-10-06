@@ -14,9 +14,6 @@ namespace RicoShot.Core
     public class NetworkController : NetworkBehaviour, INetworkController
     {
         // 説明はインターフェース(INetworkManager)を参照
-        public event Action OnClientDatasChanged;
-        public event Action OnTeamChanged;
-        public event Action OnReadyStatusChanged;
         public event Action OnAllClientsReady;
         public event Action OnAllClientsReadyCancelled;
         public NetworkClassList<ClientData> ClientDatas { get; } = new();
@@ -99,7 +96,6 @@ namespace RicoShot.Core
             ClientDatas.Add(clientData);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Registed ClientData: {clientData}");
-            NotifyClientDataChangedRpc();
         }
 
         // (クライアント→サーバー)クライアントのチーム情報を更新
@@ -110,7 +106,6 @@ namespace RicoShot.Core
             clientData.SetTeam(team);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client data changed -> {clientData}");
-            NotifyClientTeamChangedRpc();
         }
         
         // (クライアント→サーバー)クライアントのReady情報を更新
@@ -121,7 +116,6 @@ namespace RicoShot.Core
             clientData.SetReadyStatus(isReady);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
-            NotifyReadyStatusChangedRpc();
 
             bool allReady = true;
             foreach (var data in ClientDatas)
@@ -135,11 +129,25 @@ namespace RicoShot.Core
             if (allReady)
             {
                 AllClientsReady.Value = true;
-                OnAllClientsReady?.Invoke();
+                ReadyStatusChangedRpc(true);
             }
             else if (!allReady && AllClientsReady.Value)
             {
                 AllClientsReady.Value = false;
+                ReadyStatusChangedRpc(false);
+            }
+        }
+
+        // (サーバー→全体)全員がReady状態になったことを通知
+        [Rpc(SendTo.Everyone)]
+        private void ReadyStatusChangedRpc(bool allReady)
+        {
+            if (AllClientsReady.Value)
+            {
+                OnAllClientsReady?.Invoke();
+            }
+            else
+            {
                 OnAllClientsReadyCancelled?.Invoke();
             }
         }
@@ -152,39 +160,16 @@ namespace RicoShot.Core
             ClientDatas.Remove(clientData);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client data delete -> ClientID: {clientId}");
-            NotifyClientDataChangedRpc();
         }
 
         // (クライアント→サーバー)サーバーにプレイ開始を要求
         [Rpc(SendTo.Server)]
         public void StartPlayRpc()
         {
-            NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
-        }
-
-        // (サーバー→クライアント)クライアント情報の変更を通知
-        [Rpc(SendTo.NotServer)]
-        private void NotifyClientDataChangedRpc()
-        {
-            OnClientDatasChanged?.Invoke();
-            OnTeamChanged?.Invoke();
-            OnReadyStatusChanged?.Invoke();
-        }
-
-        // (サーバー→クライアント)クライアントのチーム変更を通知
-        [Rpc(SendTo.NotServer)]
-        private void NotifyClientTeamChangedRpc()
-        {
-            OnClientDatasChanged?.Invoke();
-            OnTeamChanged?.Invoke();
-        }
-
-        // (サーバー→クライアント)クライアントのReady状態の変更を通知
-        [Rpc(SendTo.NotServer)]
-        private void NotifyReadyStatusChangedRpc()
-        {
-            OnClientDatasChanged?.Invoke();
-            OnReadyStatusChanged?.Invoke();
+            if (AllClientsReady.Value)
+            {
+                NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
+            }
         }
 
         // ClientIDを基にインデックスを返す

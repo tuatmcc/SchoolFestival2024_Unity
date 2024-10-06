@@ -11,6 +11,8 @@ namespace RicoShot.Core
     [GenerateSerializationForGenericParameter(0)]
     public class NetworkClassList<T> : NetworkVariableBase, IList<T>
     {
+        public event Action OnDataChanged;
+
         public List<T> SomeDataToSynchronize { get; private set; } = new List<T>();
         public int Count {  get { return SomeDataToSynchronize.Count; } }
 
@@ -43,11 +45,13 @@ namespace RicoShot.Core
         public override void WriteDelta(FastBufferWriter writer)
         {
             WriteField(writer);
+            OnDataChanged?.Invoke();
         }
 
         public override void ReadDelta(FastBufferReader reader, bool keepDirtyDelta)
         {
             ReadField(reader);
+            OnDataChanged?.Invoke();
         }
 
         public int IndexOf(T item)
