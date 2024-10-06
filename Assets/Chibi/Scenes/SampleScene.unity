@@ -122,6 +122,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &51352698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 1220127166}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &327606474 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7912256861560748703, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -401,6 +407,22 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1220127166}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &760412163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 51352698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85224a29e38745f28dd0a97bb6e2ed00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hair: {r: 0, g: 0, b: 0, a: 0}
+  clothes: {r: 0, g: 0, b: 0, a: 0}
+  hairMaterial: {fileID: 2100000, guid: 62993d9539069ae02bb39f8137d7446f, type: 2}
+  clothesMaterial: {fileID: 2100000, guid: 79e5ac0917d8fa583b729a4384d9d857, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +490,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1657587891}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
@@ -493,17 +515,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
@@ -538,6 +560,10 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1584612028}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 760412163}
     - targetCorrespondingSourceObject: {fileID: -5429246048605795705, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       insertIndex: -1
@@ -736,6 +762,56 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1220127166}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1657587890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1657587891}
+  - component: {fileID: 1657587892}
+  m_Layer: 0
+  m_Name: Chibi
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1657587891
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657587890}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 760412161}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1657587892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657587890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d12acc1411f14fda92ba1a58f43d6d59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chibiIndex: 0
+  hairColor: {r: 1, g: 1, b: 1, a: 0}
+  team: 0
+  chibiColorControllers:
+  - {fileID: 760412163}
 --- !u!4 &1868417955 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8796743818397950240, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -862,4 +938,4 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 2068554633}
-  - {fileID: 1220127166}
+  - {fileID: 1657587891}
