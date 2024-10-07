@@ -1,9 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Collections;
-using Unity.Mathematics;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace RicoShot.Core
 {
@@ -45,12 +44,18 @@ namespace RicoShot.Core
         public override void WriteDelta(FastBufferWriter writer)
         {
             WriteField(writer);
-            OnDataChanged?.Invoke();
         }
 
         public override void ReadDelta(FastBufferReader reader, bool keepDirtyDelta)
         {
             ReadField(reader);
+            Debug.Log("Data received");
+            OnDataChanged?.Invoke();
+        }
+
+        public override void SetDirty(bool isDirty)
+        {
+            base.SetDirty(isDirty);
             OnDataChanged?.Invoke();
         }
 

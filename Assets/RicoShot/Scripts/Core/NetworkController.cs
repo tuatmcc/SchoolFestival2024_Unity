@@ -17,14 +17,14 @@ namespace RicoShot.Core
         // 説明はインターフェース(INetworkManager)を参照
         public event Action OnAllClientsReady;
         public event Action OnAllClientsReadyCancelled;
-        public NetworkClassList<ClientData> ClientDatas { get; } = new();
+        public NetworkClassList<ClientData> ClientDatas { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
         [SerializeField] private int maxClientCount = 4;
         private bool callbackRegisted = false;
 
-        [Inject] IGameStateManager gameStateManager;
-        [Inject] ILocalPlayerManager localPlayerManager;
+        [Inject] private readonly IGameStateManager gameStateManager;
+        [Inject] private readonly ILocalPlayerManager localPlayerManager;
 
         private void Awake()
         {
@@ -58,10 +58,12 @@ namespace RicoShot.Core
                 callbackRegisted = true;
             }
 
+
             // サーバーまたはクライアントのスタート
             if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 NetworkManager.Singleton.StartServer();
+                ClientDatas.Initialize(this);
                 Debug.Log("[Server] Server started");
             }
             else if (gameStateManager.NetworkMode == NetworkMode.Client)
@@ -188,6 +190,7 @@ namespace RicoShot.Core
                 {
                     NetworkManager.Singleton.Shutdown();
                     await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsClient);
+                    ClientDatas.Clear();
                     gameStateManager.ReadyToReset = true;
                     Debug.Log($"Shutdown Client completed");
                 }).Forget();
@@ -198,10 +201,9 @@ namespace RicoShot.Core
                 UniTask.Create(async () =>
                 {
                     await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClientsList.Count == 0);
-                    ClientDatas.Clear();
-                    ClientDatas.SetDirty(true);
                     NetworkManager.Singleton.Shutdown();
                     await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsServer);
+                    ClientDatas.Clear();
                     gameStateManager.ReadyToReset = true;
                     Debug.Log($"Shutdown Server completed");
                 }).Forget();
@@ -212,10 +214,10 @@ namespace RicoShot.Core
         [Rpc(SendTo.NotServer)]
         private void DisconnectClientRpc()
         {
-            ResetNetwork();
+            gameStateManager.ForceReset();
         }
 
-        // ClientIDを基にインデックスを返す
+        // ClientIDを基にClientDataを返す
         private ClientData GetClientDataFromClientID(ulong clientID)
         {
             foreach (var clientData in ClientDatas)

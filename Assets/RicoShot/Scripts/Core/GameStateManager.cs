@@ -117,6 +117,11 @@ namespace RicoShot.Core
 
         private void OnResetInput(InputAction.CallbackContext context)
         {
+            ForceReset();
+        }
+
+        public void ForceReset()
+        {
             if (GameState == GameState.ModeSelect) return;
             OnReset?.Invoke();
             UniTask.Create(async () =>

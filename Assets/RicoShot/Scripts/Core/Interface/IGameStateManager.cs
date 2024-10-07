@@ -1,5 +1,6 @@
 using System;
 using RicoShot.InputActions;
+using UnityEngine.InputSystem;
 
 namespace RicoShot.Core.Interface
 {
@@ -15,5 +16,6 @@ namespace RicoShot.Core.Interface
         bool ReadyToReset { set; }
 
         void NextScene();
+        void ForceReset();
     }
 }

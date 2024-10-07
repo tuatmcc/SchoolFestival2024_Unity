@@ -54,7 +54,7 @@ namespace RicoShot.Core
 
         public bool Equals(ClientData other)
         {
-            return this.UUID == other.UUID;
+            return this.ClientID == other.ClientID;
         }
     }
 }
