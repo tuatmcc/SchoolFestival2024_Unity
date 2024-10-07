@@ -5,26 +5,29 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class StatusPresenterManager : MonoBehaviour
+namespace RicoShot.Matching.Tests
 {
-    [SerializeField] List<TextMeshProUGUI> textMeshProList;
-    [Inject] INetworkController networkController;
-
-    void Start()
+    public class StatusPresenterManager : MonoBehaviour
     {
-        networkController.ClientDatas.OnDataChanged += UpdateStatusText;
-    }
+        [SerializeField] List<TextMeshProUGUI> textMeshProList;
+        [Inject] INetworkController networkController;
 
-    private void UpdateStatusText()
-    {
-        for(int i = 0; i < networkController.ClientDatas.Count; i++)
+        void Start()
         {
-            var data = networkController.ClientDatas[i];
-            textMeshProList[i].text = $"{data.Name} | {data.Team} | {data.IsReady}";
+            networkController.ClientDatas.OnDataChanged += UpdateStatusText;
         }
-        for (int i = networkController.ClientDatas.Count; i < textMeshProList.Count; i++)
+
+        private void UpdateStatusText()
         {
-            textMeshProList[i].text = $"Name | Team | IsReady";
+            for(int i = 0; i < networkController.ClientDatas.Count; i++)
+            {
+                var data = networkController.ClientDatas[i];
+                textMeshProList[i].text = $"{data.Name} | {data.Team} | {data.IsReady}";
+            }
+            for (int i = networkController.ClientDatas.Count; i < textMeshProList.Count; i++)
+            {
+                textMeshProList[i].text = $"Name | Team | IsReady";
+            }
         }
     }
 }

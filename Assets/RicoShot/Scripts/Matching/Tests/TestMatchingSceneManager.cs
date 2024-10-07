@@ -28,6 +28,7 @@ namespace RicoShot.Matching.Tests
                 MatchingInputs.Test.SelectLeft.performed += OnSelectLeft;
                 MatchingInputs.Test.SelectRight.performed += OnSelectRight;
                 MatchingInputs.Test.Enter.performed += OnEnter;
+                MatchingInputs.Test.Cancel.performed += OnCancel;
             }
         }
 
@@ -53,6 +54,11 @@ namespace RicoShot.Matching.Tests
             }
         }
         
+        private void OnCancel(InputAction.CallbackContext context)
+        {
+            networkController.UpdateReadyStatusRpc(false);
+        }
+
         public void Dispose()
         {
             MatchingInputs.Dispose();
