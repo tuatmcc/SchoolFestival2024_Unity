@@ -5,10 +5,8 @@ namespace RicoShot.Core.Interface
 {
     public interface INetworkController
     {
-        // すべてのクライアントがReady状態になったときに呼び出される
-        public event Action OnAllClientsReady;
-        // すべてのクライアントがReady状態のときにReadyが解除されると呼び出される
-        public event Action OnAllClientsReadyCancelled;
+        // すべてのクライアントがReady状態になった・解除されたときに呼び出される
+        public event Action<bool> OnAllClientsReadyChanged;
 
         public NetworkClassList<ClientData> ClientDatas { get; }
         public NetworkVariable<bool> AllClientsReady { get; }

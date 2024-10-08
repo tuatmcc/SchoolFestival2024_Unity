@@ -15,8 +15,7 @@ namespace RicoShot.Core
     public class NetworkController : NetworkBehaviour, INetworkController
     {
         // 説明はインターフェース(INetworkManager)を参照
-        public event Action OnAllClientsReady;
-        public event Action OnAllClientsReadyCancelled;
+        public event Action<bool> OnAllClientsReadyChanged;
         public NetworkClassList<ClientData> ClientDatas { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
@@ -48,6 +47,7 @@ namespace RicoShot.Core
                 if (gameStateManager.NetworkMode == NetworkMode.Server) // サーバーのとき
                 {
                     NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck; // 接続チェック
+                    NetworkManager.Singleton.OnClientConnectedCallback += ResetAllReadyState; // 接続時
                     NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect; // 接続解除時
                 }
                 else if (gameStateManager.NetworkMode == NetworkMode.Client) // クライアントのとき
@@ -64,6 +64,7 @@ namespace RicoShot.Core
             {
                 NetworkManager.Singleton.StartServer();
                 ClientDatas.Initialize(this);
+                AllClientsReady.Initialize(this);
                 Debug.Log("[Server] Server started");
             }
             else if (gameStateManager.NetworkMode == NetworkMode.Client)
@@ -96,6 +97,15 @@ namespace RicoShot.Core
             ClientDatas.Remove(clientData);
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Disconnected -> ID: {clientId}");
+
+            CheckAllReadyAndNotify();
+        }
+
+        // (サーバー)AllReadyをリセットする関数
+        private void ResetAllReadyState(ulong clientId)
+        {
+            AllClientsReady.Value = false;
+            ReadyStatusChangedRpc(false);
         }
 
         // (クライアント)接続時の挙動
@@ -135,39 +145,7 @@ namespace RicoShot.Core
             ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
 
-            bool allReady = true;
-            foreach (var data in ClientDatas)
-            {
-                if (!data.IsReady)
-                {
-                    allReady = false;
-                    break;
-                }
-            }
-            if (allReady)
-            {
-                AllClientsReady.Value = true;
-                ReadyStatusChangedRpc(true);
-            }
-            else if (!allReady && AllClientsReady.Value)
-            {
-                AllClientsReady.Value = false;
-                ReadyStatusChangedRpc(false);
-            }
-        }
-
-        // (サーバー→全体)全員がReady状態になったことを通知
-        [Rpc(SendTo.Everyone)]
-        private void ReadyStatusChangedRpc(bool allReady)
-        {
-            if (AllClientsReady.Value)
-            {
-                OnAllClientsReady?.Invoke();
-            }
-            else
-            {
-                OnAllClientsReadyCancelled?.Invoke();
-            }
+            CheckAllReadyAndNotify();
         }
 
         // (クライアント→サーバー)サーバーにプレイ開始を要求
@@ -215,6 +193,30 @@ namespace RicoShot.Core
         private void DisconnectClientRpc()
         {
             gameStateManager.ForceReset();
+        }
+
+        // (サーバー)すべてのクライアントがReadyか確認して全体に通知する関数
+        private void CheckAllReadyAndNotify()
+        {
+            bool allReady = true;
+            foreach (var data in ClientDatas)
+            {
+                if (!data.IsReady)
+                {
+                    allReady = false;
+                    break;
+                }
+            }
+            if (allReady == AllClientsReady.Value) return;
+            AllClientsReady.Value = allReady;
+            ReadyStatusChangedRpc(allReady);
+        }
+
+        // (サーバー→全体)全員がReady状態になったことを通知
+        [Rpc(SendTo.Everyone)]
+        private void ReadyStatusChangedRpc(bool allReady)
+        {
+            OnAllClientsReadyChanged?.Invoke(allReady);
         }
 
         // ClientIDを基にClientDataを返す

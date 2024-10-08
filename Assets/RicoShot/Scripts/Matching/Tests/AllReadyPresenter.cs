@@ -17,18 +17,19 @@ namespace RicoShot.Matching.Tests
         void Start()
         {
             textMeshProUGUI = GetComponent<TextMeshProUGUI>();
-            networkController.OnAllClientsReady += OnAllReady;
-            networkController.OnAllClientsReadyCancelled += OnAllReadyCancelled;
+            networkController.OnAllClientsReadyChanged += OnAllReadyChanged;
         }
 
-        void OnAllReady()
+        void OnAllReadyChanged(bool allReady)
         {
-            textMeshProUGUI.text = "AllReady: true";
-        }
-
-        void OnAllReadyCancelled()
-        {
-            textMeshProUGUI.text = "AllReady: false";
+            if (allReady)
+            {
+                textMeshProUGUI.text = "AllReady: true";
+            }
+            else
+            {
+                textMeshProUGUI.text = "AllReady: false";
+            }
         }
     }
 }
