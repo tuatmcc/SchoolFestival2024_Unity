@@ -144,5 +144,40 @@ namespace NPC
             //ForceMode.VelocityChange　質量の違いを考慮しない制御
             agentRb.AddForce(dirToGo, ForceMode.VelocityChange);
         }
+
+        public override void Heuristic(in ActionBuffers actionsOut)
+        {
+            var discreteActionsOut = actionsOut.DiscreteActions;
+            // Debug.LogWarning(discreteActionsOut.Length);
+            if(Input.GetKey(KeyCode.W))
+            {
+                Debug.Log("W key");
+                discreteActionsOut[0] = 1;
+            }
+            if(Input.GetKey(KeyCode.S))
+            {
+                discreteActionsOut[0] = 2;
+            }
+            if(Input.GetKey(KeyCode.A))
+            {
+                discreteActionsOut[1] = 1;
+            }
+            if(Input.GetKey(KeyCode.D))
+            {
+                discreteActionsOut[1] = 2;
+            }
+            if(Input.GetKey(KeyCode.E))
+            {
+                discreteActionsOut[2] = 1;
+            }
+            if(Input.GetKey(KeyCode.Q))
+            {
+                discreteActionsOut[2] = 2;
+            }
+            if(Input.GetKey(KeyCode.Space))
+            {
+                discreteActionsOut[3] = 1;
+            }
+        }
     }
 }
