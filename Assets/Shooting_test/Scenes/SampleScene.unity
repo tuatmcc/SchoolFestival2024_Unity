@@ -1483,6 +1483,27 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2852609849080280744, guid: 3b4119b9bd8b24c138ca028a46d57827,
+        type: 3}
+      propertyPath: m_Actions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 7a6a4732d3f56499dadc99e93da3103d,
+        type: 3}
+    - target: {fileID: 2852609849080280744, guid: 3b4119b9bd8b24c138ca028a46d57827,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2852609849080280744, guid: 3b4119b9bd8b24c138ca028a46d57827,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: edace29e-b5ad-4c6c-bcdb-23980eae91a1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2852609849080280744, guid: 3b4119b9bd8b24c138ca028a46d57827,
+        type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: Main/Camera
+      objectReference: {fileID: 0}
     - target: {fileID: 1108807788860114031, guid: 3b4119b9bd8b24c138ca028a46d57827,
         type: 3}
       propertyPath: m_LocalPosition.x
