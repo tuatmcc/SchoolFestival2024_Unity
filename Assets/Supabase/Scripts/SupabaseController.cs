@@ -1,27 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
-using Postgrest.Attributes;
-using Postgrest.Models;
 using Supabase;
 using UnityEngine;
 
-public class SupabaseController : MonoBehaviour
-{
-    [SerializeField] private string supabaseURL = "";
-    [SerializeField] private string supabaseKey = "";
-    [SerializeField] private Client _client = null;
 
-    private async void Awake()
+namespace Supabase
+{
+    public class SupabaseController : MonoBehaviour
     {
-        _client = new Client(supabaseURL, supabaseKey);
-        await _client.InitializeAsync();
-    }
-}
+        [SerializeField] private string supabaseURL;
+        [SerializeField] private string supabaseKey;
+        private Client _client = null;
 
-[Table("score")]
-public class ScoreModel : BaseModel
-{
-    [PrimaryKey("id", false)] public string id { get; set; }
-    [Column("score")] public int score { get; set; }
-    [Column("username")] public string username { get; set; }
+        public async void Awake()
+        {
+            Debug.Log(supabaseURL);
+            Debug.Log(supabaseKey);
+            _client = new Client(supabaseURL, supabaseKey);
+            await _client.InitializeAsync();
+        }
+
+        public void Start()
+        {
+            var model = ConstructModel("supabase", 200, "supabase");
+            RegisterResult(model);
+        }
+
+        public ScoreContainer ConstructModel(string userID, int score, string username)
+        {
+            return new ScoreContainer
+            {
+                id = userID,
+                score = score,
+                username = username
+            };
+        }
+
+        public async void RegisterResult(ScoreContainer result)
+        {
+            await _client?.From<ScoreContainer>().Upsert(result)!;
+        }
+
+        public async void DeleteResult(ScoreContainer result)
+        {
+            await _client.From<ScoreContainer>().Delete(result)!;
+        }
+    }
 }

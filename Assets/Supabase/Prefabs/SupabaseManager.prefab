@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fad3595143aeeef8e8a9bcf720961eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  supabaseURL: 
+  supabaseKey: 
