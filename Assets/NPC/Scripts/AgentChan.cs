@@ -33,7 +33,7 @@ namespace NPC
         [SerializeField]
         private GameObject agentManager;
         private Rigidbody agentRb;
-
+        private float agentSpeed;
         public override void Initialize()
         {
             m_BehaviorParameters = gameObject.GetComponent<BehaviorParameters>();
@@ -50,6 +50,7 @@ namespace NPC
 
             agentRb = GetComponent<Rigidbody>();
             agentRb.maxAngularVelocity = agentManager.GetComponent<AgentEnvController>().maxVelocity;
+            agentSpeed = agentManager.GetComponent<AgentEnvController>().agentSpeed;
         }
 
         public override void OnEpisodeBegin()
