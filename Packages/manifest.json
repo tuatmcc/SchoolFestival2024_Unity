@@ -16,6 +16,7 @@
     "com.unity.timeline": "1.7.6",
     "com.unity.toolchain.linux-x86_64": "2.0.9",
     "com.unity.ugui": "1.0.0",
+    "com.unity.visualeffectgraph": "14.0.11",
     "com.unity.visualscripting": "1.9.4",
     "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.127.0",
     "com.vrmc.univrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.127.0",
