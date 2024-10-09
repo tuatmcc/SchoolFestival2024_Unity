@@ -23,9 +23,12 @@ namespace Shooting_test
         private int bullet_fire_count = 0;
         private bool OnCooltime = false;
         private int COOLTIME = 2;
+        private float _rotationVelocity = 20;
+        private float RotationSmoothTime = 0.2f;
 
         [SerializeField] private float moveSpeedConst = 5.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
+        [SerializeField] Transform TPSCam;
         
         [Inject] private IBulletObjectPoolManager bulletObjectPoolManager;
 
@@ -37,15 +40,43 @@ namespace Shooting_test
 
         void FixedUpdate()
         {
-            speed = moveInput.magnitude * moveSpeedConst;
-            rotationSpeed = moveInput.x * rotationSpeedConst;
+            
+            
 
-            rb.velocity = this.transform.rotation *  new Vector3(moveInput.x,0,moveInput.y) * speed;
-            rb.angularVelocity = new Vector3(0, rotationSpeed, 0);
+            // move the player
+
+            // update animator if using character
+            /*
+            if (_hasAnimator)
+            {
+                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            }
+            */
+            rb.velocity = TPSCam.rotation* new Vector3(moveInput.x,0,moveInput.y)*5;
+            Debug.Log(rb.velocity);
+            //this.transform.rotation = Quaternion.Euler(targetDirection);
+            
         }
 
         private void Update()
         {
+            speed = moveInput.magnitude * moveSpeedConst;
+            //rotationSpeed = moveInput.x * rotationSpeedConst;
+            float _targetRotation = 0;
+            if (moveInput != Vector2.zero)
+            {
+                _targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
+                                  TPSCam.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                    RotationSmoothTime);
+
+                // rotate to face input direction relative to camera position
+                this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+
+
+            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -72,6 +103,82 @@ namespace Shooting_test
                 await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
                 OnCooltime = false;
             }
+        }
+
+        private void Move()
+        {
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+            float targetSpeed = 4;
+            float _speed;
+            float SpeedChangeRate = 1;
+            float _targetRotation = 0;
+
+            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is no input, set the target speed to 0
+            if (moveInput == Vector2.zero) targetSpeed = 0.0f;
+
+            // a reference to the players current horizontal velocity
+            float currentHorizontalSpeed = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z).magnitude;
+
+            float speedOffset = 0.1f;
+            float inputMagnitude = moveInput.magnitude;
+
+            // accelerate or decelerate to target speed
+            if (currentHorizontalSpeed < targetSpeed - speedOffset ||
+                currentHorizontalSpeed > targetSpeed + speedOffset)
+            {
+                // creates curved result rather than a linear one giving a more organic speed change
+                // note T in Lerp is clamped, so we don't need to clamp our speed
+                _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+                    Time.deltaTime * SpeedChangeRate);
+
+                // round speed to 3 decimal places
+                _speed = Mathf.Round(_speed * 1000f) / 1000f;
+            }
+            else
+            {
+                _speed = targetSpeed;
+            }
+            /*
+            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+            if (_animationBlend < 0.01f) _animationBlend = 0f;
+            */
+
+            // normalise input direction
+            Vector3 inputDirection = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized;
+
+            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+            // if there is a move input rotate player when the player is moving
+            if (moveInput != Vector2.zero)
+            {
+                _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                                  TPSCam.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                    RotationSmoothTime);
+
+                // rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+
+
+            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+
+            // move the player
+
+
+            this.GetComponent<CharacterController>().Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+                             new Vector3(0.0f, 1, 0.0f) * Time.deltaTime);
+
+            // update animator if using character
+            /*
+            if (_hasAnimator)
+            {
+                _animator.SetFloat(_animIDSpeed, _animationBlend);
+                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            }
+            */
         }
     }
 }
