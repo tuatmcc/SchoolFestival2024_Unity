@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using System;
@@ -5,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -12,11 +14,12 @@ namespace RicoShot.Core
 {
     public class GameStateManager : IGameStateManager, IInitializable, IDisposable
     {
-
         public event Action<GameState> OnGameStateChanged;
+        public event Action OnReset;
 
         public CoreInputs CoreInputs { get; private set; }
         public NetworkMode NetworkMode { get; set; }
+        public bool ReadyToReset { private get; set; } = false;
 
         public GameState GameState
         { 
@@ -25,7 +28,8 @@ namespace RicoShot.Core
             {
                 gameState = value;
                 OnGameStateChanged?.Invoke(gameState);
-            } 
+                Debug.Log($"GameState changed to {value}");
+            }
         }
 
         private GameState gameState;
@@ -40,6 +44,7 @@ namespace RicoShot.Core
         {
             GameState = GameState.ModeSelect;
             OnGameStateChanged += TransitScene;
+            CoreInputs.Main.Escape.performed += OnResetInput;
         }
 
         public void NextScene()
@@ -67,6 +72,7 @@ namespace RicoShot.Core
                     GameState = GameState.Result;
                     break;
                 case GameState.Result:
+                    OnReset?.Invoke();
                     switch (NetworkMode)
                     {
                         case NetworkMode.Client:
@@ -85,24 +91,52 @@ namespace RicoShot.Core
             switch (GameState)
             {
                 case GameState.Title:
+                    Debug.Log("Load Title scene");
                     SceneManager.LoadSceneAsync("Title");
                     break;
                 case GameState.Matching:
+                    Debug.Log("Load Matching scene");
                     SceneManager.LoadSceneAsync("Matching");
                     break;
                 case GameState.Play:
                     if (NetworkMode == NetworkMode.Server)
                     {
+                        Debug.Log("[Server] Load Play scene");
                         NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
                     }
                     break;
                 case GameState.Result:
                     if (NetworkMode == NetworkMode.Server)
                     {
+                        Debug.Log("[Server] Load Result scene");
                         NetworkManager.Singleton.SceneManager.LoadScene("Result", LoadSceneMode.Single);
                     }
                     break;
             }
+        }
+
+        private void OnResetInput(InputAction.CallbackContext context)
+        {
+            ForceReset();
+        }
+
+        public void ForceReset()
+        {
+            if (GameState == GameState.ModeSelect) return;
+            OnReset?.Invoke();
+            UniTask.Create(async () =>
+            {
+                await UniTask.WaitUntil(() => ReadyToReset);
+                if (NetworkMode == NetworkMode.Server)
+                {
+                    GameState = GameState.Matching;
+                }
+                else if (NetworkMode == NetworkMode.Client)
+                {
+                    GameState = GameState.Title;
+                }
+                ReadyToReset = false;
+            }).Forget();
         }
 
         public void Dispose()

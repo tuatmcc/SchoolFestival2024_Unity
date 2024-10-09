@@ -24,9 +24,41 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Core"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Main"",
+            ""id"": ""c8c6acdf-bb13-488d-926d-fc6be1475c4c"",
+            ""actions"": [
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""3554cfce-9299-499c-8426-3cb808b8b852"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""844d409b-669f-47ff-9a96-da4d6688e783"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Main
+            m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
+            m_Main_Escape = m_Main.FindAction("Escape", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +115,56 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Main
+        private readonly InputActionMap m_Main;
+        private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
+        private readonly InputAction m_Main_Escape;
+        public struct MainActions
+        {
+            private @CoreInputs m_Wrapper;
+            public MainActions(@CoreInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Escape => m_Wrapper.m_Main_Escape;
+            public InputActionMap Get() { return m_Wrapper.m_Main; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MainActions set) { return set.Get(); }
+            public void AddCallbacks(IMainActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MainActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MainActionsCallbackInterfaces.Add(instance);
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
+            }
+
+            private void UnregisterCallbacks(IMainActions instance)
+            {
+                @Escape.started -= instance.OnEscape;
+                @Escape.performed -= instance.OnEscape;
+                @Escape.canceled -= instance.OnEscape;
+            }
+
+            public void RemoveCallbacks(IMainActions instance)
+            {
+                if (m_Wrapper.m_MainActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMainActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MainActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MainActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MainActions @Main => new MainActions(this);
+        public interface IMainActions
+        {
+            void OnEscape(InputAction.CallbackContext context);
         }
     }
 }
