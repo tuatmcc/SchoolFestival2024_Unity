@@ -40,6 +40,15 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.cinemachine": {
+      "version": "2.10.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.31"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.collab-proxy": {
       "version": "2.5.1",
       "depth": 0,
@@ -277,7 +286,18 @@
       "hash": "d320f73eecc5a434a2afbdaf5a27f6c98d5c82a9"
     },
     "jp.lilxyzw.liltoon": {
+<<<<<<< HEAD
       "version": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon#1.7.3",
+=======
+      "version": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon#master",
+>>>>>>> refs/remotes/origin/feature/shooting
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b96470d3dd9092b840052578048b2307fe6d8786"
+    },
+    "jp.lilxyzw.liltoon": {
+      "version": "https://github.com/lilxyzw/lilToon.git?path=Assets/lilToon#master",
       "depth": 0,
       "source": "git",
       "dependencies": {},
