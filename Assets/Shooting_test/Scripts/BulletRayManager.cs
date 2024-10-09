@@ -9,13 +9,14 @@ namespace Shooting_test
     {
         [SerializeField]
         public Transform shootPoint;
+        public PlayerInput playerInput;
 
-        PlayerInput playerInput;
+        //PlayerInput playerInput;
         LineRenderer linerend;
         private float BULLET_RADIUS = 0.15f;
         private void Start()
         {
-            playerInput = this.GetComponent<PlayerInput>();
+            //playerInput = this.GetComponent<PlayerInput>();
             linerend = this.GetComponent<LineRenderer>();
             linerend.positionCount = 0;
         }
@@ -25,7 +26,10 @@ namespace Shooting_test
             if (playerInput.actions["Draw_Ray"].IsPressed())
             {
                 Draw_Bullet_shot(shootPoint);
-                Debug.Log("押している");
+            }
+            else if (!playerInput.actions["Draw_Ray"].IsPressed())
+            {
+                Delete_BulletShot();
             }
         }
 

@@ -1,25 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Shooting_test
 {
     public class CameraControl : MonoBehaviour
     {
-        [SerializeField]
         Transform transform_parent;
 
         //マウス感度
-        float sensitivity = 4f;
+        float sensitivity = 2f;
+        Vector2 RStick_input = new Vector2(0,0);
 
         private void Start()
         {
-            transform_parent = this.transform.parent.transform;
+            transform_parent = this.transform;
         }
 
         void Update()
         {
-            CameraRotate_Mouse();
+            //CameraRotate_Mouse();
+            transform_parent.RotateAround(transform.position, Vector3.up, RStick_input.x*sensitivity);
         }
 
         private void CameraRotate_Mouse()
@@ -39,6 +41,12 @@ namespace Shooting_test
 
             //カメラのX軸を中心に回転
             //transform.RotateAround(transform.position, transform.right, -y);
+        }
+
+        public void CameraRotate_Gamepad(InputAction.CallbackContext context)
+        {
+            RStick_input = context.ReadValue<Vector2>();
+            
         }
     }
 }

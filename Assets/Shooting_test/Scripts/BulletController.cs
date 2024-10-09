@@ -1,14 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using RicoShot.Utils;
 using UnityEngine;
+using Zenject;
 
-public class BulletController : MonoBehaviour
+public class BulletController : PoolManagedMonoObject
 {
     private Vector3 velocity;
     private Rigidbody rb;
     private Vector3 normal;
     private int reflect_count = 0;
     private int max_reflect_num = 3;
+    [Inject] private IScoreManager scoreManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,12 +32,14 @@ public class BulletController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("壁衝突");
+        Debug.Log("衝突");
         if (collision.gameObject.CompareTag("Border"))
         {
             if (velocity.magnitude <= 0.1)
             {
-                Destroy(this.gameObject);
+                rb.velocity = new Vector3(0, 0, 0);
+                this.transform.position = new Vector3(0, -0.4f, 0);
+                reflect_count = 0;
             }
             reflect_count++;
             normal = collision.contacts[0].normal;
@@ -46,9 +51,21 @@ public class BulletController : MonoBehaviour
             // directionの更新
             velocity = rb.velocity;
         }
-        if (reflect_count == max_reflect_num+1)
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
-            Destroy(this.gameObject);
+            Debug.Log("敵にヒット");
+            rb.velocity = new Vector3(0, 0, 0);
+            this.transform.position = new Vector3(0, -0.4f, 0);
+            reflect_count = 0;
+            scoreManager.AddScore(100);
+            this.ReturnPool();
+        }
+        if (reflect_count >= max_reflect_num+1)
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+            this.transform.position = new Vector3(0, -0.4f, 0);
+            reflect_count = 0;
+            this.ReturnPool();
         }
     }
 }

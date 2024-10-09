@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cysharp.Threading.Tasks;
+using System;
+using Zenject;
 
 namespace Shooting_test
 {
     public class CharacterMoveController : MonoBehaviour
     {
         [SerializeField]
-        public GameObject Bullet;
+        public GameObject [] Bullets;
         public Transform ShootPoint;
         public float BulletForce = 20;
 
@@ -17,9 +20,14 @@ namespace Shooting_test
         private float rotationSpeed;
         private Vector2 moveInput;
         public Animator animator;
+        private int bullet_fire_count = 0;
+        private bool OnCooltime = false;
+        private int COOLTIME = 2;
 
         [SerializeField] private float moveSpeedConst = 5.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
+        
+        [Inject] private IBulletObjectPoolManager bulletObjectPoolManager;
 
         void Start()
         {
@@ -33,7 +41,11 @@ namespace Shooting_test
             rotationSpeed = moveInput.x * rotationSpeedConst;
 
             rb.velocity = this.transform.rotation *  new Vector3(moveInput.x,0,moveInput.y) * speed;
-            //rb.angularVelocity = new Vector3(0, rotationSpeed, 0);
+            rb.angularVelocity = new Vector3(0, rotationSpeed, 0);
+        }
+
+        private void Update()
+        {
         }
 
         public void OnMove(InputAction.CallbackContext context)
@@ -43,13 +55,22 @@ namespace Shooting_test
             animator.SetFloat("rotate", moveInput.x);
         }
 
-        public void Fire_Bullet(InputAction.CallbackContext context)
+        async public void Fire_Bullet(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.performed && ! OnCooltime)
             {
-                GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
+                Gamepad.current.SetMotorSpeeds(1f, 1f);
+                await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                Gamepad.current.SetMotorSpeeds(0f, 0f);
+                OnCooltime = true;
+                // GameObject currentBullet = Bullets[bullet_fire_count % 5];
+                var currentBullet = bulletObjectPoolManager.Shot();
+                currentBullet.transform.position = ShootPoint.position;
+                //GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
                 currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
                 currentBullet.transform.parent = null;
+                await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
+                OnCooltime = false;
             }
         }
     }
