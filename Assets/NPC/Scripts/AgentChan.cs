@@ -25,7 +25,7 @@ namespace NPC
     }
     public class NewBehaviourScript : Agent
     {
-        private Team team;
+        public Team team;
         BehaviorParameters m_BehaviorParameters;
         
         [SerializeField]
