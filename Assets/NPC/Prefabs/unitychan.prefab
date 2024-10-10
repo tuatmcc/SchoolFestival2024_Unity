@@ -1369,7 +1369,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2251797419645823035}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
   m_Controller: {fileID: 9100000, guid: 0d65721b724574db2922b673c512014d, type: 2}
   m_CullingMode: 1
@@ -1494,7 +1494,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.41
   m_Height: 1.48
@@ -1624,6 +1624,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  team: 0
   initialPos: {x: 0, y: 0, z: 0}
   agentManager: {fileID: 2390913376910582326, guid: 22e69df5a48cdd44e8bd659e8c12f42d,
     type: 3}

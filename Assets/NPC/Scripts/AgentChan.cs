@@ -151,7 +151,6 @@ namespace NPC
             // Debug.LogWarning(discreteActionsOut.Length);
             if(Input.GetKey(KeyCode.W))
             {
-                Debug.Log("W key");
                 discreteActionsOut[0] = 1;
             }
             if(Input.GetKey(KeyCode.S))
