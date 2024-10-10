@@ -2,6 +2,7 @@
 // Mecanimのアニメーションデータが、原点で移動しない場合の Rigidbody付きコントローラ
 // サンプル
 // 2014/03/13 N.Kobyasahi
+// 2015/03/11 Revised for Unity5 (only)
 //
 using UnityEngine;
 using System.Collections;
