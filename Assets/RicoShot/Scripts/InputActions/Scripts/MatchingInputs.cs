@@ -24,9 +24,126 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Matching"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Test"",
+            ""id"": ""68811ac4-2b5b-47ea-9876-c4aecb940094"",
+            ""actions"": [
+                {
+                    ""name"": ""SelectLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""26250086-c5e0-448c-ba7f-81766faa8f36"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""6eb062dc-2d7b-4221-aeb2-92fd73b8049b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""56a99a9b-8330-46b7-a7a7-80f1b5a28608"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2943a4d-f322-4a8d-a95a-f4a420d045c2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""cb041996-6318-44d3-ad84-1972c758523e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8f83f690-ff24-4eff-86cb-959e312b643e"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b99d0755-5701-4175-9f2f-637e53dbdf8f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47c20e89-f74b-427c-bfb4-663980107c57"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c10340e3-b708-4115-a185-18417aefbb41"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f4814d2-f1ca-44e4-b762-490ba0e91494"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Test
+            m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+            m_Test_SelectLeft = m_Test.FindAction("SelectLeft", throwIfNotFound: true);
+            m_Test_SelectRight = m_Test.FindAction("SelectRight", throwIfNotFound: true);
+            m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
+            m_Test_Cancel = m_Test.FindAction("Cancel", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +200,83 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Test
+        private readonly InputActionMap m_Test;
+        private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
+        private readonly InputAction m_Test_SelectLeft;
+        private readonly InputAction m_Test_SelectRight;
+        private readonly InputAction m_Test_Enter;
+        private readonly InputAction m_Test_Cancel;
+        public struct TestActions
+        {
+            private @MatchingInputs m_Wrapper;
+            public TestActions(@MatchingInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @SelectLeft => m_Wrapper.m_Test_SelectLeft;
+            public InputAction @SelectRight => m_Wrapper.m_Test_SelectRight;
+            public InputAction @Enter => m_Wrapper.m_Test_Enter;
+            public InputAction @Cancel => m_Wrapper.m_Test_Cancel;
+            public InputActionMap Get() { return m_Wrapper.m_Test; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+            public void AddCallbacks(ITestActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+                @SelectLeft.started += instance.OnSelectLeft;
+                @SelectLeft.performed += instance.OnSelectLeft;
+                @SelectLeft.canceled += instance.OnSelectLeft;
+                @SelectRight.started += instance.OnSelectRight;
+                @SelectRight.performed += instance.OnSelectRight;
+                @SelectRight.canceled += instance.OnSelectRight;
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+            }
+
+            private void UnregisterCallbacks(ITestActions instance)
+            {
+                @SelectLeft.started -= instance.OnSelectLeft;
+                @SelectLeft.performed -= instance.OnSelectLeft;
+                @SelectLeft.canceled -= instance.OnSelectLeft;
+                @SelectRight.started -= instance.OnSelectRight;
+                @SelectRight.performed -= instance.OnSelectRight;
+                @SelectRight.canceled -= instance.OnSelectRight;
+                @Enter.started -= instance.OnEnter;
+                @Enter.performed -= instance.OnEnter;
+                @Enter.canceled -= instance.OnEnter;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
+            }
+
+            public void RemoveCallbacks(ITestActions instance)
+            {
+                if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITestActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TestActions @Test => new TestActions(this);
+        public interface ITestActions
+        {
+            void OnSelectLeft(InputAction.CallbackContext context);
+            void OnSelectRight(InputAction.CallbackContext context);
+            void OnEnter(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
         }
     }
 }
