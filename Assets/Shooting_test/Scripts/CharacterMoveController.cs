@@ -26,6 +26,8 @@ namespace Shooting_test
         private float _rotationVelocity = 20;
         private float RotationSmoothTime = 0.2f;
 
+        private bool LT_pressed = false;
+
         [SerializeField] private float moveSpeedConst = 5.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
         [SerializeField] Transform TPSCam;
@@ -67,15 +69,28 @@ namespace Shooting_test
             //speed = moveInput.magnitude * moveSpeedConst;
             //rotationSpeed = moveInput.x * rotationSpeedConst;
             float _targetRotation = 0;
-            if (moveInput != Vector2.zero)
+            if (LT_pressed)
             {
-                _targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
+                _targetRotation = 
                                   TPSCam.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime);
+                    RotationSmoothTime/100);
 
                 // rotate to face input direction relative to camera position
                 this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+            else
+            {
+                if (moveInput != Vector2.zero)
+                {
+                    _targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
+                                      TPSCam.eulerAngles.y;
+                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                        RotationSmoothTime);
+
+                    // rotate to face input direction relative to camera position
+                    this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                }
             }
         }
 
@@ -84,6 +99,18 @@ namespace Shooting_test
             moveInput = context.ReadValue<Vector2>();
             animator.SetFloat("speed", Math.Abs(moveInput.magnitude));
             animator.SetFloat("rotate", moveInput.x);
+        }
+
+        public void SetRotation_Cam(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                LT_pressed = true;
+            }
+            else if (context.canceled)
+            {
+                LT_pressed = false;
+            }
         }
 
         async public void Fire_Bullet(InputAction.CallbackContext context)
