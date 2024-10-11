@@ -40,8 +40,8 @@ namespace Shooting_test
 
         void FixedUpdate()
         {
-            
-            
+
+
 
             // move the player
 
@@ -53,7 +53,10 @@ namespace Shooting_test
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
             */
-            rb.velocity = TPSCam.rotation* new Vector3(moveInput.x,0,moveInput.y)*5;
+            Vector3 v = TPSCam.rotation * new Vector3(4 * moveInput.x, 0, 4 * moveInput.y);
+            v.y = 0;
+            rb.velocity =v;
+
             Debug.Log(rb.velocity);
             //this.transform.rotation = Quaternion.Euler(targetDirection);
             
@@ -61,7 +64,7 @@ namespace Shooting_test
 
         private void Update()
         {
-            speed = moveInput.magnitude * moveSpeedConst;
+            //speed = moveInput.magnitude * moveSpeedConst;
             //rotationSpeed = moveInput.x * rotationSpeedConst;
             float _targetRotation = 0;
             if (moveInput != Vector2.zero)
@@ -74,15 +77,12 @@ namespace Shooting_test
                 // rotate to face input direction relative to camera position
                 this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
-
-
-            Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
             moveInput = context.ReadValue<Vector2>();
-            animator.SetFloat("speed", moveInput.y);
+            animator.SetFloat("speed", Math.Abs(moveInput.magnitude));
             animator.SetFloat("rotate", moveInput.x);
         }
 

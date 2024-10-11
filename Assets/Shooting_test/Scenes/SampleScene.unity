@@ -2143,16 +2143,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1041979399130801216, guid: 3b4119b9bd8b24c138ca028a46d57827,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2303256652385721611, guid: 3b4119b9bd8b24c138ca028a46d57827,
         type: 3}
       propertyPath: TPSCam
       value: 
       objectReference: {fileID: 2119708604}
-    - target: {fileID: 5672353133142646924, guid: 3b4119b9bd8b24c138ca028a46d57827,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
