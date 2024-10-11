@@ -566,10 +566,6 @@ MonoBehaviour:
     m_ActionId: bf74d37a-0835-46e6-bf16-d4d0af1ce86d
     m_ActionName: Main/Move[/DualShock3GamepadHID/leftStick]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 2fe64247-8616-4cc6-801a-b43397540a7f
-    m_ActionName: Main/Fire[/DualShock3GamepadHID/rightTrigger]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2225347035977940154}
         m_TargetAssemblyTypeName: Shooting_test.CooltimeUIManager, Assembly-CSharp
@@ -583,6 +579,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+    m_ActionId: 2fe64247-8616-4cc6-801a-b43397540a7f
+    m_ActionName: Main/Fire[/DualShock3GamepadHID/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
     m_ActionId: d2590c72-bd5a-4080-8131-b163c55d6c75
     m_ActionName: Main/Draw_Ray[/DualShock3GamepadHID/leftTrigger]
   - m_PersistentCalls:
