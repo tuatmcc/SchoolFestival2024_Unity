@@ -1397,6 +1397,7 @@ MonoBehaviour:
   _random: 0
   _threshold: 0.5
   _interval: 10
+  isGUI: 1
 --- !u!114 &2819437704689637499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,6 +1430,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 8564dc45968774e70ad835503fda627e, type: 2}
   delayWeight: 0.3
   isKeepFace: 0
+  isGUI: 1
 --- !u!114 &7349414084093486338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,7 +1477,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &7850816242330502767
 CapsuleCollider:
@@ -1512,12 +1514,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2438e6015451346509a6de56fef06b16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 5576397720142144200, guid: 9c6b781f476d0418dac8cd0deb4e787e, type: 3}
+  Bullets: []
   ShootPoint: {fileID: 8064194631503714736}
   BulletForce: 10
   animator: {fileID: 0}
   moveSpeedConst: 5
   rotationSpeedConst: 5
+  TPSCam: {fileID: 0}
 --- !u!114 &2873265236668790576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6975,7 +6978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e1b45cf944a4e90bc3600065d2ec0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform_parent: {fileID: 0}
 --- !u!1 &8655472073425202574
 GameObject:
   m_ObjectHideFlags: 0

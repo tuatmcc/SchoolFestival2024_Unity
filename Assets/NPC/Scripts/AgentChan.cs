@@ -20,10 +20,10 @@ namespace NPC
 {
     public enum Team
     {
-        team0 = 0,
-        team1 = 1
+        Alpha = 0,
+        Bravo = 1
     }
-    public class NewBehaviourScript : Agent
+    public class AgentChan : Agent
     {
         public Team team;
         BehaviorParameters m_BehaviorParameters;
@@ -39,13 +39,13 @@ namespace NPC
             m_BehaviorParameters = gameObject.GetComponent<BehaviorParameters>();
 
             //teamはBehaviorParameterのteamIDを元にして設定される。
-            if(m_BehaviorParameters.TeamId == (int)Team.team0)
+            if(m_BehaviorParameters.TeamId == (int)Team.Alpha)
             {
-                team = Team.team0;
+                team = Team.Alpha;
             }
             else
             {
-                team = Team.team1;
+                team = Team.Bravo;
             }
 
             agentRb = GetComponent<Rigidbody>();

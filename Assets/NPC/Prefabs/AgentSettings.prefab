@@ -44,3 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 526f6feb87784cc4b9e066d4f6e1a2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  agentSpeed: 0.3
+  maxVelocity: 50
+  AlphaBullet: {fileID: 5576397720142144200, guid: a5a7fed5a42c21642bebfbb8d0116ee3,
+    type: 3}
+  BravoBullet: {fileID: 5576397720142144200, guid: 896e0ad1bec7a88418615793d8ca9778,
+    type: 3}
+  agentlist:
+  - obj: {fileID: 2251797419645823035, guid: 7e1186842852c75468166e7e08c8f55b, type: 3}
+    agent: {fileID: 0}
+    initPos: {x: 0, y: 0, z: 0}
+    initRot: {x: 0, y: 0, z: 0}
+    teamID: 0
