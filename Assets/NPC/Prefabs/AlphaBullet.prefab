@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6674772964621950808}
   - component: {fileID: 2746405111775869074}
   - component: {fileID: 6433098478791921420}
-  - component: {fileID: 857436393815915552}
   - component: {fileID: 8622446593501221302}
+  - component: {fileID: -8781002609353762684}
   m_Layer: 2
   m_Name: AlphaBullet
   m_TagString: Untagged
@@ -113,18 +113,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 2
---- !u!114 &857436393815915552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5576397720142144200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5d81a1254c844dcf9f3f1c84e280cb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!135 &8622446593501221302
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -146,3 +134,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8781002609353762684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5576397720142144200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e4b22e6e36fbff45a5934a25e090412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentSettings: {fileID: 2390913376910582326, guid: 22e69df5a48cdd44e8bd659e8c12f42d,
+    type: 3}
+  whiteTag: 
+  redTag: 
+  envController: {fileID: 0}

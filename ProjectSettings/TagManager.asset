@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Border
   - Enemy
+  - AlphaCharacter
+  - BravoCharacter
+  - AlphaBullet
+  - BravoBullet
   layers:
   - Default
   - TransparentFX

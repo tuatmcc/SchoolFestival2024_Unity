@@ -15,6 +15,7 @@ namespace NPC
     public class AgentStruct
     {
         public GameObject obj;
+        [HideInInspector]
         public AgentChan agent;
         public Vector3 initPos;
         public Vector3 initRot;
@@ -42,6 +43,14 @@ namespace NPC
 
         public GameObject AlphaBullet;
         public GameObject BravoBullet;
+        public string AlphaBulletTag = "AlphaBullet";
+        public string BravoBulletTag = "BravoBullet";
+        public string AlphaCharacterTag = "AlphaCharacter";
+        public string BravoCharacterTag = "BravoCharacter";
+        public float FireReward = -0.1f;
+        public float WarkReward = 0.01f;
+        public float GiveHitReward = 1.0f;
+        public float GetHitReward = -1.0f;
 
         // public List<GameObject> AlphaAgents=new List<GameObject>();
         // public List<GameObject> BravoAgents=new List<GameObject>();
@@ -65,6 +74,7 @@ namespace NPC
                 //Quaternionにしないとよくわからないことになる。
                 Quaternion qRot = Quaternion.Euler(agent.initRot);
                 GameObject obj = Instantiate(agent.obj, agent.initPos, qRot);
+                agent.agent = obj.GetComponent<AgentChan>();
                 if(agent.teamID == (int)Team.Alpha)
                 {
                     m_AlphaAgentGroup.RegisterAgent(agent.agent);
@@ -73,7 +83,20 @@ namespace NPC
                 {
                     m_BravoAgentGroup.RegisterAgent(agent.agent);
                 }
-                agent.agent = obj.GetComponent<AgentChan>();
+            }
+        }
+
+        public void Hitted(string Tag)
+        {
+            if(Tag == AlphaCharacterTag)
+            {
+                m_AlphaAgentGroup.AddGroupReward(GetHitReward);
+                m_BravoAgentGroup.AddGroupReward(GiveHitReward);
+            }
+            else
+            {
+                m_AlphaAgentGroup.AddGroupReward(GiveHitReward);
+                m_BravoAgentGroup.AddGroupReward(GetHitReward);
             }
         }
     }

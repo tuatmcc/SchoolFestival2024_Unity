@@ -28,16 +28,26 @@ namespace NPC
         public Team team;
         BehaviorParameters m_BehaviorParameters;
         
-        [SerializeField]
-        private Vector3 initialPos;
+        // [SerializeField]
+        private Vector3 initialPos = new Vector3(0.0f, 1.0f, 1.0f);
         [SerializeField]
         private GameObject agentManager;
+        [SerializeField]
+        private Vector3 ShootPoint = new Vector3(0.0f, 1.005f, 0.0f);
         private Rigidbody agentRb;
         private float agentSpeed;
+
+        private float BulletFiredTime;
+
+        private GameObject Bullet;
+
+        private AgentEnvController env;
+
         public override void Initialize()
         {
             m_BehaviorParameters = gameObject.GetComponent<BehaviorParameters>();
-
+            initialPos = this.transform.position;
+            
             //teamはBehaviorParameterのteamIDを元にして設定される。
             if(m_BehaviorParameters.TeamId == (int)Team.Alpha)
             {
@@ -51,6 +61,17 @@ namespace NPC
             agentRb = GetComponent<Rigidbody>();
             agentRb.maxAngularVelocity = agentManager.GetComponent<AgentEnvController>().maxVelocity;
             agentSpeed = agentManager.GetComponent<AgentEnvController>().agentSpeed;
+
+            if(m_BehaviorParameters.TeamId == 0)
+            {
+                Bullet = agentManager.GetComponent<AgentEnvController>().AlphaBullet;
+            }
+            else
+            {
+                Bullet = agentManager.GetComponent<AgentEnvController>().BravoBullet;
+            }
+
+            env = agentManager.GetComponent<AgentEnvController>();
         }
 
         public override void OnEpisodeBegin()
@@ -124,21 +145,21 @@ namespace NPC
             //新しい形式に合わせる必要性あり
 
             
-            // switch(Fire)
-            // {
-            //     case 1:
-            //         if(Time.realtimeSinceStartup - BulletFiredTime < 2.0)
-            //         {
-            //             break;
-            //         }  
-            //         BulletFiredTime = Time.realtimeSinceStartup;
+            switch(Fire)
+            {
+                case 1:
+                    if(Time.realtimeSinceStartup - BulletFiredTime < 2.0)
+                    {
+                        break;
+                    }  
+                    BulletFiredTime = Time.realtimeSinceStartup;
                         
-            //         GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
-            //         currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
-            //         currentBullet.transform.parent = null;
-            //         AddReward(Fired);
-            //         break;
-            // }
+                    GameObject currentBullet = Instantiate(Bullet, ShootPoint + transform.position, this.transform.rotation, this.transform);
+                    currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * 20, ForceMode.Impulse);
+                    currentBullet.transform.parent = null;
+                    AddReward(env.FireReward);
+                    break;
+            }
 
             transform.Rotate(rotateDir, Time.deltaTime * 100f);
             //ForceMode.VelocityChange　質量の違いを考慮しない制御
