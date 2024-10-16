@@ -45,7 +45,7 @@ namespace RicoShot.Core
         public void Initialize()
         {
             GameState = GameState.ModeSelect;
-            GameConfig = JsonLoader.LoadJson<GameConfig>(".env");
+            GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
             OnGameStateChanged += TransitScene;
             CoreInputs.Main.Escape.performed += OnResetInput;
         }
@@ -146,6 +146,7 @@ namespace RicoShot.Core
         {
             OnGameStateChanged -= TransitScene;
             CoreInputs.Dispose();
+            JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
         }
     }
 }
