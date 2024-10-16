@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace RicoShot.Play.DI
+namespace RicoShot.Play
 {
     public class TimeControllerINstaller : MonoInstaller
     {
