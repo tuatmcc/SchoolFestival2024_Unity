@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
+using RicoShot.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace RicoShot.Core
 
         public CoreInputs CoreInputs { get; private set; }
         public NetworkMode NetworkMode { get; set; }
+        public GameConfig GameConfig { get; private set; }
         public bool ReadyToReset { private get; set; } = false;
 
         public GameState GameState
@@ -43,6 +45,7 @@ namespace RicoShot.Core
         public void Initialize()
         {
             GameState = GameState.ModeSelect;
+            GameConfig = JsonLoader.LoadJson<GameConfig>(".env");
             OnGameStateChanged += TransitScene;
             CoreInputs.Main.Escape.performed += OnResetInput;
         }
