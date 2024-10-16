@@ -105,18 +105,6 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.ml-agents": {
-      "version": "git+https://github.com/Unity-Technologies/ml-agents.git?path=com.unity.ml-agents#release_21",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.sentis": "1.2.0-exp.2",
-        "com.unity.modules.imageconversion": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.physics": "1.0.0"
-      },
-      "hash": "7a03145ae48ad354821bd89e0243d99332149ace"
-    },
     "com.unity.netcode.gameobjects": {
       "version": "1.10.0",
       "depth": 0,
@@ -170,17 +158,6 @@
       "depth": 2,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.sentis": {
-      "version": "1.2.0-exp.2",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.burst": "1.8.4",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.imageconversion": "1.0.0"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.shadergraph": {
