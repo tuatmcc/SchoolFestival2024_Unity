@@ -24,9 +24,41 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Title"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Test"",
+            ""id"": ""b1f9e891-e5cb-499d-afaa-e0aa2f82728d"",
+            ""actions"": [
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""fcf48afb-aa34-48a9-beee-ea894ddec103"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9949be1c-1b0c-4477-b22f-e55e664b190b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Test
+            m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+            m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +115,56 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Test
+        private readonly InputActionMap m_Test;
+        private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
+        private readonly InputAction m_Test_Enter;
+        public struct TestActions
+        {
+            private @TitleInputs m_Wrapper;
+            public TestActions(@TitleInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Enter => m_Wrapper.m_Test_Enter;
+            public InputActionMap Get() { return m_Wrapper.m_Test; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+            public void AddCallbacks(ITestActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
+            }
+
+            private void UnregisterCallbacks(ITestActions instance)
+            {
+                @Enter.started -= instance.OnEnter;
+                @Enter.performed -= instance.OnEnter;
+                @Enter.canceled -= instance.OnEnter;
+            }
+
+            public void RemoveCallbacks(ITestActions instance)
+            {
+                if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITestActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TestActions @Test => new TestActions(this);
+        public interface ITestActions
+        {
+            void OnEnter(InputAction.CallbackContext context);
         }
     }
 }
