@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RicoShot.Utils;
 using UnityEngine;
 using Zenject;
-namespace Shooting_test
+namespace RicoShot.Play
 {
     public class BulletController : PoolManagedMonoObject
     {

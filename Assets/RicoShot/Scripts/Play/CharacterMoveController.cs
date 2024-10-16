@@ -6,7 +6,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using Zenject;
 
-namespace Shooting_test
+namespace RicoShot.Play
 {
     public class CharacterMoveController : MonoBehaviour
     {

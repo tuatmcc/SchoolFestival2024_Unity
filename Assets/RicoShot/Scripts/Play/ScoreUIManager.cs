@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using TMPro;
-namespace Shooting_test
+
+namespace RicoShot.Play
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class ScoreUIManager : MonoBehaviour

@@ -239,19 +239,7 @@ MonoBehaviour:
     m_ActionId: d2590c72-bd5a-4080-8131-b163c55d6c75
     m_ActionName: Main/Draw_Ray[/Keyboard/space]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Shooting_test.CameraControl, Assembly-CSharp
-        m_MethodName: CameraRotate_Gamepad
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: edace29e-b5ad-4c6c-bcdb-23980eae91a1
     m_ActionName: Main/Camera
   m_NeverAutoSwitchControlSchemes: 0

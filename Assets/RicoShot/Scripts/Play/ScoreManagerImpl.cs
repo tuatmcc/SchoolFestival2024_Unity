@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-namespace Shooting_test
+
+namespace RicoShot.Play
 {
     public class ScoreManagerImpl : IScoreManager
     {
