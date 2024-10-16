@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
-
-public class ScoreManagerImpl : IScoreManager
+namespace Shooting_test
 {
-    private int total_score = 0;
-
-    public void AddScore(int score)
+    public class ScoreManagerImpl : IScoreManager
     {
-        total_score += score;
-    }
+        private int total_score = 0;
 
-    public int GetScore()
-    {
-        return total_score;
+        public void AddScore(int score)
+        {
+            total_score += score;
+        }
+
+        public int GetScore()
+        {
+            return total_score;
+        }
     }
 }

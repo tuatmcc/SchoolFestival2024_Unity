@@ -1,6 +1,9 @@
-public interface IScoreManager
+namespace RicoShot.Play
 {
-    void AddScore(int score);
-    int GetScore();
-    //void RegisterScoreItem(ScoreItem scoreItem);
+    public interface IScoreManager
+    {
+        void AddScore(int score);
+        int GetScore();
+        //void RegisterScoreItem(ScoreItem scoreItem);
+    }
 }

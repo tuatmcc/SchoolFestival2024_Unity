@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace RicoShot.Play.DI
+namespace RicoShot.Play
 {
     public class BulletObjectPoolManagerInstaller : MonoInstaller
     {

@@ -1,10 +1,12 @@
 using UnityEngine;
 using Zenject;
-
-public class ScoreManagerInstaller : MonoInstaller
+namespace RicoShot.Play
 {
-    public override void InstallBindings()
+    public class ScoreManagerInstaller : MonoInstaller
     {
-        Container.Bind<IScoreManager>().To<ScoreManagerImpl>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<IScoreManager>().To<ScoreManagerImpl>().AsSingle();
+        }
     }
 }
