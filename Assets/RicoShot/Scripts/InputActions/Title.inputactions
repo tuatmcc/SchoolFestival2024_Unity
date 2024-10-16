@@ -1,1 +1,34 @@
-{}
+{
+    "name": "Title",
+    "maps": [
+        {
+            "name": "Test",
+            "id": "b1f9e891-e5cb-499d-afaa-e0aa2f82728d",
+            "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "fcf48afb-aa34-48a9-beee-ea894ddec103",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9949be1c-1b0c-4477-b22f-e55e664b190b",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
