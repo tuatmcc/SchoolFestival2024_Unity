@@ -1,6 +1,6 @@
 using Zenject;
 
-namespace Shooting_test.DI
+namespace Shooting_test
 {
     public class TimeControllerINstaller : MonoInstaller
     {

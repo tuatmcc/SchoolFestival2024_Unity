@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Shooting_test.DI
+namespace Shooting_test
 {
     public class BulletObjectPoolManagerInstaller : MonoInstaller
     {

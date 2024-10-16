@@ -11,7 +11,7 @@ namespace Shooting_test
     public class CharacterMoveController : MonoBehaviour
     {
         [SerializeField]
-        //public GameObject [] Bullets;
+        public GameObject [] Bullets;
         public Transform ShootPoint;
         public float BulletForce = 20;
 
