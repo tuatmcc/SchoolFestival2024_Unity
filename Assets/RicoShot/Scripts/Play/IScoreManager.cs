@@ -1,4 +1,4 @@
-namespace Shooting_test
+namespace RicoShot.Play
 {
     public interface IScoreManager
     {

@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.43137255}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -458,6 +458,7 @@ GameObject:
   - component: {fileID: 3089939080734371189}
   - component: {fileID: 6112359558401612083}
   - component: {fileID: 2225347035977940154}
+  - component: {fileID: 4463208335040616234}
   m_Layer: 0
   m_Name: Cooltime_Gauge
   m_TagString: Untagged
@@ -534,6 +535,65 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7415a0188f55a416fbca4ba330bb491a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4463208335040616234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5324744016951875784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 7a6a4732d3f56499dadc99e93da3103d,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bf74d37a-0835-46e6-bf16-d4d0af1ce86d
+    m_ActionName: Main/Move[/DualShock3GamepadHID/leftStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2225347035977940154}
+        m_TargetAssemblyTypeName: Shooting_test.CooltimeUIManager, Assembly-CSharp
+        m_MethodName: Begin_Cooltime
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2fe64247-8616-4cc6-801a-b43397540a7f
+    m_ActionName: Main/Fire[/DualShock3GamepadHID/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d2590c72-bd5a-4080-8131-b163c55d6c75
+    m_ActionName: Main/Draw_Ray[/DualShock3GamepadHID/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: edace29e-b5ad-4c6c-bcdb-23980eae91a1
+    m_ActionName: Main/Camera[/DualShock3GamepadHID/rightStick]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Main
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &5489209905919987087
 GameObject:
   m_ObjectHideFlags: 0

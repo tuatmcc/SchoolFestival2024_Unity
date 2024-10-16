@@ -1,6 +1,6 @@
 using UnityEngine;
 using Zenject;
-namespace Shooting_test
+namespace RicoShot.Play
 {
     public class ScoreManagerInstaller : MonoInstaller
     {
