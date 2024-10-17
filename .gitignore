@@ -206,3 +206,6 @@ Assets/Shooting_test/UnityChanAdventure/Font
 # Allow DefaultNetworkPrefabs
 !DefaultNetworkPrefabs.asset
 !DefaultNetworkPrefabs.asset.meta
+
+# Ignore .env
+/Assets/.env

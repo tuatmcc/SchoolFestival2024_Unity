@@ -4,6 +4,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Serialization;
 using ZXing;
+using Zenject;
+using RicoShot.Core;
+using RicoShot.Core.Interface;
 
 namespace RicoShot.Title
 {
@@ -21,16 +24,22 @@ namespace RicoShot.Title
 
         [SerializeField] private Button changeCameraButton;
 
+        [Inject] private readonly IGameStateManager gameStateManager;
+
         private void Start()
         {
             // カメラ切り替えボタンにChangeCameraメソッドを登録
-            changeCameraButton.onClick.AddListener(ChangeCamera);
+            if (changeCameraButton != null)
+            {
+                changeCameraButton.onClick.AddListener(ChangeCamera);
+            }
             
             // 利用可能なカメラデバイスを取得
             _webCamDevice = WebCamTexture.devices;
 
             // Webカメラの映像を取得するために新しいWebCamTextureを作成
-            _webCamTexture = new WebCamTexture(_webCamDevice[0].name);
+            _webCamTexture = new WebCamTexture(_webCamDevice[gameStateManager.GameConfig.GetCameraIndex()].name);
+            _selectingCamera = gameStateManager.GameConfig.GetCameraIndex();
 
             // Webカメラの映像をスタート
             _webCamTexture.Play();
