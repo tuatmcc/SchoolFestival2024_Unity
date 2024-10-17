@@ -158,7 +158,7 @@ namespace RicoShot.Core
         // リセット用メソッド
         private void ResetNetwork()
         {
-            if (NetworkManager.Singleton.IsClient)
+            if (gameStateManager.NetworkMode == NetworkMode.Client)
             {
                 UniTask.Create(async () =>
                 {
@@ -169,7 +169,7 @@ namespace RicoShot.Core
                     Debug.Log($"Shutdown Client completed");
                 }).Forget();
             }
-            else if (NetworkManager.Singleton.IsServer)
+            else if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 DisconnectClientRpc();
                 UniTask.Create(async () =>
