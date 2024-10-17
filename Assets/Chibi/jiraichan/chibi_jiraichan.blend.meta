@@ -12,13 +12,23 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: chibi_clothes_gothloli_black
+    second: {fileID: 2100000, guid: 2784739d8405fd45c90883096a25b833, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: chibi_clothes_gothloli_primary
+    second: {fileID: 2100000, guid: 79e5ac0917d8fa583b729a4384d9d857, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: chibi_clothes_uniform
     second: {fileID: 2100000, guid: 5c41eda6b9b062a3f93efb2867412945, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: chibi_eye
-    second: {fileID: 2100000, guid: fe9d130d277deb571bc9a3fda57fd110, type: 2}
+    second: {fileID: 2100000, guid: 25b143e92b8a5bc3a867fc2067c62d6e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -27,8 +37,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: chibi_hair_primary
+    second: {fileID: 2100000, guid: 62993d9539069ae02bb39f8137d7446f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: chibi_skin
-    second: {fileID: 2100000, guid: bf17b98a7578c08f6b45e97b70a354ae, type: 2}
+    second: {fileID: 2100000, guid: 2e3b8d9890a5917d4be26bfb43d89b93, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule

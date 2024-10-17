@@ -37,7 +37,7 @@ namespace RicoShot.Core
         }
 
         // ネットワークの初期化(Matching開始時)
-        public void InitializeNetwork(GameState gameState)
+        private void InitializeNetwork(GameState gameState)
         {
             if (gameState != GameState.Matching) return;
 
