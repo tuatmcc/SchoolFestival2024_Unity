@@ -13,6 +13,7 @@ namespace RicoShot.Core.Interface
 
         CoreInputs CoreInputs { get; }
         NetworkMode NetworkMode { get; set; }
+        GameConfig GameConfig { get; }
         bool ReadyToReset { set; }
 
         void NextScene();

@@ -40,12 +40,12 @@ namespace RicoShot.Core
         {
             CoreInputs = new();
             CoreInputs.Enable();
+            GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
         }
 
         public void Initialize()
         {
             GameState = GameState.ModeSelect;
-            GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
             OnGameStateChanged += TransitScene;
             CoreInputs.Main.Escape.performed += OnResetInput;
         }
