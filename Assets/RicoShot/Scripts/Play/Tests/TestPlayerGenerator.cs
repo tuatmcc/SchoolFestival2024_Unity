@@ -17,7 +17,7 @@ namespace RicoShot.Play.Tests
         private int TeamAlphaCount = 0;
         private int TeamBravoCount = 0;
 
-        [Inject] INetworkController networkController;
+        [Inject] private readonly INetworkController networkController;
 
         // クライアントのプレイヤーを生成
         private void Start()
@@ -25,7 +25,7 @@ namespace RicoShot.Play.Tests
             // サーバー側のみの処理
             if (!NetworkManager.Singleton.IsServer) return;
 
-            foreach (var clientData in networkController.ClientDatas)
+            foreach (var clientData in networkController.ClientDataList)
             {
                 SpawnPlayer(clientData);
             }
