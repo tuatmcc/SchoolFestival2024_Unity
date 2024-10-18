@@ -126,7 +126,9 @@ namespace RicoShot.Core
         public void ForceReset()
         {
             if (GameState == GameState.ModeSelect) return;
+            Debug.Log("Start force reset");
             OnReset?.Invoke();
+            ReadyToReset = false;
             UniTask.Create(async () =>
             {
                 await UniTask.WaitUntil(() => ReadyToReset);
@@ -138,7 +140,7 @@ namespace RicoShot.Core
                 {
                     GameState = GameState.Title;
                 }
-                ReadyToReset = false;
+                Debug.Log("Completed force reset");
             }).Forget();
         }
 

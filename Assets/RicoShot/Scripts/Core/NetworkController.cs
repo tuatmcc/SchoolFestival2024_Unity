@@ -95,7 +95,6 @@ namespace RicoShot.Core
         {
             var clientData = GetClientDataFromClientID(clientId);
             ClientDatas.Remove(clientData);
-            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Disconnected -> ID: {clientId}");
 
             CheckAllReadyAndNotify();
@@ -120,7 +119,6 @@ namespace RicoShot.Core
         private void AddClientDataRpc(ClientData clientData)
         {
             ClientDatas.Add(clientData);
-            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Registed ClientData: {clientData}");
         }
 
@@ -131,7 +129,6 @@ namespace RicoShot.Core
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
             if (clientData.Team == team || clientData.IsReady) return;
             clientData.SetTeam(team);
-            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client data changed -> {clientData}");
         }
         
@@ -142,7 +139,6 @@ namespace RicoShot.Core
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
             if (clientData.IsReady == isReady) return;
             clientData.SetReadyStatus(isReady);
-            ClientDatas.SetDirty(true);
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
 
             CheckAllReadyAndNotify();
@@ -162,7 +158,7 @@ namespace RicoShot.Core
         // リセット用メソッド
         private void ResetNetwork()
         {
-            if (NetworkManager.Singleton.IsClient)
+            if (gameStateManager.NetworkMode == NetworkMode.Client)
             {
                 UniTask.Create(async () =>
                 {
@@ -173,7 +169,7 @@ namespace RicoShot.Core
                     Debug.Log($"Shutdown Client completed");
                 }).Forget();
             }
-            else if (NetworkManager.Singleton.IsServer)
+            else if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 DisconnectClientRpc();
                 UniTask.Create(async () =>
