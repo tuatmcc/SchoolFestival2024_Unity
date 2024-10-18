@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
+using Postgrest.Models;
 using Supabase;
 using UnityEngine;
 
 
-namespace Supabase
+namespace RicoShot.Supabase
 {
     public class SupabaseController : MonoBehaviour
     {
@@ -22,28 +26,57 @@ namespace Supabase
 
         public void Start()
         {
-            var model = ConstructModel("supabase", 200, "supabase");
-            RegisterResult(model);
+            ;
         }
 
-        public ScoreContainer ConstructModel(string userID, int score, string username)
+        public async UniTask<ProfileContainer> GetProfile(string userID)
         {
-            return new ScoreContainer
-            {
-                id = userID,
-                score = score,
-                username = username
-            };
+            var response = await _client?.From<ProfileContainer>().Get()!;
+            return response.Models.Find(x => x.id == userID);
         }
 
-        public async void RegisterResult(ScoreContainer result)
+        public async void UpsertProfile(ProfileContainer profile)
         {
-            await _client?.From<ScoreContainer>().Upsert(result)!;
+            await _client.From<ProfileContainer>().Upsert(profile);
         }
 
-        public async void DeleteResult(ScoreContainer result)
+        public async UniTask<MatchingResultContainer> GetMatching(string userID)
         {
-            await _client.From<ScoreContainer>().Delete(result)!;
+            var response = await _client?.From<MatchingResultContainer>().Get()!;
+            return response.Models.Find(x => x.id == userID);
+        }
+
+        public async void UpsertMatching(MatchingResultContainer result)
+        {
+            await _client.From<MatchingResultContainer>().Upsert(result);
+        }
+
+        public async UniTask<TeamContainer> GetTeam(string teamID)
+        {
+            var response = await _client?.From<TeamContainer>().Get()!;
+            return response.Models.Find(x => x.id == teamID);
+        }
+
+        public async void UpsertTeam(TeamContainer team)
+        {
+            await _client.From<TeamContainer>().Upsert(team);
+        }
+
+        public async UniTask<PlayerContainer> GetPlayer(string userID)
+        {
+            var response = await _client?.From<PlayerContainer>().Get()!;
+            return response.Models.Find(x => x.id == userID);
+        }
+
+        public async void UpsertPlayer(PlayerContainer player)
+        {
+            await _client.From<PlayerContainer>().Upsert(player);
+        }
+
+        public async UniTask<List<ProfilesWithStatsContainer>> GetProfilesWithStats()
+        {
+            var response = await _client?.From<ProfilesWithStatsContainer>().Get()!;
+            return response.Models.ToList();
         }
     }
 }
