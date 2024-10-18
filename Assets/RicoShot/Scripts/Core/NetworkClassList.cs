@@ -1,3 +1,4 @@
+using RicoShot.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace RicoShot.Core
 {
     [Serializable]
     [GenerateSerializationForGenericParameter(0)]
-    public class NetworkClassList<T> : NetworkVariableBase, IList<T>
+    public class NetworkClassList<T> : NetworkVariableBase, IList<T> where T : IDataChangedNotofiable
     {
         public event Action OnDataChanged;
 
@@ -59,6 +60,11 @@ namespace RicoShot.Core
             OnDataChanged?.Invoke();
         }
 
+        private void ElementDataChanged()
+        {
+            SetDirty(true);
+        }
+
         public int IndexOf(T item)
         {
             throw new NotImplementedException();
@@ -77,11 +83,14 @@ namespace RicoShot.Core
         public void Add(T item)
         {
             SomeDataToSynchronize.Add(item);
+            SetDirty(true);
+            item.OnDataChanged += ElementDataChanged;
         }
 
         public void Clear()
         {
             SomeDataToSynchronize.Clear();
+            SetDirty(true);
         }
 
         public bool Contains(T item)
@@ -96,6 +105,7 @@ namespace RicoShot.Core
 
         public bool Remove(T item)
         {
+            SetDirty(true);
             return SomeDataToSynchronize.Remove(item);
         }
 

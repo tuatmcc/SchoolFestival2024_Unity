@@ -1,4 +1,5 @@
 using RicoShot.Core;
+using RicoShot.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,8 +10,10 @@ using UnityEngine;
 namespace RicoShot.Core
 {
     [Serializable]
-    public class ClientData : INetworkSerializable, IEquatable<ClientData>
+    public class ClientData : INetworkSerializable, IEquatable<ClientData>, IDataChangedNotofiable
     {
+        public event Action OnDataChanged;
+
         public FixedString64Bytes UUID = default;
         public ulong ClientID = default;
         public FixedString64Bytes Name = default;
@@ -36,11 +39,13 @@ namespace RicoShot.Core
         public void SetTeam(Team team)
         {
             Team = team;
+            OnDataChanged?.Invoke();
         }
 
         public void SetReadyStatus(bool isReady)
         {
             IsReady = isReady;
+            OnDataChanged?.Invoke();
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
