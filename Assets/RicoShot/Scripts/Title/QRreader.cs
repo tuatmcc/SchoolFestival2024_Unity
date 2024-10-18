@@ -97,5 +97,13 @@ namespace RicoShot.Title
             webCameraRawImage.texture = _webCamTexture;
             _webCamTexture.Play(); // 別カメラを開始
         }
+
+        private void OnDestroy()
+        {
+            if (_webCamTexture != null)
+            {
+                _webCamTexture.Stop();
+            }
+        }
     }
 }

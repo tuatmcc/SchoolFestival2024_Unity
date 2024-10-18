@@ -65,11 +65,6 @@ namespace RicoShot.Core
             SetDirty(true);
         }
 
-        public void Reset()
-        {
-            SomeDataToSynchronize.Clear();
-        }
-
         public int IndexOf(T item)
         {
             throw new NotImplementedException();
