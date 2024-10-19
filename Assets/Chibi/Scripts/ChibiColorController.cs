@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Chibi
@@ -7,15 +8,19 @@ namespace Chibi
     /// </summary>
     public class ChibiColorController : MonoBehaviour
     {
+        [Foldout("Materials")] [SerializeField]
+        private Material hairMaterial;
+
+        [Foldout("Materials")] [SerializeField]
+        private Material clothesMaterial;
+
         [SerializeField] private Color hair;
         [SerializeField] private Color clothes;
-        [SerializeField] private Material hairMaterial;
-        [SerializeField] private Material clothesMaterial;
 
-        private void OnEnable()
+        [NaughtyAttributes.Button]
+        private void ApplyColorImmediately()
         {
-            hairMaterial.color = hair;
-            clothesMaterial.color = clothes;
+            SetColors(hair, clothes);
         }
 
         public void SetColors(Color hairColor, Color clothesColor)
