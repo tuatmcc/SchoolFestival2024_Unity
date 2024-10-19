@@ -11,7 +11,7 @@ public class VCamInitializer : MonoBehaviour
 {
     [Inject] private readonly IPlaySceneManager playSceneManager;
 
-    private void Start()
+    private void Awake()
     {
         if (NetworkManager.Singleton.IsClient)
         {
@@ -19,6 +19,7 @@ public class VCamInitializer : MonoBehaviour
             {
                 SetLocalPlayerTransform(playSceneManager.LocalPlayer);
             }
+            playSceneManager.VCamTransform = transform;
             playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
         }
     }

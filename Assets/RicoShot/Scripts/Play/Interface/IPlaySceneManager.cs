@@ -10,5 +10,6 @@ namespace RicoShot.Play.Interface
 
         public PlayInputs PlayInputs { get; }
         public GameObject LocalPlayer { get; set; }
+        public Transform VCamTransform { get; set; }
     }
 }

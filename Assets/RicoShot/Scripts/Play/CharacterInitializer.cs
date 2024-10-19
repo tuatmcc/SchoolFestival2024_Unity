@@ -8,6 +8,7 @@ using Zenject;
 
 namespace RicoShot.Play
 {
+    [RequireComponent(typeof(LocalPlayerMoveController))]
     public class CharacterInitializer : NetworkBehaviour
     {
         [Inject] private readonly IPlaySceneManager playSceneManager;
@@ -19,6 +20,7 @@ namespace RicoShot.Play
             SetUpCharacter().Forget();
         }
 
+        // SpawnとInjectが終わるのを待ってからセッティングを開始
         private async UniTask SetUpCharacter()
         {
             await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
@@ -26,9 +28,13 @@ namespace RicoShot.Play
             {
                 playSceneManager.LocalPlayer = gameObject;
             }
-            if (IsServer && IsOwner)
+            else if (IsServer && IsOwner)
             {
-                // ここにNPC用のスクリプトを有効化するスクリプト
+
+            }
+            else
+            {
+
             }
         }
     }
