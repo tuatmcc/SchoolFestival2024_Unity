@@ -36,6 +36,7 @@ namespace RicoShot.Play
             {
 
             }
+            Debug.Log("Initialized character");
         }
     }
 }

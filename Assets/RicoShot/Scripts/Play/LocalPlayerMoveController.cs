@@ -47,6 +47,7 @@ namespace RicoShot.Play
             SetUpEvents().Forget();
         }
 
+        // SpawnとInjectを待って、ClientかつOwnerなら入力を取るイベントを登録、それ以外ならスクリプトを無効化
         private async UniTask SetUpEvents()
         {
             await UniTask.WaitUntil(() => IsSpawned && playSceneManager !=  null, cancellationToken: destroyCancellationToken);
@@ -58,6 +59,7 @@ namespace RicoShot.Play
                 playSceneManager.PlayInputs.Main.Camera.performed += SetRotationCam;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
+                Debug.Log("Local player set up finished");
             }
             else
             {

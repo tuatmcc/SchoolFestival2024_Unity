@@ -20,7 +20,7 @@ namespace RicoShot.Play
                 localPlayer = value;
                 OnLocalPlayerSpawned?.Invoke(localPlayer);
             }
-        } 
+        }
         public Transform VCamTransform { get; set; }
 
         private GameObject localPlayer;

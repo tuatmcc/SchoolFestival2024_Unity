@@ -8,7 +8,7 @@ using Zenject;
 
 namespace RicoShot.Play.Tests
 {
-    public class TestPlayerGenerator : MonoBehaviour
+    public class TestCharacterGenerator : MonoBehaviour
     {
         [SerializeField] private NetworkObject networkObject;
 
@@ -19,7 +19,8 @@ namespace RicoShot.Play.Tests
 
         [Inject] private readonly INetworkController networkController;
 
-        // クライアントのプレイヤーを生成
+        // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
+        // (サーバー)クライアントのプレイヤーとNPCを生成
         private void Start()
         {
             // サーバー側のみの処理
@@ -48,13 +49,16 @@ namespace RicoShot.Play.Tests
                 0,
                 (clientData.Team == Team.Alpha ? -2 : 2));
 
+            // InstantiateAndSpawnへの置き換えを検討
             var player = Instantiate(networkObject, pos, Quaternion.identity);
 
             TeamAlphaCount += clientData.Team == Team.Alpha ? 1 : 0;
             TeamBravoCount += clientData.Team == Team.Bravo ? 1 : 0;
 
+            player.DontDestroyWithOwner = true;
+
             player.SpawnAsPlayerObject(clientData.ClientID);
-            Debug.Log($"Created { clientData}");
+            Debug.Log($"Created character: { clientData.ClientID }");
         }
 
         private void SpawnNpc(Team team)

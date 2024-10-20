@@ -7,28 +7,32 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
-public class VCamInitializer : MonoBehaviour
+namespace RicoShot.Play
 {
-    [Inject] private readonly IPlaySceneManager playSceneManager;
-
-    private void Awake()
+    /// <summary>
+    /// PlaySceneManagerに自身のTransformを登録
+    /// LocalPlayerがSpawnしたらFollowとLookAtに登録
+    /// </summary>
+    public class VCamInitializer : MonoBehaviour
     {
-        if (NetworkManager.Singleton.IsClient)
+        [Inject] private readonly IPlaySceneManager playSceneManager;
+
+        private void Awake()
         {
-            if (playSceneManager.LocalPlayer != null)
+            if (NetworkManager.Singleton.IsClient)
             {
-                SetLocalPlayerTransform(playSceneManager.LocalPlayer);
+                playSceneManager.VCamTransform = transform;
+                playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
+                Debug.Log("Set VCamTransform finished");
             }
-            playSceneManager.VCamTransform = transform;
-            playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
         }
-    }
 
-    private void SetLocalPlayerTransform(GameObject localPlayer)
-    {
-        var cvc = GetComponent<CinemachineVirtualCamera>();
-        cvc.Follow = localPlayer.transform;
-        cvc.LookAt = localPlayer.transform;
-        Debug.Log(localPlayer);       
+        private void SetLocalPlayerTransform(GameObject localPlayer)
+        {
+            var cvc = GetComponent<CinemachineVirtualCamera>();
+            cvc.Follow = localPlayer.transform;
+            cvc.LookAt = localPlayer.transform;
+            Debug.Log("VCam setting finished");
+        }
     }
 }
