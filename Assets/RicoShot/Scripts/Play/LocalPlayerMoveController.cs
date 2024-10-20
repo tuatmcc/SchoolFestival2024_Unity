@@ -56,7 +56,8 @@ namespace RicoShot.Play
                 playSceneManager.PlayInputs.Main.Move.performed += OnMove;
                 playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
-                playSceneManager.PlayInputs.Main.Camera.performed += SetRotationCam;
+                //playSceneManager.PlayInputs.Main.Camera.started += SetRotationCam;
+                //playSceneManager.PlayInputs.Main.Camera.canceled += SetRotationCam;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
                 Debug.Log("Local player set up finished");
