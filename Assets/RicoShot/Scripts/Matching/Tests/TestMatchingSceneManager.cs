@@ -3,6 +3,8 @@ using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Matching.Interface;
 using System;
+using Unity.Netcode;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -10,16 +12,32 @@ namespace RicoShot.Matching.Tests
 {
     public class TestMatchingSceneManager : IMatchingSceneManager, IInitializable, IDisposable
     {
-        public MatchingInputs MatchingInputs { get; private set; }
+        public event Action<MatchingState> OnMatchingStateChanged;
 
-        [Inject] IGameStateManager gameStateManager;
-        [Inject] INetworkController networkController;
+        public MatchingInputs MatchingInputs { get; private set; }
+        public MatchingState MatchingState
+        {
+            get => _matchingState;
+            set
+            {
+                _matchingState = value;
+                OnMatchingStateChanged?.Invoke(value);
+                Debug.Log($"MatchingState changed: {value}");
+            }
+        }
+
+        private MatchingState _matchingState;
+
+        [Inject] private readonly IGameStateManager gameStateManager;
+        [Inject] private readonly INetworkController networkController;
 
         TestMatchingSceneManager()
         {
+            MatchingState = MatchingState.Connecting;
             MatchingInputs = new();
             MatchingInputs.Enable();
         }
+
 
         public void Initialize()
         {

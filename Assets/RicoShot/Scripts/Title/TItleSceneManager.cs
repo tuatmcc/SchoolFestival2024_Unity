@@ -8,11 +8,25 @@ using System;
 
 namespace RicoShot.Title
 {
-    public class TItleSceneManager : ITitleSceneManager, IDisposable
+    public class TitleSceneManager : ITitleSceneManager, IDisposable
     {
-        public TitleInputs TitleInputs { get; private set; }
+        public event Action<TitleState> OnTitleStateChanged;
 
-        TItleSceneManager()
+        public TitleInputs TitleInputs { get; private set; }
+        
+        public TitleState TitleState
+        {
+            get => _titleState;
+            set
+            {
+                _titleState = value;
+                OnTitleStateChanged?.Invoke(value);
+            }
+        }
+
+        private TitleState _titleState;
+
+        TitleSceneManager()
         {
             TitleInputs = new();
             TitleInputs.Enable();
