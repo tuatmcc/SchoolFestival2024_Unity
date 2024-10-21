@@ -83,9 +83,20 @@ namespace RicoShot.Core
         {
             response.Pending = true;
 
-            response.Approved = 
-                NetworkManager.Singleton.ConnectedClients.Count < maxClientCount &&
-                gameStateManager.GameState == GameState.Matching;
+            if (gameStateManager.GameState != GameState.Matching)
+            {
+                response.Approved = false;
+                response.Reason = $"Server is not Matching. Now: {gameStateManager.GameState}";
+            }
+            else if (NetworkManager.Singleton.ConnectedClients.Count >= maxClientCount)
+            {
+                response.Approved = false;
+                response.Reason = $"Client count reached maxClientCount: {maxClientCount}";
+            }
+            else
+            {
+                response.Approved = true;
+            }
 
             Debug.Log($"[Server] Approve client: {response.Approved}");
             response.Pending = false;
