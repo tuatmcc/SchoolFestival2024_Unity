@@ -714,7 +714,7 @@ Material:
     - _BackfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BacklightColor: {r: 0.85, g: 0.8, b: 0.7, a: 1}
     - _BaseColor: {r: 0.004227493, g: 0.8962264, b: 0.15863441, a: 1}
-    - _Color: {r: 0.003921569, g: 0.8980392, b: 0.15686275, a: 0}
+    - _Color: {r: 0, g: 1, b: 0.2, a: 1}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveColor: {r: 1, g: 1, b: 1, a: 1}

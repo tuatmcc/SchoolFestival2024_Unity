@@ -1,3 +1,4 @@
+using Chibi.ChibiColorVariations;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Chibi
     /// <summary>
     ///     髪を任意の色に設定するクラス
     /// </summary>
+    [RequireComponent(typeof(ChibiColor))]
     public class ChibiColorController : MonoBehaviour
     {
         [Foldout("Materials")] [SerializeField]
@@ -17,16 +19,20 @@ namespace Chibi
         [SerializeField] private Color hair;
         [SerializeField] private Color clothes;
 
-        [NaughtyAttributes.Button]
+        [Range(0, 2)] [SerializeField] private int colorVariationIndex;
+
+        [SerializeField] private ChibiColor chibiColor;
+
+        [Button]
         private void ApplyColorImmediately()
         {
-            SetColors(hair, clothes);
+            SetColors(hair, colorVariationIndex);
         }
 
-        public void SetColors(Color hairColor, Color clothesColor)
+        public void SetColors(Color hairColor, int variationIndex)
         {
             hairMaterial.color = hairColor;
-            clothesMaterial.color = clothesColor;
+            clothesMaterial.color = chibiColor.GetColor(variationIndex);
         }
     }
 }
