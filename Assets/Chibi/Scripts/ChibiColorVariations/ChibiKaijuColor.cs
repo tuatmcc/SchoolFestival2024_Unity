@@ -1,0 +1,9 @@
+namespace Chibi.ChibiColorVariations
+{
+    public class ChibiKaijuColor : ChibiColor
+    {
+        public override string primary { get; } = "#00FF33";
+        public override string secondary { get; } = "#009966";
+        public override string tertiary { get; } = "#FF6600";
+    }
+}
