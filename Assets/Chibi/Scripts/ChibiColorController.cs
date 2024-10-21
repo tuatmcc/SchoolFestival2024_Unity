@@ -16,11 +16,8 @@ namespace Chibi
         [Foldout("Materials")] [SerializeField]
         private Material clothesMaterial;
 
-        [SerializeField] private Color hair;
-        [SerializeField] private Color clothes;
-
         [Range(0, 2)] [SerializeField] private int colorVariationIndex;
-
+        [SerializeField] private Color hair;
         [SerializeField] private ChibiColor chibiColor;
 
         [Button]
