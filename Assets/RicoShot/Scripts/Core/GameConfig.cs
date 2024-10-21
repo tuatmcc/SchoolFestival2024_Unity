@@ -11,7 +11,7 @@ namespace RicoShot.Core
         public string ServerIPAddress { get => serverIPAddress; set => serverIPAddress = value; }
         public string SupabaseURL { get => supabaseURL; set => supabaseURL = value; }
         public string SupabaseSecretKey { get => supabaseSecretkey; set => supabaseSecretkey = value; }
-        public int CameraIndex { get => CameraIndex; set => CameraIndex = value; }
+        public int CameraIndex { get => cameraIndex; set => cameraIndex = value; }
 
         [SerializeField] private string serverIPAddress = "";
         [SerializeField] private string supabaseURL = "";
