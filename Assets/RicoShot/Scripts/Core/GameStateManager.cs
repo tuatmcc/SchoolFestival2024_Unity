@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
+using RicoShot.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace RicoShot.Core
 
         public CoreInputs CoreInputs { get; private set; }
         public NetworkMode NetworkMode { get; set; }
+        public GameConfig GameConfig { get; private set; }
         public bool ReadyToReset { private get; set; } = false;
 
         public GameState GameState
@@ -38,6 +40,7 @@ namespace RicoShot.Core
         {
             CoreInputs = new();
             CoreInputs.Enable();
+            GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
         }
 
         public void Initialize()
@@ -123,7 +126,9 @@ namespace RicoShot.Core
         public void ForceReset()
         {
             if (GameState == GameState.ModeSelect) return;
+            Debug.Log("Start force reset");
             OnReset?.Invoke();
+            ReadyToReset = false;
             UniTask.Create(async () =>
             {
                 await UniTask.WaitUntil(() => ReadyToReset);
@@ -135,7 +140,7 @@ namespace RicoShot.Core
                 {
                     GameState = GameState.Title;
                 }
-                ReadyToReset = false;
+                Debug.Log("Completed force reset");
             }).Forget();
         }
 
@@ -143,6 +148,7 @@ namespace RicoShot.Core
         {
             OnGameStateChanged -= TransitScene;
             CoreInputs.Dispose();
+            JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
         }
     }
 }

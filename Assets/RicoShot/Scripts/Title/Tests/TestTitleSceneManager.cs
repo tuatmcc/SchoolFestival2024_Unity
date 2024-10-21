@@ -10,12 +10,27 @@ namespace RicoShot.Title.Tests
 {
     public class TestTitleSceneManager : ITitleSceneManager, IInitializable, IDisposable
     {
+        public event Action<TitleState> OnTitleStateChanged;
+
         public TitleInputs TitleInputs { get; private set; }
+
+        public TitleState TitleState
+        {
+            get => _titleState;
+            set
+            {
+                _titleState = value;
+                OnTitleStateChanged?.Invoke(_titleState);
+            }
+        }
+
+        private TitleState _titleState;
 
         [Inject] IGameStateManager gameStateManager;
 
         TestTitleSceneManager()
         {
+            TitleState = TitleState.Reading;
             TitleInputs = new();
             TitleInputs.Enable();
         }
