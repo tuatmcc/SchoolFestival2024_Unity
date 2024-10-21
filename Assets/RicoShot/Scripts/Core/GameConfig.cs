@@ -8,15 +8,14 @@ namespace RicoShot.Core
     [Serializable]
     public class GameConfig
     {
-        [SerializeField] private string SupabaseURL = "";
-        [SerializeField] private string SupabaseSecretkey = "";
-        [SerializeField] private int CameraIndex = 0;
+        public string ServerIPAddress { get => serverIPAddress; set => serverIPAddress = value; }
+        public string SupabaseURL { get => supabaseURL; set => supabaseURL = value; }
+        public string SupabaseSecretKey { get => supabaseSecretkey; set => supabaseSecretkey = value; }
+        public int CameraIndex { get => CameraIndex; set => CameraIndex = value; }
 
-        public string GetSupabaseURL() { return SupabaseURL; }
-        public string GetSupabaseSecretkey() { return SupabaseSecretkey; }
-
-        public void SetCameraIndex(int cameraIndex) { CameraIndex = cameraIndex; }
-
-        public int GetCameraIndex() { return CameraIndex; }
+        [SerializeField] private string serverIPAddress = "";
+        [SerializeField] private string supabaseURL = "";
+        [SerializeField] private string supabaseSecretkey = "";
+        [SerializeField] private int cameraIndex = 0;
     }
 }

@@ -36,7 +36,7 @@ namespace RicoShot.Title
 
             // 利用可能なカメラデバイスを取得
             _webCamDeviceList = WebCamTexture.devices;
-            _selectingCameraIndex = gameStateManager.GameConfig.GetCameraIndex();
+            _selectingCameraIndex = gameStateManager.GameConfig.CameraIndex;
 
             // 例外処理
             if (_webCamDeviceList.Length == 0)
@@ -45,9 +45,9 @@ namespace RicoShot.Title
             }
             if (!(0 <= _selectingCameraIndex && _selectingCameraIndex < _webCamDeviceList.Length))
             {
-                Debug.Log($"Camera index: {_webCamDeviceList} is invalid. Automatically, set camera index 0");
+                Debug.Log($"Camera index: {_webCamDeviceList} is invalid. Automatically, set camera index: 0");
                 _selectingCameraIndex = 0;
-                gameStateManager.GameConfig.SetCameraIndex(0);
+                gameStateManager.GameConfig.CameraIndex = 0;
             }
 
             // Webカメラの映像を取得するために新しいWebCamTextureを作成
@@ -129,7 +129,7 @@ namespace RicoShot.Title
 
         private void OnDestroy()
         {
-            gameStateManager.GameConfig.SetCameraIndex(_selectingCameraIndex);
+            gameStateManager.GameConfig.CameraIndex = _selectingCameraIndex;
             if (_webCamTexture != null)
             {
                 _webCamTexture.Stop();
