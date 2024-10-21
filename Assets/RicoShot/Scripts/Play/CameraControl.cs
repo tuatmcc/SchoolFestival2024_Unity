@@ -2,13 +2,14 @@ using Cysharp.Threading.Tasks;
 using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
 namespace RicoShot.Play
 {
-    public class CameraControl : MonoBehaviour
+    public class CameraControl : NetworkBehaviour
     {
         //マウス感度
         private readonly float sensitivity = 2f;
@@ -18,7 +19,10 @@ namespace RicoShot.Play
 
         private void Start()
         {
-            SetUpCameraControl().Forget();
+            if (IsClient && IsOwner)
+            {
+                SetUpCameraControl().Forget();
+            }
         }
 
         private async UniTask SetUpCameraControl()
