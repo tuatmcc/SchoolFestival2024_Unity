@@ -10,12 +10,12 @@ namespace Chibi
     [RequireComponent(typeof(ChibiCostumeColors))]
     public class ChibiCostumeColorController : MonoBehaviour
     {
-        private const int MaxCostumeVariantIndex = 2;
+        public const int MAX_COSTUME_VARIANT_INDEX = 2;
 
         [Foldout("Materials")] [SerializeField]
         private Material clothesMaterial;
 
-        [Range(0, MaxCostumeVariantIndex)] [SerializeField]
+        [Range(0, MAX_COSTUME_VARIANT_INDEX)] [SerializeField]
         private int costumeVariant;
 
         [SerializeField] private ChibiCostumeColors chibiCostumeColors;
@@ -25,7 +25,7 @@ namespace Chibi
             get => costumeVariant;
             set
             {
-                if (value is < 0 or > MaxCostumeVariantIndex)
+                if (value is < 0 or > MAX_COSTUME_VARIANT_INDEX)
                 {
                     Debug.LogError("Invalid costume variation index");
                     return;

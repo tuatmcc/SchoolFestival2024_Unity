@@ -8,13 +8,13 @@ namespace Chibi
     /// </summary>
     public class ChibiAccessoryController : MonoBehaviour
     {
-        private const int AccessoryCount = 4;
+        public const int MAX_ACCESSORY_INDEX = 4;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer glasses;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer goggles;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer mask;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer eyePatch;
 
-        [Range(0, AccessoryCount)] [SerializeField]
+        [Range(0, MAX_ACCESSORY_INDEX)] [SerializeField]
         private int accessory;
 
         public int accessoryIndex
@@ -22,7 +22,7 @@ namespace Chibi
             get => accessory;
             set
             {
-                if (value is < 0 or > AccessoryCount)
+                if (value is < 0 or > MAX_ACCESSORY_INDEX)
                 {
                     Debug.LogError("Invalid accessory index");
                     return;
