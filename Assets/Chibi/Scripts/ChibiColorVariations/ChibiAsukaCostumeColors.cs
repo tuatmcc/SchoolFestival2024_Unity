@@ -1,6 +1,6 @@
 namespace Chibi.ChibiColorVariations
 {
-    public class ChibiAsukaColor : ChibiColor
+    public class ChibiAsukaCostumeColors : ChibiCostumeColors
     {
         public override string primary { get; } = "#0D5793";
         public override string secondary { get; } = "#F2C800";

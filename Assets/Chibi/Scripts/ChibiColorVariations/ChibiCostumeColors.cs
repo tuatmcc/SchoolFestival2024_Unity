@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Chibi.ChibiColorVariations
 {
-    public abstract class ChibiColor : MonoBehaviour
+    public abstract class ChibiCostumeColors : MonoBehaviour
     {
         public abstract string primary { get; }
         public abstract string secondary { get; }
@@ -20,6 +20,7 @@ namespace Chibi.ChibiColorVariations
                 case 2:
                     return ParseColor(tertiary);
                 default:
+                    Debug.LogWarning("Color index out of range");
                     return Color.white;
             }
         }

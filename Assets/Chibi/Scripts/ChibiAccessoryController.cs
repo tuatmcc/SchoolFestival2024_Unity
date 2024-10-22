@@ -1,40 +1,47 @@
-using System;
 using NaughtyAttributes;
 using UnityEngine;
 
 namespace Chibi
 {
+    /// <summary>
+    ///     顔アクセサリを制御するクラス
+    /// </summary>
     public class ChibiAccessoryController : MonoBehaviour
     {
+        private const int AccessoryCount = 4;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer glasses;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer goggles;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer mask;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer eyePatch;
-        const int AccessoryCount = 4;
 
         [Range(0, AccessoryCount)] [SerializeField]
-        private int accessoryIndex;
+        private int accessory;
 
-        [NaughtyAttributes.Button]
-        private void ApplyAccessoryImmediately()
+        public int accessoryIndex
         {
-            SetActiveAccessory(accessoryIndex);
+            get => accessory;
+            set
+            {
+                if (value is < 0 or > AccessoryCount)
+                {
+                    Debug.LogError("Invalid accessory index");
+                    return;
+                }
+
+                accessory = value;
+
+                // if index is 0, disable all accessories
+                glasses.gameObject.SetActive(value == 1);
+                goggles.gameObject.SetActive(value == 2);
+                mask.gameObject.SetActive(value == 3);
+                eyePatch.gameObject.SetActive(value == 4);
+            }
         }
 
-
-        public void SetActiveAccessory(int index)
+        [Button]
+        private void ApplyAccessoryImmediately()
         {
-            if (index < 0 || index > AccessoryCount)
-            {
-                Debug.LogError("Invalid accessory index");
-                return;
-            }
-
-            // if index is 0, disable all accessories
-            glasses.gameObject.SetActive(index == 1);
-            goggles.gameObject.SetActive(index == 2);
-            mask.gameObject.SetActive(index == 3);
-            eyePatch.gameObject.SetActive(index == 4);
+            accessoryIndex = accessory;
         }
     }
 }

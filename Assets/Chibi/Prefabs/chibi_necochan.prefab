@@ -177,7 +177,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 28c4ab8c32840aeff812e8557b4edcfd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 28c4ab8c32840aeff812e8557b4edcfd,
         type: 3}
@@ -248,7 +248,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 378736258f11563529126908d8a79e12, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -264,11 +264,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28c4ab8c32840aeff812e8557b4edcfd,
         type: 3}
       insertIndex: -1
+      addedObject: {fileID: -8948658638479759684}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+        type: 3}
+      insertIndex: -1
       addedObject: {fileID: 493619871903504588}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28c4ab8c32840aeff812e8557b4edcfd,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2502897607376705342}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1607950966012755475}
     - targetCorrespondingSourceObject: {fileID: 239605998403756391, guid: 28c4ab8c32840aeff812e8557b4edcfd,
         type: 3}
       insertIndex: -1
@@ -350,9 +358,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hairMaterial: {fileID: 2100000, guid: 49510c744c6f652eb9f7f7156e0ca579, type: 2}
   clothesMaterial: {fileID: 2100000, guid: 0e4ba3f52a77f3dbeb942957235f948b, type: 2}
-  colorVariationIndex: 0
   hair: {r: 1, g: 1, b: 1, a: 0}
-  chibiColor: {fileID: 2502897607376705342}
+  chibiCostumeColors: {fileID: 2502897607376705342}
+--- !u!114 &-8948658638479759684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691448825480187164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32df4dfeeba540c8ac7fff19c7a08784, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clothesMaterial: {fileID: 2100000, guid: 0e4ba3f52a77f3dbeb942957235f948b, type: 2}
+  costumeVariant: 0
+  chibiCostumeColors: {fileID: 2502897607376705342}
 --- !u!114 &493619871903504588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,7 +391,7 @@ MonoBehaviour:
   goggles: {fileID: 6448240538178782334}
   mask: {fileID: 1927174982991084147}
   eyePatch: {fileID: 513096657217657898}
-  accessoryIndex: 0
+  accessory: 0
 --- !u!114 &2502897607376705342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +402,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c0736d30011403e9a3ed6246cc0399e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1607950966012755475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4691448825480187164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5354937690391041958 stripped
