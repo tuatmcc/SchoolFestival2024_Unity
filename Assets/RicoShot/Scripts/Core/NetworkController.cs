@@ -1,8 +1,5 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -12,6 +9,9 @@ using Cysharp.Threading.Tasks;
 
 namespace RicoShot.Core
 {
+    /// <summary>
+    /// ネットワークのマッチング部分を司る
+    /// </summary>
     public class NetworkController : NetworkBehaviour, INetworkController
     {
         // 説明はインターフェース(INetworkManager)を参照
@@ -27,7 +27,9 @@ namespace RicoShot.Core
 
         private void Awake()
         {
+            // 開始時にDontDestroyOnLoadへ
             DontDestroyOnLoad(gameObject);
+            // ここでProjectContextに加えてInjectする(Title以降のシーンでInject可)
             ProjectContext.Instance.Container.BindInterfacesTo<NetworkController>().FromInstance(this).AsSingle();
         }
 
@@ -55,6 +57,7 @@ namespace RicoShot.Core
                     NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; // 接続時
                     NetworkManager.Singleton.OnClientDisconnectCallback += OnConnectionFailed; // 接続失敗時
                 }
+                // リセット時に呼び出すメソッドを登録
                 gameStateManager.OnReset += ResetNetwork;
                 callbackRegisted = true;
             }
@@ -64,6 +67,7 @@ namespace RicoShot.Core
             if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 NetworkManager.Singleton.StartServer();
+                // NetworkValiableを初期化(再利用するため)
                 ClientDataList.Initialize(this);
                 AllClientsReady.Initialize(this);
                 Debug.Log("[Server] Server started");
@@ -119,7 +123,7 @@ namespace RicoShot.Core
             }
         }
 
-        // (サーバー)AllReadyをリセットする関数
+        // (サーバー)クライアントの新規接続時にAllReadyをリセットする関数
         private void ResetAllReadyState(ulong clientId)
         {
             AllClientsReady.Value = false;
@@ -130,12 +134,14 @@ namespace RicoShot.Core
         private void OnClientConnected(ulong clientId)
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
+            // 自身のデータを登録
             AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
         }
 
-         // (クライアント) 接続解除時の挙動
+         // (クライアント)接続解除時の挙動
         private void OnConnectionFailed(ulong clientId)
         {
+            // 接続失敗時に自動でリトライ
             if (gameStateManager.GameState == GameState.Matching)
             {
                 Debug.Log($"[Client] Connection failed because: {NetworkManager.Singleton.DisconnectReason}");
@@ -162,6 +168,7 @@ namespace RicoShot.Core
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            // チームが変わっていないかすでにReady状態のときは何もしない
             if (clientData.Team == team || clientData.IsReady) return;
             clientData.SetTeam(team);
             Debug.Log($"[Server] Client data changed -> {clientData}");
@@ -251,14 +258,14 @@ namespace RicoShot.Core
             ReadyStatusChangedRpc(allReady);
         }
 
-        // (サーバー→全体)全員がReady状態になったことを通知
+        // (サーバー→全体)全員がReady状態になったことを通知する関数
         [Rpc(SendTo.Everyone)]
         private void ReadyStatusChangedRpc(bool allReady)
         {
             OnAllClientsReadyChanged?.Invoke(allReady);
         }
 
-        // ClientIDを基にClientDataを返す
+        // ClientIDを基にClientDataを返す関数
         private ClientData GetClientDataFromClientID(ulong clientID)
         {
             foreach (var clientData in ClientDataList)

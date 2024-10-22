@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace RicoShot.Core
 {
+    /// <summary>
+    /// ゲーム内の設定を保持するクラス
+    /// </summary>
     [Serializable]
     public class GameConfig
     {

@@ -9,11 +9,17 @@ using UnityEngine;
 
 namespace RicoShot.Core
 {
+    /// <summary>
+    /// マッチング時に使用されるクライアントデータ保存用クラス
+    /// リファクタリング予定(優先度:低)
+    /// </summary>
     [Serializable]
-    public class ClientData : INetworkSerializable, IEquatable<ClientData>, IDataChangedNotofiable
+    public class ClientData : INetworkSerializable, IEquatable<ClientData>, IDataChangedNotifiable
     {
+        // NetworkClassListで使うために値が変更されたことを通知するイベントを実装
         public event Action OnDataChanged;
 
+        // 各フィールドはpublicでないと共有されない(?)
         public FixedString64Bytes UUID = default;
         public ulong ClientID = default;
         public FixedString64Bytes Name = default;
