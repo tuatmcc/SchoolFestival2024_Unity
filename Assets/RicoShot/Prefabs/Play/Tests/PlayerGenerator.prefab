@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3743260339259565357}
   - component: {fileID: 7475059245511830182}
+  - component: {fileID: 1267790620243141271}
+  - component: {fileID: 7635686852611465765}
   m_Layer: 0
   m_Name: PlayerGenerator
   m_TagString: Untagged
@@ -46,3 +48,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   networkObject: {fileID: 4121950015427999859, guid: 608af913d4901b348a598292e00cf358,
     type: 3}
+--- !u!114 &1267790620243141271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030490761732556844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 230976609
+  InScenePlacedSourceGlobalObjectIdHash: 230976609
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &7635686852611465765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030490761732556844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 258b992836d4d7e49bb55a7c7b771ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  countDownLength: 3
