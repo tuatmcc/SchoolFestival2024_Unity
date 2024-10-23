@@ -24,7 +24,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: chibi_eye
-    second: {fileID: 2100000, guid: 25b143e92b8a5bc3a867fc2067c62d6e, type: 2}
+    second: {instanceID: 0}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -34,10 +34,10 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: chibi_skin
-    second: {fileID: 2100000, guid: 2e3b8d9890a5917d4be26bfb43d89b93, type: 2}
+    second: {instanceID: 0}
   materials:
     materialImportMode: 2
-    materialName: 0
+    materialName: 2
     materialSearch: 1
     materialLocation: 0
   animations:
