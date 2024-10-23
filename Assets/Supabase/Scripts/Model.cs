@@ -5,7 +5,7 @@ using Postgrest.Attributes;
 using Postgrest.Models;
 using UnityEngine;
 
-namespace RicoShot.Supabase
+namespace RicoShot.SupabaseClient
 {
     [Table("profiles")]
     public class ProfileContainer : BaseModel
