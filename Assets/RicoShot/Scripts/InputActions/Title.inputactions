@@ -1,1 +1,82 @@
-{}
+{
+    "name": "Title",
+    "maps": [
+        {
+            "name": "Main",
+            "id": "f99334c0-809b-4d0f-9ffd-ca018687cc88",
+            "actions": [
+                {
+                    "name": "Left",
+                    "type": "Button",
+                    "id": "f895be85-0d61-4876-ba39-4def7477aa4f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Right",
+                    "type": "Button",
+                    "id": "d858251b-add4-4cd4-b532-f2dd2f824004",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1df80c1c-ea43-4d32-b004-c530e2b9e61b",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Right",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "75f423d4-0aed-45e3-bfa1-48e5d8d8f87a",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Test",
+            "id": "b1f9e891-e5cb-499d-afaa-e0aa2f82728d",
+            "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "fcf48afb-aa34-48a9-beee-ea894ddec103",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9949be1c-1b0c-4477-b22f-e55e664b190b",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

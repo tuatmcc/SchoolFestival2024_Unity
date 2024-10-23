@@ -24,9 +24,93 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Title"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Main"",
+            ""id"": ""f99334c0-809b-4d0f-9ffd-ca018687cc88"",
+            ""actions"": [
+                {
+                    ""name"": ""Left"",
+                    ""type"": ""Button"",
+                    ""id"": ""f895be85-0d61-4876-ba39-4def7477aa4f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Right"",
+                    ""type"": ""Button"",
+                    ""id"": ""d858251b-add4-4cd4-b532-f2dd2f824004"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""1df80c1c-ea43-4d32-b004-c530e2b9e61b"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""75f423d4-0aed-45e3-bfa1-48e5d8d8f87a"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Test"",
+            ""id"": ""b1f9e891-e5cb-499d-afaa-e0aa2f82728d"",
+            ""actions"": [
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""fcf48afb-aa34-48a9-beee-ea894ddec103"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""9949be1c-1b0c-4477-b22f-e55e664b190b"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Main
+            m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
+            m_Main_Left = m_Main.FindAction("Left", throwIfNotFound: true);
+            m_Main_Right = m_Main.FindAction("Right", throwIfNotFound: true);
+            // Test
+            m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+            m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -83,6 +167,115 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Main
+        private readonly InputActionMap m_Main;
+        private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
+        private readonly InputAction m_Main_Left;
+        private readonly InputAction m_Main_Right;
+        public struct MainActions
+        {
+            private @TitleInputs m_Wrapper;
+            public MainActions(@TitleInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Left => m_Wrapper.m_Main_Left;
+            public InputAction @Right => m_Wrapper.m_Main_Right;
+            public InputActionMap Get() { return m_Wrapper.m_Main; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MainActions set) { return set.Get(); }
+            public void AddCallbacks(IMainActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MainActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MainActionsCallbackInterfaces.Add(instance);
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
+            }
+
+            private void UnregisterCallbacks(IMainActions instance)
+            {
+                @Left.started -= instance.OnLeft;
+                @Left.performed -= instance.OnLeft;
+                @Left.canceled -= instance.OnLeft;
+                @Right.started -= instance.OnRight;
+                @Right.performed -= instance.OnRight;
+                @Right.canceled -= instance.OnRight;
+            }
+
+            public void RemoveCallbacks(IMainActions instance)
+            {
+                if (m_Wrapper.m_MainActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMainActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MainActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MainActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MainActions @Main => new MainActions(this);
+
+        // Test
+        private readonly InputActionMap m_Test;
+        private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
+        private readonly InputAction m_Test_Enter;
+        public struct TestActions
+        {
+            private @TitleInputs m_Wrapper;
+            public TestActions(@TitleInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Enter => m_Wrapper.m_Test_Enter;
+            public InputActionMap Get() { return m_Wrapper.m_Test; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+            public void AddCallbacks(ITestActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
+            }
+
+            private void UnregisterCallbacks(ITestActions instance)
+            {
+                @Enter.started -= instance.OnEnter;
+                @Enter.performed -= instance.OnEnter;
+                @Enter.canceled -= instance.OnEnter;
+            }
+
+            public void RemoveCallbacks(ITestActions instance)
+            {
+                if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITestActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TestActions @Test => new TestActions(this);
+        public interface IMainActions
+        {
+            void OnLeft(InputAction.CallbackContext context);
+            void OnRight(InputAction.CallbackContext context);
+        }
+        public interface ITestActions
+        {
+            void OnEnter(InputAction.CallbackContext context);
         }
     }
 }
