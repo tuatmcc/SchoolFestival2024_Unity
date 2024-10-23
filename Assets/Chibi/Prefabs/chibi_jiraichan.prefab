@@ -209,6 +209,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4681382230662638706, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -882574973043051072, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_Name
@@ -229,11 +239,21 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6286135044099597887, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6297304860317796926, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d728341beca5dc681aa7bdbd53849120, type: 2}
+    - target: {fileID: 8532600245022285136, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -279,6 +299,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &973783069968210629 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 9061909983545722095, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1947372904554837204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1493021607897617666, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -297,9 +323,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &2820740950935262228 stripped
+--- !u!137 &2744947352540963448 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6297304860317796926, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+  m_CorrespondingSourceObject: {fileID: -3001140601121145774, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3402356558837623237 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6878778764571785199, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
@@ -318,12 +350,6 @@ Transform:
 --- !u!4 &4092251938420410163 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5227365113920641305, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
-    type: 3}
-  m_PrefabInstance: {fileID: 8088972444602310186}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &4216804304518984269 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5387664943736728679, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
@@ -349,6 +375,18 @@ MonoBehaviour:
   - Offset: {x: 0, y: 0.1, z: 0}
     Radius: 0.18
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
+--- !u!137 &5341080731807084450 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5017404484641689208, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5455512254141196515 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4320098735860348617, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5797179207577871614 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2320051252811283156, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -361,15 +399,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &6399667248243365411 stripped
+--- !u!137 &6427096894780456690 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -6300004950633166839, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+  m_CorrespondingSourceObject: {fileID: -6237363412077764392, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &7270845022092438041 stripped
+--- !u!137 &6817601265850396925 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7735224200338787277, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+  m_CorrespondingSourceObject: {fileID: -5846462117305798953, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
@@ -410,9 +448,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hairMaterial: {fileID: 2100000, guid: ebbdb16a292f59f61a085b01e44ec4a9, type: 2}
-  clothesMaterial: {fileID: 2100000, guid: 046daeadad1d9e0f7a7cb445e74e7b39, type: 2}
+  hairMesh:
+  - {fileID: 5455512254141196515}
+  - {fileID: 2744947352540963448}
   hair: {r: 1, g: 1, b: 1, a: 0}
-  chibiCostumeColors: {fileID: 7427107709693959448}
 --- !u!114 &-1545509307186165790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +464,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32df4dfeeba540c8ac7fff19c7a08784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clothesMaterial: {fileID: 2100000, guid: 046daeadad1d9e0f7a7cb445e74e7b39, type: 2}
+  clothesMeshes:
+  - {fileID: 6817601265850396925}
+  clothesMaterial: {fileID: 2100000, guid: ad764eafb7579341a8759999d054bc0f, type: 2}
   costumeVariant: 0
   chibiCostumeColors: {fileID: 7427107709693959448}
 --- !u!114 &4153129902545013759
@@ -440,10 +481,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240690cf763c45b9a5bec40468ff4bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glasses: {fileID: 6399667248243365411}
-  goggles: {fileID: 7270845022092438041}
-  mask: {fileID: 2820740950935262228}
-  eyePatch: {fileID: 4216804304518984269}
+  glasses: {fileID: 3402356558837623237}
+  goggles: {fileID: 5341080731807084450}
+  mask: {fileID: 6427096894780456690}
+  eyePatch: {fileID: 973783069968210629}
   accessory: 0
 --- !u!114 &7427107709693959448
 MonoBehaviour:

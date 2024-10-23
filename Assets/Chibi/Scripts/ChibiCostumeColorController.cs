@@ -12,13 +12,15 @@ namespace Chibi
     {
         public const int MAX_COSTUME_VARIANT_INDEX = 2;
 
-        [Foldout("Materials")] [SerializeField]
-        private Material clothesMaterial;
+        [SerializeField] private SkinnedMeshRenderer[] clothesMeshes;
+        [SerializeField] private Material clothesMaterial;
 
         [Range(0, MAX_COSTUME_VARIANT_INDEX)] [SerializeField]
         private int costumeVariant;
 
         [SerializeField] private ChibiCostumeColors chibiCostumeColors;
+
+        private Material _clothesMaterialInstance;
 
         public int costumeVariantIndex
         {
@@ -31,9 +33,31 @@ namespace Chibi
                     return;
                 }
 
+                if (_clothesMaterialInstance == null)
+                {
+                    _clothesMaterialInstance = new Material(clothesMaterial);
+                    foreach (var x in clothesMeshes)
+                        x.material = _clothesMaterialInstance;
+                }
+
                 costumeVariant = value;
-                clothesMaterial.color = chibiCostumeColors.GetColor(costumeVariant);
+                _clothesMaterialInstance.color = chibiCostumeColors.GetColor(costumeVariant);
             }
+        }
+
+        private void Awake()
+        {
+            if (_clothesMaterialInstance == null)
+            {
+                _clothesMaterialInstance = new Material(clothesMaterial);
+                foreach (var x in clothesMeshes)
+                    x.material = _clothesMaterialInstance;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(_clothesMaterialInstance);
         }
 
         [Button]
