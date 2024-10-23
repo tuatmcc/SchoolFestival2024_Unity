@@ -49,7 +49,7 @@ namespace RicoShot.SupabaseClient
             var player = await GetPlayer(playerID);
         }
 
-        public async Task<ProfileContainer> GetProfile(string userID)
+        public async UniTask<ProfileContainer> GetProfile(string userID)
         {
             var response = await _supabaseClient.From<ProfileContainer>().Get();
             return response.Models.Find(x => x.id == userID);
@@ -60,7 +60,7 @@ namespace RicoShot.SupabaseClient
             await _supabaseClient.From<ProfileContainer>().Upsert(profile);
         }
 
-        public async Task<MatchingResultContainer> GetMatching(string userID)
+        public async UniTask<MatchingResultContainer> GetMatching(string userID)
         {
             var response = await _supabaseClient.From<MatchingResultContainer>().Get();
             return response.Models.Find(x => x.id == userID);
@@ -71,7 +71,7 @@ namespace RicoShot.SupabaseClient
             await _supabaseClient.From<MatchingResultContainer>().Upsert(result);
         }
 
-        public async Task<TeamContainer> GetTeam(string teamID)
+        public async UniTask<TeamContainer> GetTeam(string teamID)
         {
             var response = await _supabaseClient.From<TeamContainer>().Get();
             return response.Models.Find(x => x.id == teamID);
@@ -82,7 +82,7 @@ namespace RicoShot.SupabaseClient
             await _supabaseClient.From<TeamContainer>().Upsert(team);
         }
 
-        public async Task<PlayerContainer> GetPlayer(string userID)
+        public async UniTask<PlayerContainer> GetPlayer(string userID)
         {
             var response = await _supabaseClient.From<PlayerContainer>().Get();
             return response.Models.Find(x => x.id == userID);
@@ -93,7 +93,7 @@ namespace RicoShot.SupabaseClient
             await _supabaseClient.From<PlayerContainer>().Upsert(player);
         }
 
-        public async Task<List<ProfilesWithStatsContainer>> GetProfilesWithStats()
+        public async UniTask<List<ProfilesWithStatsContainer>> GetProfilesWithStats()
         {
             var response = await _supabaseClient.From<ProfilesWithStatsContainer>().Get();
             return response.Models.ToList();
