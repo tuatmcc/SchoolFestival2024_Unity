@@ -57,6 +57,9 @@ MonoBehaviour:
   - {fileID: 3074275584328776921}
   debugMode: 0
   debugChibiIndex: 0
+  debugHairColor: '#000000'
+  debugCostumeVariant: 0
+  debugAccessory: 0
 --- !u!1001 &2332805453130585033
 PrefabInstance:
   m_ObjectHideFlags: 0

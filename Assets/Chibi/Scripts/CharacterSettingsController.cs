@@ -33,7 +33,7 @@ namespace Chibi
             get => _chibiIndex;
             set
             {
-                if (value is < 0 or >= MAX_CHIBI_INDEX || debugChibiIndex is < 0 or >= MAX_CHIBI_INDEX)
+                if (value is < 0 or > MAX_CHIBI_INDEX)
                 {
                     Debug.LogError("Invalid chibi index");
                     return;
@@ -44,6 +44,8 @@ namespace Chibi
                 chibiSettingsController[activeChibiIndex].gameObject.SetActive(true);
             }
         }
+
+        public ChibiSettingsController activeChibiSettingsController => chibiSettingsController[activeChibiIndex];
 
         public string hairColor
         {
@@ -80,6 +82,8 @@ namespace Chibi
                     chibiSettingsController[activeChibiIndex].accessory = value;
             }
         }
+
+        public Animator animator => chibiSettingsController[activeChibiIndex].GetComponent<Animator>();
 
         private void Awake()
         {
