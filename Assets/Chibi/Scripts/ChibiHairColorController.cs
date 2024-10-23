@@ -10,14 +10,11 @@ namespace Chibi
     [RequireComponent(typeof(ChibiCostumeColors))]
     public class ChibiHairColorController : MonoBehaviour
     {
-        [Foldout("Materials")] [SerializeField]
-        private Material hairMaterial;
-
-        [Foldout("Materials")] [SerializeField]
-        private Material clothesMaterial;
-
+        [SerializeField] private Material hairMaterial;
+        [SerializeField] private SkinnedMeshRenderer[] hairMesh;
         [SerializeField] private Color hair;
-        [SerializeField] private ChibiCostumeColors chibiCostumeColors;
+
+        private Material _hairMaterialInstance;
 
         public Color hairColor
         {
@@ -25,10 +22,30 @@ namespace Chibi
             set
             {
                 hair = value;
-                hairMaterial.color = hair;
+                // this check is necessary to prevent the material from being created multiple times
+                if (_hairMaterialInstance == null)
+                {
+                    _hairMaterialInstance = new Material(hairMaterial);
+                    foreach (var x in hairMesh) x.material = _hairMaterialInstance;
+                }
+
+                _hairMaterialInstance.color = hair;
             }
         }
 
+        private void Awake()
+        {
+            if (_hairMaterialInstance == null)
+            {
+                _hairMaterialInstance = new Material(hairMaterial);
+                foreach (var x in hairMesh) x.material = _hairMaterialInstance;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            Destroy(_hairMaterialInstance);
+        }
 
         [Button]
         private void ApplyColorImmediately()

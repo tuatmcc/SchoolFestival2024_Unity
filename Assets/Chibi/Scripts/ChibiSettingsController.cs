@@ -7,13 +7,13 @@ namespace Chibi
     [RequireComponent(typeof(ChibiAccessoryController))]
     public class ChibiSettingsController : MonoBehaviour
     {
-        private ChibiAccessoryController accessoryController;
-        private ChibiCostumeColorController costumeColorController;
-        private ChibiHairColorController hairColorController;
+        private ChibiAccessoryController _accessoryController;
+        private ChibiCostumeColorController _costumeColorController;
+        private ChibiHairColorController _hairColorController;
 
         public string hairColor
         {
-            get => ColorUtility.ToHtmlStringRGB(hairColorController.hairColor);
+            get => ColorUtility.ToHtmlStringRGB(_hairColorController.hairColor);
             set
             {
                 if (!ColorUtility.TryParseHtmlString(value, out var color))
@@ -22,27 +22,27 @@ namespace Chibi
                     return;
                 }
 
-                hairColorController.hairColor = color;
+                _hairColorController.hairColor = color;
             }
         }
 
         public int costumeVariant
         {
-            get => costumeColorController.costumeVariantIndex;
-            set => costumeColorController.costumeVariantIndex = value;
+            get => _costumeColorController.costumeVariantIndex;
+            set => _costumeColorController.costumeVariantIndex = value;
         }
 
         public int accessory
         {
-            get => accessoryController.accessoryIndex;
-            set => accessoryController.accessoryIndex = value;
+            get => _accessoryController.accessoryIndex;
+            set => _accessoryController.accessoryIndex = value;
         }
 
         private void Awake()
         {
-            hairColorController = GetComponent<ChibiHairColorController>();
-            costumeColorController = GetComponent<ChibiCostumeColorController>();
-            accessoryController = GetComponent<ChibiAccessoryController>();
+            _hairColorController = GetComponent<ChibiHairColorController>();
+            _costumeColorController = GetComponent<ChibiCostumeColorController>();
+            _accessoryController = GetComponent<ChibiAccessoryController>();
         }
     }
 }
