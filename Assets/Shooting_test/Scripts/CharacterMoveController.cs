@@ -59,7 +59,7 @@ namespace Shooting_test
             v.y = 0;
             rb.velocity =v;
 
-            Debug.Log(rb.velocity);
+            //Debug.Log(rb.velocity);
             //this.transform.rotation = Quaternion.Euler(targetDirection);
             
         }

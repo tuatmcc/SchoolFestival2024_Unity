@@ -22,6 +22,7 @@ namespace Shooting_test
         {
             //CameraRotate_Mouse();
             transform_parent.RotateAround(transform.position, Vector3.up, RStick_input.x*sensitivity);
+            Debug.Log(RStick_input);
         }
 
         private void CameraRotate_Mouse()
