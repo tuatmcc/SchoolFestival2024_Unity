@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Postgrest.Models;
+using RicoShot.Core.Interface;
 using Supabase;
 using UnityEngine;
 
 
 namespace RicoShot.SupabaseClient
 {
-    public class SupabaseController : MonoBehaviour
+    public class SupabaseController : MonoBehaviour, ISupabaseAdaptor
     {
         [SerializeField] private string supabaseURL;
         [SerializeField] private string supabaseKey;
@@ -37,10 +37,12 @@ namespace RicoShot.SupabaseClient
             string matchID = "5cbb8028-b7e1-5ec0-a482-cbaff11709b8";
             string teamID = "16736f78-c8d8-55ff-90d2-0300ffc54b4f";
             string playerID = "0eb05d63-02be-518c-acf4-e73c0c5cc1a3";
+            /*
             Debug.Log(userID);
             Debug.Log(teamID);
             Debug.Log(playerID);
             Debug.Log(matchID);
+            */
             var profile = await GetProfile(userID);
             var match = await GetMatching(matchID);
             var team = await GetTeam(teamID);
