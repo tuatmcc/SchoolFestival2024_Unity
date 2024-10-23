@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,28 +21,14 @@ namespace RicoShot.SupabaseClient
             await _supabaseClient.InitializeAsync();
         }
 
-        public async void Awake()
+        public void Start()
         {
             var options = new SupabaseOptions()
             {
                 AutoConnectRealtime = true
             }; 
             _supabaseClient = new Client(supabaseURL, supabaseKey, options);
-            await _supabaseClient.InitializeAsync();
-        }
-
-        public void Start()
-        {
-            string userID = "0f5d546a-dd80-5406-a005-a4f3061b9fb4";
-            string matchID = "5cbb8028-b7e1-5ec0-a482-cbaff11709b8";
-            string teamID = "16736f78-c8d8-55ff-90d2-0300ffc54b4f";
-            string playerID = "0eb05d63-02be-518c-acf4-e73c0c5cc1a3";
-            Debug.Log(_supabaseClient is null);
-            Debug.Log(userID);
-            Debug.Log(teamID);
-            Debug.Log(playerID);
-            Debug.Log(matchID);
-            var profile = GetProfile(userID);
+            Connect().Forget();
         }
 
         public async void OnClick()
@@ -52,20 +37,18 @@ namespace RicoShot.SupabaseClient
             string matchID = "5cbb8028-b7e1-5ec0-a482-cbaff11709b8";
             string teamID = "16736f78-c8d8-55ff-90d2-0300ffc54b4f";
             string playerID = "0eb05d63-02be-518c-acf4-e73c0c5cc1a3";
-            Debug.Log(_supabaseClient is null);
             Debug.Log(userID);
             Debug.Log(teamID);
             Debug.Log(playerID);
             Debug.Log(matchID);
             var profile = await GetProfile(userID);
-            // var match = GetMatching(matchID).Result;
-            // var team = GetTeam(teamID).Result;
-            // var player = GetPlayer(playerID).Result;
+            var match = await GetMatching(matchID);
+            var team = await GetTeam(teamID);
+            var player = await GetPlayer(playerID);
         }
 
         public async Task<ProfileContainer> GetProfile(string userID)
         {
-            Debug.Log(_supabaseClient is null);
             var response = await _supabaseClient.From<ProfileContainer>().Get();
             return response.Models.Find(x => x.id == userID);
         }

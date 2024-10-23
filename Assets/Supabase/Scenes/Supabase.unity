@@ -240,6 +240,18 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &152600364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -8156149464210664375, guid: 4730997de1cca24978ce8259b0396899,
+    type: 3}
+  m_PrefabInstance: {fileID: 1159304433}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad3595143aeeef8e8a9bcf720961eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1159304433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -327,6 +339,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2907311869909090480, guid: f6612957c78fa9e84ab35770e6598a57,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 152600364}
+    - target: {fileID: 2907311869909090480, guid: f6612957c78fa9e84ab35770e6598a57,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907311869909090480, guid: f6612957c78fa9e84ab35770e6598a57,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RicoShot.SupabaseClient.SupabaseController, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4568135762297293349, guid: f6612957c78fa9e84ab35770e6598a57,
         type: 3}
       propertyPath: m_Name
