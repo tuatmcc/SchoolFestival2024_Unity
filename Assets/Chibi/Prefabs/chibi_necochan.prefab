@@ -320,6 +320,12 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 5609855695184113741}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1425828401359385272 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5609855695184113741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1763540342637188265 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: 28c4ab8c32840aeff812e8557b4edcfd,
@@ -350,6 +356,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5609855695184113741}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2433759225686795854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5609855695184113741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &2521877365336282034 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8009005503886730239, guid: 28c4ab8c32840aeff812e8557b4edcfd,
@@ -365,6 +377,12 @@ Transform:
 --- !u!137 &3465635458139665570 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 9061909983545722095, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5609855695184113741}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4051055507056627565 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: 28c4ab8c32840aeff812e8557b4edcfd,
     type: 3}
   m_PrefabInstance: {fileID: 5609855695184113741}
   m_PrefabAsset: {fileID: 0}
@@ -479,10 +497,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 2067332143723711964}
+  headBone: {fileID: 1763540342637188265}
+  neckBone: {fileID: 1425828401359385272}
+  leftHandBone: {fileID: 4051055507056627565}
+  rightHandBone: {fileID: 2433759225686795854}
   _chibiSettings: {fileID: 1607950966012755475}
-  head: {fileID: 1763540342637188265}
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
 --- !u!4 &5354937690391041958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 28c4ab8c32840aeff812e8557b4edcfd,

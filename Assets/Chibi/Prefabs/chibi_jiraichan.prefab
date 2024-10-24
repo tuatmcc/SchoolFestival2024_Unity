@@ -357,6 +357,12 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &3337858903733394655 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &3402356558837623237 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6878778764571785199, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -554,7 +560,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 2390101047301448635}
+  headBone: {fileID: 2729921369186958030}
+  neckBone: {fileID: 3337858903733394655}
+  leftHandBone: {fileID: 406386205179453706}
+  rightHandBone: {fileID: 2043939904621316137}
   _chibiSettings: {fileID: -4014414103657443648}
-  head: {fileID: 2729921369186958030}
-  leftHand: {fileID: 406386205179453706}
-  rightHand: {fileID: 2043939904621316137}
