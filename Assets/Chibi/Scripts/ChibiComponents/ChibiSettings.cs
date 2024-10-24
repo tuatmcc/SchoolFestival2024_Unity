@@ -1,21 +1,18 @@
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Chibi
+namespace Chibi.ChibiComponents
 {
     [RequireComponent(typeof(ChibiHairColorSettings))]
     [RequireComponent(typeof(ChibiCostumeColorSettings))]
     [RequireComponent(typeof(ChibiAccessorySettings))]
     public class ChibiSettings : MonoBehaviour
     {
-        [FormerlySerializedAs("accessoryController")] [SerializeField]
-        private ChibiAccessorySettings accessorySettings;
+        [SerializeField] private ChibiAccessorySettings accessorySettings;
 
-        [FormerlySerializedAs("costumeColorController")] [SerializeField]
-        private ChibiCostumeColorSettings costumeColorSettings;
+        [SerializeField] private ChibiCostumeColorSettings costumeColorSettings;
 
-        [FormerlySerializedAs("hairColorController")] [SerializeField]
-        private ChibiHairColorSettings hairColorSettings;
+        [SerializeField] private ChibiHairColorSettings hairColorSettings;
 
         public string hairColor
         {
@@ -42,6 +39,14 @@ namespace Chibi
         {
             get => accessorySettings.accessoryIndex;
             set => accessorySettings.accessoryIndex = value;
+        }
+
+        [Button]
+        private void AttachComponents()
+        {
+            hairColorSettings = GetComponent<ChibiHairColorSettings>();
+            costumeColorSettings = GetComponent<ChibiCostumeColorSettings>();
+            accessorySettings = GetComponent<ChibiAccessorySettings>();
         }
     }
 }

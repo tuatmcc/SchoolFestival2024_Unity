@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Chibi.ChibiColorVariations
+namespace Chibi.ChibiComponents.ChibiColorVariations
 {
     public abstract class ChibiCostumeColors : MonoBehaviour
     {

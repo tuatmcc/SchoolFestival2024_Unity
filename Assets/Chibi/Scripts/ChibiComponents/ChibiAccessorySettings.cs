@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Chibi
+namespace Chibi.ChibiComponents
 {
     /// <summary>
     ///     顔アクセサリを制御するクラス

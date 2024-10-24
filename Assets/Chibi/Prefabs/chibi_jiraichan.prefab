@@ -297,6 +297,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &406386205179453706 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &744644737621344010 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8796743818397950240, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -315,6 +321,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2043939904621316137 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2129136256692004021 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7912256861560748703, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -330,6 +342,12 @@ Animator:
 --- !u!4 &2475199455040007497 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3307786867539709085, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2729921369186958030 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
@@ -520,6 +538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 4153129902545013759}
+  costumeColorSettings: {fileID: -1545509307186165790}
+  hairColorSettings: {fileID: 4361461126390050982}
 --- !u!114 &4155325201934211103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,6 +555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 2390101047301448635}
   _chibiSettings: {fileID: -4014414103657443648}
-  head: {fileID: 0}
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
+  head: {fileID: 2729921369186958030}
+  leftHand: {fileID: 406386205179453706}
+  rightHand: {fileID: 2043939904621316137}

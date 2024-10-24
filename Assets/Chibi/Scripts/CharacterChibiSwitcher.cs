@@ -4,13 +4,13 @@ namespace Chibi
 {
     public class CharacterChibiSwitcher : MonoBehaviour
     {
-        [SerializeField] private Chibi[] _chibis;
+        [SerializeField] private ChibiComponents.Chibi[] _chibis;
 
         private int _currentChibiIndex;
 
-        public Chibi[] chibis => _chibis;
+        public ChibiComponents.Chibi[] chibis => _chibis;
 
-        public Chibi current => _chibis[_currentChibiIndex];
+        public ChibiComponents.Chibi current => _chibis[_currentChibiIndex];
 
         public int currentChibiIndex
         {
