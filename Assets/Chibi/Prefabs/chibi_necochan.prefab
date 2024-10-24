@@ -320,6 +320,12 @@ SkinnedMeshRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 5609855695184113741}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1763540342637188265 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: 28c4ab8c32840aeff812e8557b4edcfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5609855695184113741}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1936679653513049825 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2937963333225445716, guid: 28c4ab8c32840aeff812e8557b4edcfd,
@@ -457,6 +463,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 493619871903504588}
+  costumeColorSettings: {fileID: -8948658638479759684}
+  hairColorSettings: {fileID: 7032285943221010653}
 --- !u!114 &2755790827634393886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -471,7 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 2067332143723711964}
   _chibiSettings: {fileID: 1607950966012755475}
-  head: {fileID: 0}
+  head: {fileID: 1763540342637188265}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
 --- !u!4 &5354937690391041958 stripped

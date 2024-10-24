@@ -1,4 +1,4 @@
-namespace Chibi.ChibiColorVariations
+namespace Chibi.ChibiComponents.ChibiColorVariations
 {
     public class ChibiSushongCostumeColors : ChibiCostumeColors
     {

@@ -1,8 +1,8 @@
-using Chibi.ChibiColorVariations;
+using Chibi.ChibiComponents.ChibiColorVariations;
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace Chibi
+namespace Chibi.ChibiComponents
 {
     /// <summary>
     ///     服の色をキャラごとのパターンからindexで選択するクラス。また、Inspector上でindexを変更してデバッグするための機能を提供します

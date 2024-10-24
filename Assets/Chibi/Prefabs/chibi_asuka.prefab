@@ -90,7 +90,7 @@ MonoBehaviour:
   - {fileID: 5432893092108655001}
   - {fileID: 421673640844353063}
   - {fileID: 23661005648966036}
-  m_hitRadius: 0.03
+  m_hitRadius: 0.02
   ColliderGroups:
   - {fileID: 1588642570939559971}
   - {fileID: 3605032538335408544}
@@ -342,9 +342,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &421673640844353063 stripped
 Transform:
@@ -507,6 +507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 7451633903584728902}
+  costumeColorSettings: {fileID: -6122068705533181278}
+  hairColorSettings: {fileID: 5940121647560848457}
 --- !u!114 &1070930718126020409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,10 +523,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7051631666094583068}
+  head: {fileID: 8738226409859415872}
+  leftHand: {fileID: 4995885648420319149}
+  rightHand: {fileID: 6677357329932125838}
   _chibiSettings: {fileID: 3777262112036965554}
-  head: {fileID: 0}
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
 --- !u!1 &4739644469598519757 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8174140538269110592, guid: 05ca58f83b213434889d39be7fba641b,
@@ -544,13 +547,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &4951483433136758864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -864185384833175331, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4995885648420319149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -581,6 +590,12 @@ Transform:
 --- !u!4 &6591101872401191190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1455027506824052325, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6677357329932125838 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -616,13 +631,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &8216117166161664291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4417051558958069330, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8738226409859415872 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5328482478806888397, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -652,7 +673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}

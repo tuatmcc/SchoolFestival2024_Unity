@@ -1,3 +1,4 @@
+using Chibi.ChibiComponents;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -81,7 +82,7 @@ namespace Chibi
             }
         }
 
-        public Chibi animator => chibiSwitcher.current;
+        public ChibiComponents.Chibi animator => chibiSwitcher.current;
 
         private void Awake()
         {

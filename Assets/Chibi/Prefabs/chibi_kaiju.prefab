@@ -283,6 +283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 5140276356010810431}
+  costumeColorSettings: {fileID: 6816217280537618338}
+  hairColorSettings: {fileID: 4733740533732136396}
 --- !u!114 &1143887225550093562
 MonoBehaviour:
   m_ObjectHideFlags: 0

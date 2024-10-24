@@ -251,6 +251,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1459409450158565472}
   m_SourcePrefab: {fileID: 100100000, guid: f585a5eb3a3cb63e8a138b9d59ff528c, type: 3}
+--- !u!137 &695692996887802198 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2005432699763544417, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1583466135173449692 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
@@ -296,6 +302,7 @@ MonoBehaviour:
   - {fileID: 3661082945815166778}
   - {fileID: 4425245384792948501}
   - {fileID: 8273177463375933875}
+  - {fileID: 695692996887802198}
   clothesMaterial: {fileID: 2100000, guid: 59c18f799394efd329d7f6b904e5bc38, type: 2}
   costumeVariant: 0
   chibiCostumeColors: {fileID: 1466609895961106215}
@@ -340,6 +347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 323434276489706856}
+  costumeColorSettings: {fileID: -9001730802783950827}
+  hairColorSettings: {fileID: 5773718400999229229}
 --- !u!114 &1459409450158565472
 MonoBehaviour:
   m_ObjectHideFlags: 0
