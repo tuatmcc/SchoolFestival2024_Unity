@@ -6,7 +6,7 @@ namespace Chibi
     /// <summary>
     ///     顔アクセサリを制御するクラス
     /// </summary>
-    public class ChibiAccessoryController : MonoBehaviour
+    public class ChibiAccessorySettings : MonoBehaviour
     {
         public const int MAX_ACCESSORY_INDEX = 4;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer glasses;
