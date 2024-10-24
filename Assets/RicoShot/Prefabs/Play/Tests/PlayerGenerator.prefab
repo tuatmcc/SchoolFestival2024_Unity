@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddd20bc49912109419acc2900a4360f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  networkObject: {fileID: 4121950015427999859, guid: 608af913d4901b348a598292e00cf358,
+  networkObject: {fileID: 833311375083750639, guid: e0d6f9f990ac1d049adce4a60b36d08b,
     type: 3}
 --- !u!114 &1267790620243141271
 MonoBehaviour:
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 230976609
+  GlobalObjectIdHash: 222605138
   InScenePlacedSourceGlobalObjectIdHash: 230976609
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 0
