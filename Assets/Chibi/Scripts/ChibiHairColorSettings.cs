@@ -8,7 +8,7 @@ namespace Chibi
     ///     髪を任意の色に設定するクラス。また、Inspector上で色を変更してデバッグするための機能を提供します
     /// </summary>
     [RequireComponent(typeof(ChibiCostumeColors))]
-    public class ChibiHairColorController : MonoBehaviour
+    public class ChibiHairColorSettings : MonoBehaviour
     {
         [SerializeField] private Material hairMaterial;
         [SerializeField] private SkinnedMeshRenderer[] hairMesh;

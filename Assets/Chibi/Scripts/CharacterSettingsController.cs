@@ -9,7 +9,8 @@ namespace Chibi
     public class CharacterSettingsController : MonoBehaviour
     {
         public const int MAX_CHIBI_INDEX = 4;
-        [SerializeField] private ChibiSettingsController[] chibiSettingsController;
+
+        [SerializeField] private CharacterChibiSwitcher chibiSwitcher;
 
         // debugMode の条件判定は高頻度で呼ばれないのでパフォーマンスには影響しないはず...
         [SerializeField] private bool debugMode;
@@ -20,83 +21,89 @@ namespace Chibi
         [EnableIf("debugMode")] [SerializeField]
         private string debugHairColor = "#000000";
 
-        [EnableIf("debugMode")] [SerializeField] [Range(0, ChibiCostumeColorController.MAX_COSTUME_VARIANT_INDEX)]
+        [EnableIf("debugMode")] [SerializeField] [Range(0, ChibiCostumeColorSettings.MAX_COSTUME_VARIANT_INDEX)]
         private int debugCostumeVariant;
 
-        [EnableIf("debugMode")] [SerializeField] [Range(0, ChibiAccessoryController.MAX_ACCESSORY_INDEX)]
+        [EnableIf("debugMode")] [SerializeField] [Range(0, ChibiAccessorySettings.MAX_ACCESSORY_INDEX)]
         private int debugAccessory;
-
-        private int _chibiIndex;
 
         public int activeChibiIndex
         {
-            get => _chibiIndex;
+            get => chibiSwitcher.currentChibiIndex;
             set
             {
-                if (value is < 0 or >= MAX_CHIBI_INDEX || debugChibiIndex is < 0 or >= MAX_CHIBI_INDEX)
+                if (value is < 0 or > MAX_CHIBI_INDEX)
                 {
                     Debug.LogError("Invalid chibi index");
                     return;
                 }
 
-                _chibiIndex = debugMode ? debugChibiIndex : value;
-                foreach (var chibiSettings in chibiSettingsController) chibiSettings.gameObject.SetActive(false);
-                chibiSettingsController[activeChibiIndex].gameObject.SetActive(true);
+                chibiSwitcher.currentChibiIndex = debugMode ? debugChibiIndex : value;
             }
         }
 
+        public ChibiSettings activeChibiSettings =>
+            chibiSwitcher.current.chibiSettings;
+
         public string hairColor
         {
-            get => chibiSettingsController[activeChibiIndex].hairColor;
+            get => chibiSwitcher.current.chibiSettings.hairColor;
             set
             {
                 if (debugMode)
-                    chibiSettingsController[debugChibiIndex].hairColor = debugHairColor;
+                    chibiSwitcher.current.chibiSettings.hairColor = debugHairColor;
                 else
-                    chibiSettingsController[activeChibiIndex].hairColor = value;
+                    chibiSwitcher.current.chibiSettings.hairColor = value;
             }
         }
 
         public int costumeVariant
         {
-            get => chibiSettingsController[activeChibiIndex].costumeVariant;
+            get => chibiSwitcher.current.chibiSettings.costumeVariant;
             set
             {
                 if (debugMode)
-                    chibiSettingsController[debugChibiIndex].costumeVariant = debugCostumeVariant;
+                    chibiSwitcher.current.chibiSettings.costumeVariant = debugCostumeVariant;
                 else
-                    chibiSettingsController[activeChibiIndex].costumeVariant = value;
+                    chibiSwitcher.current.chibiSettings.costumeVariant = value;
             }
         }
 
         public int accessory
         {
-            get => chibiSettingsController[activeChibiIndex].accessory;
+            get => chibiSwitcher.current.chibiSettings.accessory;
             set
             {
                 if (debugMode)
-                    chibiSettingsController[debugChibiIndex].accessory = debugAccessory;
+                    chibiSwitcher.current.chibiSettings.accessory = debugAccessory;
                 else
-                    chibiSettingsController[activeChibiIndex].accessory = value;
+                    chibiSwitcher.current.chibiSettings.accessory = value;
             }
         }
 
+        public Chibi animator => chibiSwitcher.current;
+
         private void Awake()
         {
-            // validate chibi index
-            if (MAX_CHIBI_INDEX != chibiSettingsController.Length - 1)
-            {
-                Debug.LogError("Max chibi index does not match the number of chibi settings controllers");
-                return;
-            }
-
-            activeChibiIndex = _chibiIndex;
             if (debugMode)
             {
+                activeChibiIndex = debugChibiIndex;
                 hairColor = debugHairColor;
                 costumeVariant = debugCostumeVariant;
                 accessory = debugAccessory;
             }
+        }
+
+        private void OnValidate()
+        {
+            if (chibiSwitcher == null)
+            {
+                Debug.LogError("Chibi switcher is not set");
+                return;
+            }
+
+            if (chibiSwitcher.chibis.Length != MAX_CHIBI_INDEX + 1)
+                Debug.LogError("Number of chibis does not match the max chibi index");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Chibi
     ///     服の色をキャラごとのパターンからindexで選択するクラス。また、Inspector上でindexを変更してデバッグするための機能を提供します
     /// </summary>
     [RequireComponent(typeof(ChibiCostumeColors))]
-    public class ChibiCostumeColorController : MonoBehaviour
+    public class ChibiCostumeColorSettings : MonoBehaviour
     {
         public const int MAX_COSTUME_VARIANT_INDEX = 2;
 
