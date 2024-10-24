@@ -5,6 +5,7 @@ using Zenject;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using System.Text.RegularExpressions;
 
 namespace RicoShot {
     public class GameConfigUIManager : MonoBehaviour
@@ -57,6 +58,47 @@ namespace RicoShot {
             {
                 Debug.Log("Invalid Value: " + InputField_ServerPort.text);
                 InputField_ServerPort.text = "";
+            }
+        }
+        public void Check_URL()
+        {
+            if (IsUrl(InputField_SupabaseURL.text))
+            {
+                gameStateManager.GameConfig.SupabaseURL = InputField_SupabaseURL.text;
+            }
+            else
+            {
+                Debug.Log("Invalid Value: " + InputField_SupabaseURL.text);
+                InputField_SupabaseURL.text = "";
+            }
+        }
+
+        public static bool IsUrl(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return false;
+            }
+            return Regex.IsMatch(
+               input,
+               @"^s?https?://[-_.!~*'()a-zA-Z0-9;/?:@&=+$,%#]+$"
+            );
+        }
+
+        public void Check_SecretKey()
+        {
+            gameStateManager.GameConfig.SupabaseSecretKey = InputField_SupabaseSecretKey.text;
+        }
+
+        public void Check_CameraIndex()
+        {
+            if(int.TryParse(InputField_CameraIndex.text,out int idx))
+            {
+                gameStateManager.GameConfig.CameraIndex = idx;
+            }
+            else
+            {
+                InputField_CameraIndex.text = "";
             }
         }
     }
