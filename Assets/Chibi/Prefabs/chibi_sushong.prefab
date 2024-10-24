@@ -363,10 +363,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 4835096730726964646}
+  headBone: {fileID: 5174723809553532115}
+  neckBone: {fileID: 5503568182036947650}
+  leftHandBone: {fileID: 7462791135178792727}
+  rightHandBone: {fileID: 9110613156666816052}
   _chibiSettings: {fileID: -4006134530648061915}
-  head: {fileID: 0}
-  leftHand: {fileID: 0}
-  rightHand: {fileID: 0}
 --- !u!137 &2895174946690453951 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5017404484641689208, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
@@ -415,6 +416,18 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1329445287711907895}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5174723809553532115 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5503568182036947650 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &5549973667509671896 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6878778764571785199, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
@@ -439,6 +452,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1329445287711907895}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &7462791135178792727 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!137 &8048350813353780440 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 9061909983545722095, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
@@ -454,6 +473,12 @@ SkinnedMeshRenderer:
 --- !u!4 &8772333963327185324 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -1455027506824052325, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9110613156666816052 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
     type: 3}
   m_PrefabInstance: {fileID: 1329445287711907895}
   m_PrefabAsset: {fileID: 0}

@@ -523,9 +523,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 7051631666094583068}
-  head: {fileID: 8738226409859415872}
-  leftHand: {fileID: 4995885648420319149}
-  rightHand: {fileID: 6677357329932125838}
+  headBone: {fileID: 7283891366300841065}
+  neckBone: {fileID: 7972850606213747320}
+  leftHandBone: {fileID: 4995885648420319149}
+  rightHandBone: {fileID: 6677357329932125838}
   _chibiSettings: {fileID: 3777262112036965554}
 --- !u!1 &4739644469598519757 stripped
 GameObject:
@@ -611,6 +612,18 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &7283891366300841065 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7972850606213747320 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8109900150448559030 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4595115013925403845, guid: 05ca58f83b213434889d39be7fba641b,
@@ -638,12 +651,6 @@ MonoBehaviour:
 --- !u!4 &8216117166161664291 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4417051558958069330, guid: 05ca58f83b213434889d39be7fba641b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3510265682953900173}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8738226409859415872 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5328482478806888397, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}

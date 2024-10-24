@@ -8,17 +8,20 @@ namespace Chibi.ChibiComponents
     {
         [SerializeField] private Animator _animator;
 
-        [SerializeField] private Transform head;
-        [SerializeField] private Transform leftHand;
-        [SerializeField] private Transform rightHand;
+        [SerializeField] private Transform headBone;
+        [SerializeField] private Transform neckBone;
+        [SerializeField] private Transform leftHandBone;
+        [SerializeField] private Transform rightHandBone;
         [SerializeField] private ChibiSettings _chibiSettings;
 
         public Animator animator => _animator;
         public ChibiSettings chibiSettings => _chibiSettings;
 
         public Avatar avatar => animator.avatar;
-        public Transform headTransform => head;
-        public Transform leftHandTransform => leftHand;
-        public Transform rightHandTransform => rightHand;
+        public Transform headTransform => headBone;
+
+        public Transform neckTransform => neckBone;
+        public Transform leftHandTransform => leftHandBone;
+        public Transform rightHandTransform => rightHandBone;
     }
 }
