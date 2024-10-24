@@ -135,7 +135,7 @@ namespace RicoShot.Core
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
             // 自身のデータを登録
-            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
+            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId, localPlayerManager.CharacterParams));
         }
 
          // (クライアント)接続解除時の挙動
@@ -170,7 +170,7 @@ namespace RicoShot.Core
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
             // チームが変わっていないかすでにReady状態のときは何もしない
             if (clientData.Team == team || clientData.IsReady) return;
-            clientData.SetTeam(team);
+            clientData.Team = team;
             Debug.Log($"[Server] Client data changed -> {clientData}");
         }
         
@@ -180,7 +180,7 @@ namespace RicoShot.Core
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
             if (clientData.IsReady == isReady) return;
-            clientData.SetReadyStatus(isReady);
+            clientData.IsReady = isReady;
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
 
             CheckAllReadyAndNotify();

@@ -201,7 +201,7 @@ PrefabInstance:
     - target: {fileID: 1030490761732556844, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
         type: 3}
       propertyPath: m_Name
-      value: PlayerGenerator
+      value: Manager
       objectReference: {fileID: 0}
     - target: {fileID: 1267790620243141271, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
         type: 3}

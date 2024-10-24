@@ -12,5 +12,7 @@ namespace RicoShot.Core.Tests
             get => "";
             set { }
         }
+
+        public CharacterParams CharacterParams { get; set; } = new CharacterParams();
     }
 }
