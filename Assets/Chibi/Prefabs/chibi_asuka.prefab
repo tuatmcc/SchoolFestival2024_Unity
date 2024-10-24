@@ -90,7 +90,7 @@ MonoBehaviour:
   - {fileID: 5432893092108655001}
   - {fileID: 421673640844353063}
   - {fileID: 23661005648966036}
-  m_hitRadius: 0.03
+  m_hitRadius: 0.02
   ColliderGroups:
   - {fileID: 1588642570939559971}
   - {fileID: 3605032538335408544}
@@ -190,6 +190,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4681382230662638706, guid: 05ca58f83b213434889d39be7fba641b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -2794114806996172748, guid: 05ca58f83b213434889d39be7fba641b,
         type: 3}
       propertyPath: m_IsActive
@@ -200,24 +205,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: chibi_asuka
       objectReference: {fileID: 0}
-    - target: {fileID: 2236237030686087061, guid: 05ca58f83b213434889d39be7fba641b,
+    - target: {fileID: 2263518219897169856, guid: 05ca58f83b213434889d39be7fba641b,
         type: 3}
-      propertyPath: m_BlendShapeWeights.Array.data[0]
-      value: 20.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2236237030686087061, guid: 05ca58f83b213434889d39be7fba641b,
-        type: 3}
-      propertyPath: m_BlendShapeWeights.Array.data[1]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2236237030686087061, guid: 05ca58f83b213434889d39be7fba641b,
-        type: 3}
-      propertyPath: m_BlendShapeWeights.Array.data[2]
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2236237030686087061, guid: 05ca58f83b213434889d39be7fba641b,
-        type: 3}
-      propertyPath: m_BlendShapeWeights.Array.data[4]
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4888623284024412045, guid: 05ca58f83b213434889d39be7fba641b,
@@ -234,6 +224,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Controller
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286135044099597887, guid: 05ca58f83b213434889d39be7fba641b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8532600245022285136, guid: 05ca58f83b213434889d39be7fba641b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -263,6 +263,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3777262112036965554}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 05ca58f83b213434889d39be7fba641b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1070930718126020409}
     - targetCorrespondingSourceObject: {fileID: -5429246048605795705, guid: 05ca58f83b213434889d39be7fba641b,
         type: 3}
       insertIndex: -1
@@ -287,6 +291,12 @@ PrefabInstance:
 --- !u!4 &23661005648966036 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5700722025697763047, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &282753682878434882 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -5522975602307424561, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -332,9 +342,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &421673640844353063 stripped
 Transform:
@@ -342,15 +352,21 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1201590931922886127 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -6910192414750798494, guid: 05ca58f83b213434889d39be7fba641b,
+--- !u!137 &567059480930510478 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3992548399635723779, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &1318878938280459313 stripped
+--- !u!137 &785985053989331205 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2520715491090459836, guid: 05ca58f83b213434889d39be7fba641b,
+  m_CorrespondingSourceObject: {fileID: -5017404484641689208, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1201590931922886127 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -6910192414750798494, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -366,21 +382,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &1857337975401099349 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -6237363412077764392, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2280669310240800045 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -5832046424455402080, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &2598593035209745598 stripped
+--- !u!137 &2282333539709063087 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7735224200338787277, guid: 05ca58f83b213434889d39be7fba641b,
+  m_CorrespondingSourceObject: {fileID: 3394168520545115938, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2731876690447630311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1540067702272094058, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3777852436167327942 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 349971029452329035, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -415,9 +443,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hairMaterial: {fileID: 2100000, guid: 7fcedc56778dc3148a4fa8ed1a884574, type: 2}
-  clothesMaterial: {fileID: 2100000, guid: 4e68b860a600d6c7c81c6da312d3d72d, type: 2}
+  hairMesh:
+  - {fileID: 282753682878434882}
+  - {fileID: 6984861092430433008}
+  - {fileID: 5547748822791518388}
   hair: {r: 1, g: 1, b: 1, a: 0}
-  chibiCostumeColors: {fileID: 2685286518373511041}
 --- !u!114 &-6122068705533181278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32df4dfeeba540c8ac7fff19c7a08784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clothesMeshes:
+  - {fileID: 3777852436167327942}
+  - {fileID: 2282333539709063087}
   clothesMaterial: {fileID: 2100000, guid: 4e68b860a600d6c7c81c6da312d3d72d, type: 2}
   costumeVariant: 0
   chibiCostumeColors: {fileID: 2685286518373511041}
@@ -445,10 +478,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 240690cf763c45b9a5bec40468ff4bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glasses: {fileID: 1318878938280459313}
-  goggles: {fileID: 2598593035209745598}
-  mask: {fileID: 7481179841109383859}
-  eyePatch: {fileID: 8823163767282384106}
+  glasses: {fileID: 567059480930510478}
+  goggles: {fileID: 785985053989331205}
+  mask: {fileID: 1857337975401099349}
+  eyePatch: {fileID: 5581269544312837218}
   accessory: 0
 --- !u!114 &2685286518373511041
 MonoBehaviour:
@@ -474,6 +507,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf65f65b62447b9952e84cc3799ac79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  accessorySettings: {fileID: 7451633903584728902}
+  costumeColorSettings: {fileID: -6122068705533181278}
+  hairColorSettings: {fileID: 5940121647560848457}
+--- !u!114 &1070930718126020409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357111537504824796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66c4e9d69e094f3289ac478a93c25acf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7051631666094583068}
+  headBone: {fileID: 7283891366300841065}
+  neckBone: {fileID: 7972850606213747320}
+  leftHandBone: {fileID: 4995885648420319149}
+  rightHandBone: {fileID: 6677357329932125838}
+  _chibiSettings: {fileID: 3777262112036965554}
 --- !u!1 &4739644469598519757 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8174140538269110592, guid: 05ca58f83b213434889d39be7fba641b,
@@ -494,9 +548,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &4951483433136758864 stripped
 Transform:
@@ -504,9 +558,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &4995885648420319149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -729007487329059040, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5432893092108655001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -300761021311006444, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5547748822791518388 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -267005251651737543, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &5581269544312837218 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 9061909983545722095, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -522,9 +594,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &7481179841109383859 stripped
+--- !u!4 &6677357329932125838 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790177421927552515, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &6984861092430433008 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6297304860317796926, guid: 05ca58f83b213434889d39be7fba641b,
+  m_CorrespondingSourceObject: {fileID: 5789885491322378877, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7051631666094583068 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7283891366300841065 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -3052476751237913372, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7972850606213747320 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2444406315379408139, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -548,9 +644,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &8216117166161664291 stripped
 Transform:
@@ -561,12 +657,6 @@ Transform:
 --- !u!4 &8815160383301183115 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5396233347845682694, guid: 05ca58f83b213434889d39be7fba641b,
-    type: 3}
-  m_PrefabInstance: {fileID: 3510265682953900173}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &8823163767282384106 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 5387664943736728679, guid: 05ca58f83b213434889d39be7fba641b,
     type: 3}
   m_PrefabInstance: {fileID: 3510265682953900173}
   m_PrefabAsset: {fileID: 0}
@@ -590,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.04
+    Radius: 0.03
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
