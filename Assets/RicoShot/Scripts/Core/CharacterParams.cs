@@ -36,8 +36,7 @@ namespace RicoShot.Core
                 ChibiIndex = UnityEngine.Random.Range(0, CharacterSettingsController.MAX_CHIBI_INDEX + 1),
                 HairColor = "#000000",
                 CostumeVariant = UnityEngine.Random.Range(0, ChibiCostumeColorSettings.MAX_COSTUME_VARIANT_INDEX + 1),
-                //Accessory = UnityEngine.Random.Range(0, ChibiAccessorySettings.MAX_ACCESSORY_INDEX + 1)
-                Accessory = 3
+                Accessory = UnityEngine.Random.Range(0, ChibiAccessorySettings.MAX_ACCESSORY_INDEX + 1)
             };
             return characterParams;
         }
