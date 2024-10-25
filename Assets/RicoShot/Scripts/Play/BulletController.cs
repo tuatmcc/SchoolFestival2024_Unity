@@ -7,23 +7,16 @@ namespace RicoShot.Play
 {
     public class BulletController : PoolManagedMonoObject
     {
+        [SerializeField] private int max_reflect_num = 3;
         private Vector3 velocity;
         private Rigidbody rb;
         private Vector3 normal;
         private int reflect_count = 0;
-        private int max_reflect_num = 3;
         [Inject] private IScoreManager scoreManager;
-        // Start is called before the first frame update
+
         void Start()
         {
-            //this.GetComponent<Rigidbody>().AddForce(new Vector3(0,0,4),ForceMode.Impulse);
             rb = this.GetComponent<Rigidbody>();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         private void FixedUpdate()

@@ -1,8 +1,5 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -12,11 +9,14 @@ using Cysharp.Threading.Tasks;
 
 namespace RicoShot.Core
 {
+    /// <summary>
+    /// ネットワークのマッチング部分を司る
+    /// </summary>
     public class NetworkController : NetworkBehaviour, INetworkController
     {
         // 説明はインターフェース(INetworkManager)を参照
         public event Action<bool> OnAllClientsReadyChanged;
-        public NetworkClassList<ClientData> ClientDatas { get; private set; } = new();
+        public NetworkClassList<ClientData> ClientDataList { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
 
         [SerializeField] private int maxClientCount = 4;
@@ -27,7 +27,9 @@ namespace RicoShot.Core
 
         private void Awake()
         {
+            // 開始時にDontDestroyOnLoadへ
             DontDestroyOnLoad(gameObject);
+            // ここでProjectContextに加えてInjectする(Title以降のシーンでInject可)
             ProjectContext.Instance.Container.BindInterfacesTo<NetworkController>().FromInstance(this).AsSingle();
         }
 
@@ -37,7 +39,7 @@ namespace RicoShot.Core
         }
 
         // ネットワークの初期化(Matching開始時)
-        public void InitializeNetwork(GameState gameState)
+        private void InitializeNetwork(GameState gameState)
         {
             if (gameState != GameState.Matching) return;
 
@@ -53,7 +55,9 @@ namespace RicoShot.Core
                 else if (gameStateManager.NetworkMode == NetworkMode.Client) // クライアントのとき
                 {
                     NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected; // 接続時
+                    NetworkManager.Singleton.OnClientDisconnectCallback += OnConnectionFailed; // 接続失敗時
                 }
+                // リセット時に呼び出すメソッドを登録
                 gameStateManager.OnReset += ResetNetwork;
                 callbackRegisted = true;
             }
@@ -63,7 +67,8 @@ namespace RicoShot.Core
             if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 NetworkManager.Singleton.StartServer();
-                ClientDatas.Initialize(this);
+                // NetworkValiableを初期化(再利用するため)
+                ClientDataList.Initialize(this);
                 AllClientsReady.Initialize(this);
                 Debug.Log("[Server] Server started");
             }
@@ -82,9 +87,20 @@ namespace RicoShot.Core
         {
             response.Pending = true;
 
-            response.Approved = 
-                NetworkManager.Singleton.ConnectedClients.Count < maxClientCount &&
-                gameStateManager.GameState == GameState.Matching;
+            if (gameStateManager.GameState != GameState.Matching)
+            {
+                response.Approved = false;
+                response.Reason = $"Server is not Matching. Now: {gameStateManager.GameState}";
+            }
+            else if (NetworkManager.Singleton.ConnectedClients.Count >= maxClientCount)
+            {
+                response.Approved = false;
+                response.Reason = $"Client count reached maxClientCount: {maxClientCount}";
+            }
+            else
+            {
+                response.Approved = true;
+            }
 
             Debug.Log($"[Server] Approve client: {response.Approved}");
             response.Pending = false;
@@ -94,13 +110,20 @@ namespace RicoShot.Core
         private void OnClientDisconnect(ulong clientId)
         {
             var clientData = GetClientDataFromClientID(clientId);
-            ClientDatas.Remove(clientData);
+            // 接続失敗のときclientDataはnull
+            if (clientData != null)
+            {
+                ClientDataList.Remove(clientData);
+            }
             Debug.Log($"[Server] Disconnected -> ID: {clientId}");
 
-            CheckAllReadyAndNotify();
+            if (gameStateManager.GameState == GameState.Matching)
+            {
+                CheckAllReadyAndNotify();
+            }
         }
 
-        // (サーバー)AllReadyをリセットする関数
+        // (サーバー)クライアントの新規接続時にAllReadyをリセットする関数
         private void ResetAllReadyState(ulong clientId)
         {
             AllClientsReady.Value = false;
@@ -111,14 +134,32 @@ namespace RicoShot.Core
         private void OnClientConnected(ulong clientId)
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
-            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId));
+            // 自身のデータを登録
+            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId, localPlayerManager.CharacterParams));
+        }
+
+         // (クライアント)接続解除時の挙動
+        private void OnConnectionFailed(ulong clientId)
+        {
+            // 接続失敗時に自動でリトライ
+            if (gameStateManager.GameState == GameState.Matching)
+            {
+                Debug.Log($"[Client] Connection failed because: {NetworkManager.Singleton.DisconnectReason}");
+                Debug.Log($"[Client] Retry after 5 seconds");
+                // 5秒待ってリトライ
+                UniTask.Create(async () =>
+                {
+                    await UniTask.WaitForSeconds(5, cancellationToken: destroyCancellationToken);
+                    InitializeNetwork(gameStateManager.GameState);
+                }).Forget();
+            }
         }
 
         // (クライアント→サーバー)サーバーにクライアント情報の追加
         [Rpc(SendTo.Server)]
         private void AddClientDataRpc(ClientData clientData)
         {
-            ClientDatas.Add(clientData);
+            ClientDataList.Add(clientData);
             Debug.Log($"[Server] Registed ClientData: {clientData}");
         }
 
@@ -127,8 +168,9 @@ namespace RicoShot.Core
         public void UpdateTeamRpc(Team team, RpcParams rpcParams = default)
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
+            // チームが変わっていないかすでにReady状態のときは何もしない
             if (clientData.Team == team || clientData.IsReady) return;
-            clientData.SetTeam(team);
+            clientData.Team = team;
             Debug.Log($"[Server] Client data changed -> {clientData}");
         }
         
@@ -138,7 +180,7 @@ namespace RicoShot.Core
         {
             var clientData = GetClientDataFromClientID(rpcParams.Receive.SenderClientId);
             if (clientData.IsReady == isReady) return;
-            clientData.SetReadyStatus(isReady);
+            clientData.IsReady = isReady;
             Debug.Log($"[Server] Client ready status changed -> ID: {clientData.ClientID}, IsReady: {clientData.IsReady}");
 
             CheckAllReadyAndNotify();
@@ -152,7 +194,15 @@ namespace RicoShot.Core
             if (AllClientsReady.Value && gameStateManager.GameState == GameState.Matching)
             {
                 gameStateManager.NextScene();
+                ChangeGameStateRpc();
             }
+        }
+
+        // (サーバー→クライアント)クライアントのGameStateをPlayに変更
+        [Rpc(SendTo.NotServer)]
+        private void ChangeGameStateRpc()
+        {
+            gameStateManager.NextScene();
         }
 
         // リセット用メソッド
@@ -164,7 +214,7 @@ namespace RicoShot.Core
                 {
                     NetworkManager.Singleton.Shutdown();
                     await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsClient);
-                    ClientDatas.Clear();
+                    ClientDataList.Clear();
                     gameStateManager.ReadyToReset = true;
                     Debug.Log($"Shutdown Client completed");
                 }).Forget();
@@ -177,7 +227,7 @@ namespace RicoShot.Core
                     await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClientsList.Count == 0);
                     NetworkManager.Singleton.Shutdown();
                     await UniTask.WaitUntil(() => !NetworkManager.Singleton.IsServer);
-                    ClientDatas.Clear();
+                    ClientDataList.Clear();
                     gameStateManager.ReadyToReset = true;
                     Debug.Log($"Shutdown Server completed");
                 }).Forget();
@@ -195,7 +245,7 @@ namespace RicoShot.Core
         private void CheckAllReadyAndNotify()
         {
             bool allReady = true;
-            foreach (var data in ClientDatas)
+            foreach (var data in ClientDataList)
             {
                 if (!data.IsReady)
                 {
@@ -208,22 +258,21 @@ namespace RicoShot.Core
             ReadyStatusChangedRpc(allReady);
         }
 
-        // (サーバー→全体)全員がReady状態になったことを通知
+        // (サーバー→全体)全員がReady状態になったことを通知する関数
         [Rpc(SendTo.Everyone)]
         private void ReadyStatusChangedRpc(bool allReady)
         {
             OnAllClientsReadyChanged?.Invoke(allReady);
         }
 
-        // ClientIDを基にClientDataを返す
+        // ClientIDを基にClientDataを返す関数
         private ClientData GetClientDataFromClientID(ulong clientID)
         {
-            foreach (var clientData in ClientDatas)
+            foreach (var clientData in ClientDataList)
             {
                 if(clientData.ClientID == clientID) return clientData;
             }
-            Debug.Log($"ID: {clientID} not found");
-            throw new InvalidOperationException();
+            return null;
         }
     }
 }
