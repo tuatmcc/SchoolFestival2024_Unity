@@ -57,6 +57,9 @@ namespace RicoShot.Play.Tests
 
             player.DontDestroyWithOwner = true;
 
+            var initializer = player.GetComponent<CharacterInitializer>();
+            initializer.SetCharacterParams(clientData.CharacterParams);
+
             player.SpawnAsPlayerObject(clientData.ClientID);
             Debug.Log($"Created character: { clientData.ClientID }");
         }

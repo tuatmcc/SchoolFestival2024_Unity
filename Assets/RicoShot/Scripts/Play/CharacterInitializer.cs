@@ -1,4 +1,6 @@
+using Chibi;
 using Cysharp.Threading.Tasks;
+using RicoShot.Core;
 using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +39,35 @@ namespace RicoShot.Play
 
             }
             Debug.Log("Initialized character");
+        }
+
+        public void SetCharacterParams(CharacterParams characterParams)
+        {
+            ReflectCharacterParamsAsync(characterParams).Forget();
+        }
+
+        // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
+        private async UniTask ReflectCharacterParamsAsync(CharacterParams characterParams)
+        {
+            ReflectCharacterParams(characterParams);
+            await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
+            SendCharaterParamsRpc(characterParams);
+        }
+
+        // (サーバー→クライアント)サーバーからクライアントにCharacterParamsを送信して反映する関数
+        [Rpc(SendTo.NotServer)]
+        private void SendCharaterParamsRpc(CharacterParams characterParams)
+        {
+            ReflectCharacterParams(characterParams);
+        }
+
+        private void ReflectCharacterParams(CharacterParams characterParams)
+        {
+            var characterSettingController = GetComponent<CharacterSettingsController>();
+            characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
+            characterSettingController.hairColor = characterParams.HairColor.ToString();
+            characterSettingController.costumeVariant = characterParams.CostumeVariant;
+            characterSettingController.accessory = characterParams.Accessory;
         }
     }
 }

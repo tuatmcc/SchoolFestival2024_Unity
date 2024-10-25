@@ -1,3 +1,5 @@
+using Chibi;
+using Chibi.ChibiComponents;
 using RicoShot.Core;
 using System;
 using System.Collections;
@@ -27,6 +29,19 @@ namespace RicoShot.Core
             Accessory = 0;
         }
     
+        public static CharacterParams GetRandomCharacterParams()
+        {
+            var characterParams = new CharacterParams
+            {
+                ChibiIndex = UnityEngine.Random.Range(0, CharacterSettingsController.MAX_CHIBI_INDEX + 1),
+                HairColor = "#000000",
+                CostumeVariant = UnityEngine.Random.Range(0, ChibiCostumeColorSettings.MAX_COSTUME_VARIANT_INDEX + 1),
+                //Accessory = UnityEngine.Random.Range(0, ChibiAccessorySettings.MAX_ACCESSORY_INDEX + 1)
+                Accessory = 3
+            };
+            return characterParams;
+        }
+
         [SerializeField] private int chibiIndex;
         [SerializeField] private FixedString32Bytes hairColor;
         [SerializeField] private int costumeVariant;

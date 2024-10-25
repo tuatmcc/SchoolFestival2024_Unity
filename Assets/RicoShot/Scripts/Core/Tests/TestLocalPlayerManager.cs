@@ -2,10 +2,11 @@ using RicoShot.Core.Interface;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace RicoShot.Core.Tests
 {
-    public class TestLocalPlayerManager : ILocalPlayerManager
+    public class TestLocalPlayerManager : ILocalPlayerManager, IInitializable
     {
         public string LocalPlayerUUID
         {
@@ -13,6 +14,21 @@ namespace RicoShot.Core.Tests
             set { }
         }
 
-        public CharacterParams CharacterParams { get; set; } = new CharacterParams();
+        public CharacterParams CharacterParams { get; set; } = CharacterParams.GetRandomCharacterParams();
+
+        [Inject] private readonly IGameStateManager gameStateManager;
+
+        public void Initialize()
+        {
+            gameStateManager.OnGameStateChanged += ResetCharacterParams;
+        }
+
+        private void ResetCharacterParams(GameState gameState)
+        {
+            if(gameState == GameState.Title)
+            {
+                CharacterParams = CharacterParams.GetRandomCharacterParams();
+            }
+        }
     }
 }
