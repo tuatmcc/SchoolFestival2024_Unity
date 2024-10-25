@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Unity.Collections;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
@@ -44,12 +45,12 @@ namespace RicoShot.Core
         }
         public CharacterParams CharacterParams { get => characterParams; private set => characterParams = value; }
 
-        [SerializeField] private FixedString64Bytes uuid = default;
-        [SerializeField] private ulong clientID = default;
-        [SerializeField] private FixedString64Bytes name = default;
-        [SerializeField] private Team team = default;
-        [SerializeField] private bool isReady = default;
-        private CharacterParams characterParams = new CharacterParams();
+        private FixedString64Bytes uuid = default;
+        private ulong clientID = default;
+        private FixedString64Bytes name = default;
+        private Team team = default;
+        private bool isReady = default;
+        private CharacterParams characterParams = new();
 
         public ClientData()
         {
@@ -60,7 +61,7 @@ namespace RicoShot.Core
         {
             this.UUID = UUID;
             this.ClientID = ClientID;
-            //this.CharacterParams = CharacterParams;
+            this.CharacterParams = CharacterParams;
         }
 
         public override string ToString()
@@ -75,30 +76,7 @@ namespace RicoShot.Core
             serializer.SerializeValue(ref name);
             serializer.SerializeValue(ref team);
             serializer.SerializeValue(ref isReady);
-            // NetworkValiableをネストできないので力ずくでSerialize(半ば強引であるが…)
-            var fields = characterParams.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-            if (serializer.IsReader)
-            {
-                var reader = serializer.GetFastBufferReader();
-                foreach(var field in fields)
-                {
-                    var method = typeof(FastBufferReader).GetMethod("ReadValueSafe", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { field.FieldType }, null);
-                    var genericMethod = method.MakeGenericMethod(field.FieldType);
-                    var parameters = new object[] { null };
-                    genericMethod.Invoke(reader, parameters);
-                    field.SetValue(CharacterParams, parameters[0]);
-                }
-            }
-            else
-            {
-                var writer = serializer.GetFastBufferWriter();
-                foreach(var field in fields)
-                {
-                    var method = typeof(FastBufferWriter).GetMethod("WriteValueSafe", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { field.FieldType }, null);
-                    var genericMethod = method.MakeGenericMethod(field.FieldType);
-                    genericMethod.Invoke(writer, new object[] { field.GetValue(CharacterParams) });
-                }
-            }
+            CharacterParams.NetworkSerialize(serializer);
         }
 
         public bool Equals(ClientData other)
