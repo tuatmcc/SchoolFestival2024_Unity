@@ -18,9 +18,12 @@ namespace Chibi
 
         private void Update()
         {
-            headTarget.transform.position = chibiSwitcher.current.headTransform.transform.position;
-            leftHandTarget = chibiSwitcher.current.leftHandTransform;
-            rightHandTarget = chibiSwitcher.current.rightHandTransform;
+            headTarget.position = chibiSwitcher.current.headTransform.position;
+            headTarget.rotation = chibiSwitcher.current.headTransform.rotation;
+            leftHandTarget.position = chibiSwitcher.current.leftHandTransform.position;
+            leftHandTarget.rotation = chibiSwitcher.current.leftHandTransform.rotation;
+            rightHandTarget.position = chibiSwitcher.current.rightHandTransform.position;
+            rightHandTarget.rotation = chibiSwitcher.current.rightHandTransform.rotation;
         }
     }
 }
