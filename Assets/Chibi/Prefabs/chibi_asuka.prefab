@@ -74,7 +74,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_comment: 
   m_gizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  m_stiffnessForce: 1
+  m_stiffnessForce: 1.5
   m_gravityPower: 0
   m_gravityDir: {x: 0, y: -1, z: 0}
   m_dragForce: 0.4
@@ -96,6 +96,7 @@ MonoBehaviour:
   - {fileID: 3605032538335408544}
   - {fileID: 3729947164457562232}
   - {fileID: 7264836897466192060}
+  - {fileID: 947234722926826772}
   m_updateType: 0
 --- !u!114 &6313915046452416440
 MonoBehaviour:
@@ -267,6 +268,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1070930718126020409}
+    - targetCorrespondingSourceObject: {fileID: 5692363959232306509, guid: 05ca58f83b213434889d39be7fba641b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 947234722926826772}
     - targetCorrespondingSourceObject: {fileID: -5429246048605795705, guid: 05ca58f83b213434889d39be7fba641b,
         type: 3}
       insertIndex: -1
@@ -321,6 +326,8 @@ MonoBehaviour:
   Colliders:
   - Offset: {x: 0, y: 0.1, z: 0}
     Radius: 0.18
+  - Offset: {x: 0, y: 0.2, z: 0}
+    Radius: 0.18
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!1 &397279483159947741 stripped
 GameObject:
@@ -342,9 +349,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &421673640844353063 stripped
 Transform:
@@ -548,9 +555,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &4951483433136758864 stripped
 Transform:
@@ -644,9 +651,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0.06, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   - Offset: {x: 0, y: 0.08, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
 --- !u!4 &8216117166161664291 stripped
 Transform:
@@ -680,7 +687,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Colliders:
   - Offset: {x: 0, y: 0, z: 0}
-    Radius: 0.03
+    Radius: 0.05
   - Offset: {x: 0, y: 0.02, z: 0}
-    Radius: 0.03
+    Radius: 0.05
+  m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
+--- !u!1 &9099996759747268032 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5692363959232306509, guid: 05ca58f83b213434889d39be7fba641b,
+    type: 3}
+  m_PrefabInstance: {fileID: 3510265682953900173}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &947234722926826772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099996759747268032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646b65a4a57afd34d8c4ed557efb46a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Colliders:
+  - Offset: {x: 0, y: 0, z: 0}
+    Radius: 0.08
   m_gizmoColor: {r: 1, g: 0, b: 1, a: 1}
