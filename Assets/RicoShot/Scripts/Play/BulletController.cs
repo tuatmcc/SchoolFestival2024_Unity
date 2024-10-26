@@ -5,6 +5,7 @@ using RicoShot.Play.Interface;
 using RicoShot.Utils;
 using Supabase.Storage;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using Zenject;
 namespace RicoShot.Play
@@ -15,6 +16,7 @@ namespace RicoShot.Play
         [SerializeField] private int bulletForce = 20;
         private Vector3 velocity;
         private Rigidbody rb;
+        private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
 
@@ -22,11 +24,13 @@ namespace RicoShot.Play
 
         void Start()
         {
+            GetComponent<Renderer>().enabled = false;
             gameObject.AddComponent<ZenAutoInjecter>();
             rb = this.GetComponent<Rigidbody>();
             SpawnBullet().Forget();
         }
 
+        // Spawnを待ってBulletをセット
         private async UniTask SpawnBullet()
         {
             await UniTask.WaitUntil(() => playSceneManager != null && IsSpawned, cancellationToken: destroyCancellationToken);
@@ -37,6 +41,7 @@ namespace RicoShot.Play
                 rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
                 Debug.Log("Shoted");
             }
+            GetComponent<Renderer>().enabled = true;
         }
 
         private void FixedUpdate()
@@ -86,6 +91,8 @@ namespace RicoShot.Play
                 }
             }
         }
+
+        // (クライアント→サーバー)このBulletの削除をする関数
         [Rpc(SendTo.Server)]
         private void DestroyThisRpc()
         {
