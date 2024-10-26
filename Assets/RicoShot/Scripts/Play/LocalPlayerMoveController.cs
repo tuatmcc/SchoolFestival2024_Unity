@@ -12,10 +12,9 @@ namespace RicoShot.Play
 {
     public class LocalPlayerMoveController : NetworkBehaviour
     {
-        [SerializeField]
-        public GameObject [] Bullets;
-        public Transform ShootPoint;
-        public float BulletForce = 20;
+        [SerializeField] private NetworkObject Bullet;
+        [SerializeField] private Transform ShootPoint;
+        [SerializeField] private float BulletForce = 20;
 
         private Transform TPSCam;
 
@@ -61,6 +60,10 @@ namespace RicoShot.Play
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
                 Debug.Log("Local player set up finished");
+            }
+            else if (IsServer)
+            {
+
             }
             else
             {
@@ -142,24 +145,44 @@ namespace RicoShot.Play
             }
         }
 
-        private async void OnFire(InputAction.CallbackContext context)
+        private void OnFire(InputAction.CallbackContext context)
         {
-            //if (context.performed && ! OnCooltime)
-            //{
-            //    Gamepad.current.SetMotorSpeeds(1f, 1f);
-            //    await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
-            //    Gamepad.current.SetMotorSpeeds(0f, 0f);
-            //    OnCooltime = true;
-            //    // GameObject currentBullet = Bullets[bullet_fire_count % 5];
-            //    var currentBullet = bulletObjectPoolManager.Shot();
-            //    currentBullet.transform.position = ShootPoint.position;
-            //    //GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
-            //    currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
-            //    currentBullet.transform.parent = null;
-            //    await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
-            //    OnCooltime = false;
-            //}
+            if (!OnCooltime)
+            {
+                //Gamepad.current.SetMotorSpeeds(1f, 1f);
+                //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
+                //Gamepad.current.SetMotorSpeeds(0f, 0f);
+                OnCooltime = true;
+                // GameObject currentBullet = Bullets[bullet_fire_count % 5];
+                //var currentBullet = bulletObjectPoolManager.Shot();
+                //currentBullet.transform.position = ShootPoint.position;
+                //GameObject currentBullet = Instantiate(Bullet, ShootPoint.position, this.transform.rotation, this.transform);
+                //currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
+                //currentBullet.transform.parent = null;
+                //await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
+                OnCooltime = false;
+            }
             Debug.Log("Fire");
+        }
+
+        private async UniTask FireAsync()
+        {
+            if (!OnCooltime)
+            {
+                OnCooltime = true;
+                ShotBulletRpc();
+                await UniTask.WaitForSeconds(COOLTIME);
+                OnCooltime = false;
+            }
+        }
+
+        [Rpc(SendTo.Server)]
+        private void ShotBulletRpc()
+        {
+            var bullet = Instantiate(Bullet);
+            bullet.transform.position = ShootPoint.position;
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * BulletForce, ForceMode.Impulse);
+            bullet.Spawn();
         }
     }
 }

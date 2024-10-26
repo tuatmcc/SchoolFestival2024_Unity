@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 467218574
+  GlobalObjectIdHash: 354433576
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -219,8 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea2188c08c8046229aa2b64ae1355ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullets: []
-  ShootPoint: {fileID: 0}
+  Bullet: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48, type: 3}
+  ShootPoint: {fileID: 487235101643156239}
   BulletForce: 20
   moveSpeedConst: 5
   rotationSpeedConst: 5
