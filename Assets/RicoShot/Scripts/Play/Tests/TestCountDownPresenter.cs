@@ -16,10 +16,16 @@ public class TestCountDownPresenter : MonoBehaviour
         countText = GetComponent<TextMeshProUGUI>();
         countText.text = "0";
         timeManager.OnCountChanged += OnCountChanged;
+        timeManager.OnPlayTimeChanged += OnPlayTimeChanged;
     }
 
     private void OnCountChanged(int count)
     {
         countText.text = $"{count}";
+    }
+
+    private void OnPlayTimeChanged(long playTime)
+    {
+        countText.text = $"{playTime/60:00}:{playTime%60:00}";
     }
 }
