@@ -152,7 +152,6 @@ namespace RicoShot.Play
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
-                OnCooltime = true;
                 // GameObject currentBullet = Bullets[bullet_fire_count % 5];
                 //var currentBullet = bulletObjectPoolManager.Shot();
                 //currentBullet.transform.position = ShootPoint.position;
@@ -160,7 +159,7 @@ namespace RicoShot.Play
                 //currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
                 //currentBullet.transform.parent = null;
                 //await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
-                OnCooltime = false;
+                FireAsync().Forget();
             }
             Debug.Log("Fire");
         }
@@ -180,9 +179,8 @@ namespace RicoShot.Play
         private void ShotBulletRpc()
         {
             var bullet = Instantiate(Bullet);
-            bullet.transform.position = ShootPoint.position;
-            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * BulletForce, ForceMode.Impulse);
-            bullet.Spawn();
+            var clientDataHolder = GetComponent<IClientDataHolder>();
+            bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
         }
     }
 }
