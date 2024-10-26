@@ -14,7 +14,6 @@ namespace RicoShot.Core
 {
     /// <summary>
     /// マッチング時に使用されるクライアントデータ保存用クラス
-    /// リファクタリング予定(優先度:低)
     /// </summary>
     [Serializable]
     public class ClientData : INetworkSerializable, IEquatable<ClientData>, IDataChangedNotifiable

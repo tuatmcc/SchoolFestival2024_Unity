@@ -11,8 +11,10 @@ using Zenject;
 namespace RicoShot.Play
 {
     [RequireComponent(typeof(LocalPlayerMoveController))]
-    public class CharacterInitializer : NetworkBehaviour
+    public class CharacterInitializer : NetworkBehaviour, IClientDataHolder
     {
+        public ClientData ClientData { get; private set; }
+
         [Inject] private readonly IPlaySceneManager playSceneManager;
 
         private void Start()
@@ -41,24 +43,27 @@ namespace RicoShot.Play
             Debug.Log("Initialized character");
         }
 
-        public void SetCharacterParams(CharacterParams characterParams)
+        // (サーバー)クライアントのデータをセットする関数
+        public void SetCharacterParams(ClientData clientData)
         {
-            ReflectCharacterParamsAsync(characterParams).Forget();
+            ClientData = clientData;
+            ReflectCharacterParamsAsync(clientData).Forget();
         }
 
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
-        private async UniTask ReflectCharacterParamsAsync(CharacterParams characterParams)
+        private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
         {
-            ReflectCharacterParams(characterParams);
+            ReflectCharacterParams(clientData.CharacterParams);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
-            SendCharaterParamsRpc(characterParams);
+            SendCharaterParamsRpc(clientData);
         }
 
         // (サーバー→クライアント)サーバーからクライアントにCharacterParamsを送信して反映する関数
         [Rpc(SendTo.NotServer)]
-        private void SendCharaterParamsRpc(CharacterParams characterParams)
+        private void SendCharaterParamsRpc(ClientData clientData)
         {
-            ReflectCharacterParams(characterParams);
+            ClientData = clientData;
+            ReflectCharacterParams(clientData.CharacterParams);
         }
 
         private void ReflectCharacterParams(CharacterParams characterParams)
