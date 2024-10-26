@@ -49,7 +49,7 @@ namespace RicoShot.Play
         // SpawnとInjectを待って、ClientかつOwnerなら入力を取るイベントを登録、それ以外ならスクリプトを無効化
         private async UniTask SetUpEvents()
         {
-            await UniTask.WaitUntil(() => IsSpawned && playSceneManager !=  null, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
             if (IsOwner && IsClient)
             {
                 playSceneManager.PlayInputs.Main.Move.performed += OnMove;
@@ -73,7 +73,7 @@ namespace RicoShot.Play
 
         void FixedUpdate()
         {
-            if(!setUpFinished) return;
+            if (!setUpFinished) return;
 
             // move the player
 
@@ -87,11 +87,11 @@ namespace RicoShot.Play
             */
             Vector3 v = TPSCam.rotation * new Vector3(4 * moveInput.x, 0, 4 * moveInput.y);
             v.y = 0;
-            rb.velocity =v;
+            rb.velocity = v;
 
             //Debug.Log(rb.velocity);
             //this.transform.rotation = Quaternion.Euler(targetDirection);
-            
+
         }
 
         private void Update()
@@ -105,7 +105,7 @@ namespace RicoShot.Play
             {
                 _targetRotation = TPSCam.eulerAngles.y;
                 float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                    RotationSmoothTime/100);
+                    RotationSmoothTime / 100);
 
                 // rotate to face input direction relative to camera position
                 this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
@@ -130,7 +130,6 @@ namespace RicoShot.Play
             moveInput = context.ReadValue<Vector2>();
             //animator.SetFloat("speed", Math.Abs(moveInput.magnitude));
             //animator.SetFloat("rotate", moveInput.x);
-            Debug.Log($"Move Input: {moveInput}");
         }
 
         private void SetRotationCam(InputAction.CallbackContext context)
@@ -159,6 +158,7 @@ namespace RicoShot.Play
                 //currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
                 //currentBullet.transform.parent = null;
                 //await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
+                OnCooltime = true;
                 FireAsync().Forget();
             }
             Debug.Log("Fire");
@@ -166,19 +166,17 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
-            if (!OnCooltime)
-            {
-                OnCooltime = true;
-                ShotBulletRpc();
-                await UniTask.WaitForSeconds(COOLTIME);
-                OnCooltime = false;
-            }
+            OnCooltime = true;
+            ShotBulletRpc((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat);
+            await UniTask.WaitForSeconds(COOLTIME);
+            OnCooltime = false;
         }
 
         [Rpc(SendTo.Server)]
-        private void ShotBulletRpc()
+        private void ShotBulletRpc(float rag)
         {
-            var bullet = Instantiate(Bullet, transform.position + Vector3.up * 0.5f, Quaternion.identity);
+            var bullet = Instantiate(Bullet, transform.position + Vector3.up * 0.5f + transform.forward * 0.2f + 5f * rag * rb.velocity, Quaternion.identity);
+            Debug.Log(rag);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
         }

@@ -16,7 +16,7 @@ namespace RicoShot.Play
         [SerializeField] private int bulletForce = 20;
         private Vector3 velocity;
         private Rigidbody rb;
-        private NetworkTransform networkTransform;
+        private Renderer renderer;
         private Vector3 normal;
         private int reflect_count = 0;
 
@@ -24,9 +24,10 @@ namespace RicoShot.Play
 
         void Start()
         {
-            GetComponent<Renderer>().enabled = false;
             gameObject.AddComponent<ZenAutoInjecter>();
             rb = this.GetComponent<Rigidbody>();
+            renderer = GetComponent<Renderer>();
+            renderer.enabled = false;
             SpawnBullet().Forget();
         }
 
@@ -37,11 +38,21 @@ namespace RicoShot.Play
             if (IsOwner)
             {
                 var localPlayerTransform = playSceneManager.LocalPlayer.transform;
-                transform.position = localPlayerTransform.position + Vector3.up * 0.5f;
+                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + transform.forward * 0.2f;
                 rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
+                renderer.enabled = true;
                 Debug.Log("Shoted");
             }
-            GetComponent<Renderer>().enabled = true;
+            else
+            {
+                EnableRendererAsync().Forget();
+            }
+        }
+
+        private async UniTask EnableRendererAsync()
+        {
+            await UniTask.WaitForSeconds((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat, cancellationToken: destroyCancellationToken);
+            renderer.enabled = true;
         }
 
         private void FixedUpdate()
@@ -99,5 +110,4 @@ namespace RicoShot.Play
             Destroy(gameObject);
         }    
     }
-
 }
