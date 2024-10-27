@@ -1,18 +1,112 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Postgrest.Attributes;
 using Postgrest.Models;
 using UnityEngine;
 
-namespace RicoShot.SupabaseClient
+namespace RicoShot.SupabaseController
 {
+
+    /*
+     * ユーザーがWeb上で作ったキャラクターのデータをJSONからパースするためのコンテナクラス
+     * 現状の定義は適当なので改修の必要有り
+     */
+    public class CharacterPreset
+    {
+        public int modelID { get; set; }
+        public Vector3 colorCode { get; set; }
+        // アクセサリとかのコンテナを追加?
+    }
+
+    /*
+     * プレイヤーのデータを格納しておくためのクラス
+     * 主な用途は以下2つ
+     *   - JSONデータのパース
+     *   - 結果をSupabase上のIDをリンクさせて保持
+     */
+    public class PlayerProfile
+    {
+        private string _userID;
+        private string _userName;
+        private CharacterPreset _characterPreset;
+        private int _score = 0;
+
+        public PlayerProfile(string userID, string userName)
+        {
+            _userID = userID;
+            _userName = userName;
+        }
+        
+        public string UserID { get { return _userID; } }
+        public string UserName { get { return _userName; } }
+        public CharacterPreset CharacterPreset { get { return _characterPreset; } }
+        public int Score { get { return _score; } }
+        
+        public void SetScore(int score) { _score = score; }
+
+        public void ParsePreset(string presetData)
+        {
+            CharacterPreset preset = JsonConvert.DeserializeObject<CharacterPreset>(presetData);
+        }
+    }
+    
+    public class Team
+    {
+        private Guid _teamID;
+        private List<PlayerProfile> _members;
+        private bool _isWin = false;
+
+        public Team()
+        {
+            _teamID = Guid.NewGuid();
+        }
+        
+        public Guid TeamID { get { return _teamID; } }
+        public List<PlayerProfile> Members { get { return _members; } }
+        public bool IsWin { get { return _isWin; } }
+
+        public void AddMember(PlayerProfile member) { _members.Add(member); }
+        public void RemoveMember(PlayerProfile member) { _members.Remove(member); }
+        public void SetIsWon(bool isWin) { _isWin = isWin; }
+    }
+    
+    public class MatchingResult
+    {
+        private Guid _matchingID;
+        private DateTime _startTime;
+        private DateTime _endTime;
+        private Team _teamA;
+        private Team _teamB;
+
+        public MatchingResult()
+        {
+            _matchingID = Guid.NewGuid();
+        }
+        
+        public Guid MatchingID { get { return _matchingID; } }
+        public DateTime StartTime { get { return _startTime; } }
+        public DateTime EndTime { get { return _endTime; } }
+        public Team TeamA { get { return _teamA; } }
+        public Team TeamB { get { return _teamB; } }
+        
+        public void SetStartTime(DateTime startTime) { _startTime = startTime; }
+        public void SetEndTime(DateTime endTime) { _endTime = endTime; }
+        public void SetTeamA(Team teamA) { _teamA = teamA; }
+        public void SetTeamB(Team teamB) { _teamB = teamB; }
+    }
+    
     [Table("profiles")]
     public class ProfileContainer : BaseModel
     {
         [PrimaryKey("id", false)] public string id { get; set; }
         [Column("user_id")] public string user_id { get; set; }
         [Column("display_name")] public string display_name { get; set; }
+        /*
+         * キャラクターの設定情報を格納したJSONを格納するためのコンテナ(現状Supabaseの方に定義が無いためコメントアウト)
+         */
+        // [Column("character_preset")] public string character_preset { get; set; }
     }
 
     [Table("matching_results")]
@@ -36,16 +130,8 @@ namespace RicoShot.SupabaseClient
     {
         [PrimaryKey("id", false)] public string id { get; set; }
         [Column("user_id")] public string user_id { get; set; }
-        [Column("team_id")] public int team_id { get; set; }
+        [Column("team_id")] public string team_id { get; set; }
         [Column("matching_result_id")] public string matching_result_id { get; set; }
         [Column("score")] public int score { get; set; }
-    }
-
-    [Table("profiles_with_stats")]
-    public class ProfilesWithStatsContainer : BaseModel
-    {
-        [Column("high_score")] public int high_score { get; set; }
-        [Column("play_count")] public int play_count { get; set; }
-        [Column("rank")] public int rank { get; set; }
     }
 }
