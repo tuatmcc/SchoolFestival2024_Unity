@@ -69,6 +69,7 @@ namespace RicoShot.Play
         private void DrawBulletShot()
         {
             var direction = shootPoint.rotation * Vector3.forward;
+            Debug.Log(direction);
             Ray ray1 = new Ray(shootPoint.position, direction),
                 ray2 = new Ray(shootPoint.position, direction),
                 ray3 = new Ray(shootPoint.position, direction),

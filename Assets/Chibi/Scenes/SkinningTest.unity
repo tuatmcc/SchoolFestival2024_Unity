@@ -6794,6 +6794,12 @@ Material:
     - _egc6: {r: 1, g: 1, b: 1, a: 0}
     - _egc7: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
+--- !u!4 &1481209212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+    type: 3}
+  m_PrefabInstance: {fileID: 5401205802880035464}
+  m_PrefabAsset: {fileID: 0}
 --- !u!21 &1630965387
 Material:
   serializedVersion: 8
@@ -11021,6 +11027,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 1852145743}
+    - target: {fileID: 3552510599939113781, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_Data.m_MaintainOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3552510599939113781, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
+      value: 
+      objectReference: {fileID: 1481209212}
     - target: {fileID: 3777852436167327942, guid: 42451f766f133704180ba263f339fd26,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -11081,6 +11097,41 @@ PrefabInstance:
       propertyPath: m_Name
       value: chibi_asuka
       objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.42135543
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.87471956
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.011477654
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2391516
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 132.975
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -38.89801
+      objectReference: {fileID: 0}
+    - target: {fileID: 4479702037410044715, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -18.971985
+      objectReference: {fileID: 0}
     - target: {fileID: 5547748822791518388, guid: 42451f766f133704180ba263f339fd26,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -11106,6 +11157,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 844389531}
+    - target: {fileID: 7051631666094583068, guid: 42451f766f133704180ba263f339fd26,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 378736258f11563529126908d8a79e12, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
