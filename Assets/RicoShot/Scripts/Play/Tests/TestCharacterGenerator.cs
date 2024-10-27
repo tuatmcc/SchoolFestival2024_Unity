@@ -71,12 +71,15 @@ namespace RicoShot.Play.Tests
                 0,
                 (team == Team.Alpha ? -2 : 2));
 
-            var player = Instantiate(networkObject, pos, Quaternion.identity);
+            var npc = Instantiate(networkObject, pos, Quaternion.identity);
+
+            var initializer = npc.GetComponent<CharacterInitializer>();
+            initializer.SetCharacterParams(new ClientData(team, CharacterParams.GetRandomCharacterParams()));
+
+            npc.Spawn();
 
             TeamAlphaCount += team == Team.Alpha ? 1 : 0;
             TeamBravoCount += team == Team.Bravo ? 1 : 0;
-
-            player.Spawn();
         }
     }
 }

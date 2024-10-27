@@ -43,6 +43,7 @@ namespace RicoShot.Core
             }
         }
         public CharacterParams CharacterParams { get => characterParams; private set => characterParams = value; }
+        public bool IsNpc { get; set; }
 
         private FixedString64Bytes uuid = default;
         private ulong clientID = default;
@@ -50,6 +51,7 @@ namespace RicoShot.Core
         private Team team = default;
         private bool isReady = default;
         private CharacterParams characterParams = new();
+        private bool isNpc = default;
 
         public ClientData()
         {
@@ -61,6 +63,15 @@ namespace RicoShot.Core
             this.UUID = UUID;
             this.ClientID = ClientID;
             this.CharacterParams = CharacterParams;
+            this.IsNpc = false;
+        }
+
+        public ClientData(Team Team, CharacterParams CharacterParams, ulong ClientID = NetworkManager.ServerClientId, bool IsNpc = true)
+        {
+            this.ClientID = ClientID;
+            this.Team = Team;
+            this.CharacterParams = CharacterParams;
+            this.IsNpc = IsNpc;
         }
 
         public override string ToString()
@@ -75,6 +86,7 @@ namespace RicoShot.Core
             serializer.SerializeValue(ref name);
             serializer.SerializeValue(ref team);
             serializer.SerializeValue(ref isReady);
+            serializer.SerializeValue(ref isNpc);
             CharacterParams.NetworkSerialize(serializer);
         }
 
