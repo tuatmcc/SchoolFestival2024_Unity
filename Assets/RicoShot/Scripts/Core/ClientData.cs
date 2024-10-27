@@ -58,6 +58,7 @@ namespace RicoShot.Core
 
         }
 
+        // プレイヤーのクライアントデータ
         public ClientData(FixedString64Bytes UUID, ulong ClientID, CharacterParams CharacterParams)
         {
             this.UUID = UUID;
@@ -66,12 +67,16 @@ namespace RicoShot.Core
             this.IsNpc = false;
         }
 
-        public ClientData(Team Team, CharacterParams CharacterParams, ulong ClientID = NetworkManager.ServerClientId, bool IsNpc = true)
+        // NPCのインスタンス取得用
+        public static ClientData GetClientDataForNpc(Team Team)
         {
-            this.ClientID = ClientID;
-            this.Team = Team;
-            this.CharacterParams = CharacterParams;
-            this.IsNpc = IsNpc;
+            var clientData = new ClientData();
+            clientData.UUID = Guid.NewGuid().ToSafeString();
+            clientData.ClientID = NetworkManager.ServerClientId;
+            clientData.Team = Team;
+            clientData.characterParams = CharacterParams.GetRandomCharacterParams();
+            clientData.IsNpc = true;
+            return clientData;
         }
 
         public override string ToString()

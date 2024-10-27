@@ -18,7 +18,7 @@ namespace RicoShot.Play.Tests
         private int TeamBravoCount = 0;
 
         [Inject] private readonly INetworkController networkController;
-
+        
         // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
         // (サーバー)クライアントのプレイヤーとNPCを生成
         private void Start()
@@ -49,7 +49,6 @@ namespace RicoShot.Play.Tests
                 0,
                 (clientData.Team == Team.Alpha ? -2 : 2));
 
-            // InstantiateAndSpawnへの置き換えを検討
             var player = Instantiate(networkObject, pos, Quaternion.identity);
 
             TeamAlphaCount += clientData.Team == Team.Alpha ? 1 : 0;
@@ -74,7 +73,7 @@ namespace RicoShot.Play.Tests
             var npc = Instantiate(networkObject, pos, Quaternion.identity);
 
             var initializer = npc.GetComponent<CharacterInitializer>();
-            initializer.SetCharacterParams(new ClientData(team, CharacterParams.GetRandomCharacterParams()));
+            initializer.SetCharacterParams(ClientData.GetClientDataForNpc(team));
 
             npc.Spawn();
 

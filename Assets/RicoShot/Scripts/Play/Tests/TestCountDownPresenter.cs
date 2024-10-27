@@ -5,27 +5,30 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class TestCountDownPresenter : MonoBehaviour
+namespace RicoShot.Play.Tests
 {
-    private TextMeshProUGUI countText;
-
-    [Inject] private readonly ITimeManager timeManager;
-
-    private void Start()
+    public class TestCountDownPresenter : MonoBehaviour
     {
-        countText = GetComponent<TextMeshProUGUI>();
-        countText.text = "0";
-        timeManager.OnCountChanged += OnCountChanged;
-        timeManager.OnPlayTimeChanged += OnPlayTimeChanged;
-    }
+        private TextMeshProUGUI countText;
 
-    private void OnCountChanged(int count)
-    {
-        countText.text = $"{count}";
-    }
+        [Inject] private readonly ITimeManager timeManager;
 
-    private void OnPlayTimeChanged(long playTime)
-    {
-        countText.text = $"{playTime/60:00}:{playTime%60:00}";
+        private void Start()
+        {
+            countText = GetComponent<TextMeshProUGUI>();
+            countText.text = "0";
+            timeManager.OnCountChanged += OnCountChanged;
+            timeManager.OnPlayTimeChanged += OnPlayTimeChanged;
+        }
+
+        private void OnCountChanged(int count)
+        {
+            countText.text = $"{count}";
+        }
+
+        private void OnPlayTimeChanged(long playTime)
+        {
+            countText.text = $"{playTime/60:00}:{playTime%60:00}";
+        }
     }
 }

@@ -8,7 +8,7 @@ using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 
-namespace RicoShot.Play
+namespace RicoShot.Play.Tests
 {
     public class TestTimeManager : NetworkBehaviour, ITimeManager
     {
