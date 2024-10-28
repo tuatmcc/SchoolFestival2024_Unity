@@ -3,6 +3,7 @@ using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Title.Interface;
 using System;
+using Unity.Collections;
 using UnityEngine.InputSystem;
 using Zenject;
 
@@ -24,7 +25,18 @@ namespace RicoShot.Title.Tests
             }
         }
 
+        public string ReadUUID
+        {
+            get => _readUuid;
+            set
+            {
+                _readUuid = value;
+                TitleState = TitleState.Fetching;
+            }
+        }
+
         private TitleState _titleState;
+        private string _readUuid;
 
         [Inject] IGameStateManager gameStateManager;
 
@@ -43,6 +55,14 @@ namespace RicoShot.Title.Tests
         private void OnEnter(InputAction.CallbackContext context)
         {
             gameStateManager.NextScene();
+        }
+
+        private void FetchProfileFromSupabase(TitleState titleState)
+        {
+            if (titleState == TitleState.Fetching)
+            {
+                
+            }
         }
 
         public void Dispose()

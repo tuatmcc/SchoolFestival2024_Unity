@@ -69,8 +69,18 @@ namespace RicoShot.Title
             {
                 titleSceneManager.TitleState = TitleState.Read;
 
+                var result = Read(_webCamTexture);
+                // 有効なUUIDかをチェック
+                if (Guid.TryParse(result, out var _))
+                {
+
+                }
+                else
+                {
+
+                }
                 // Webカメラの映像からQRコードを読み取り、その結果をTextコンポーネントに表示
-                resultText.text = $"Read: {Read(this._webCamTexture)}";
+                resultText.text = $"Read: {result}";
             }
             else
             {

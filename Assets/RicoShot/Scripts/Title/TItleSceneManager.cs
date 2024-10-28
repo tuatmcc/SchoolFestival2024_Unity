@@ -5,6 +5,7 @@ using RicoShot.Title.Interface;
 using Unity.VisualScripting;
 using RicoShot.InputActions;
 using System;
+using Unity.Collections;
 
 namespace RicoShot.Title
 {
@@ -24,10 +25,13 @@ namespace RicoShot.Title
             }
         }
 
+        public string ReadUUID { get; set; }
+
         private TitleState _titleState;
 
         TitleSceneManager()
         {
+            TitleState = TitleState.Reading;
             TitleInputs = new();
             TitleInputs.Enable();
         }
