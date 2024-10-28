@@ -92,7 +92,7 @@ namespace RicoShot.Play.Tests
             playSceneManager.PlayState = PlayState.Playing;
             while (PlayTime > 0)
             {
-                await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
+                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: destroyCancellationToken);
                 PlayTime--;
             }
             playSceneManager.PlayState = PlayState.Finish;
