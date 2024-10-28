@@ -14,9 +14,12 @@ namespace RicoShot.Play.Tests
         public NetworkClassList<ScoreData> ScoreList { get; } = new();
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
+            if (playSceneTester.IsTest) return;
+
             if (NetworkManager.IsServer)
             {
                 playSceneManager.OnPlayStateChanged += UploadResult;

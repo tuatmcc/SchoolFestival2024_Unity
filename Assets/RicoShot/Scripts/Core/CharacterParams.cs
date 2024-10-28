@@ -1,6 +1,7 @@
 using Chibi;
 using Chibi.ChibiComponents;
 using RicoShot.Core;
+using RicoShot.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,12 +15,44 @@ namespace RicoShot.Core
     /// キャラクターに関するパラメーターを保持するクラス
     /// </summary>
     [Serializable]
-    public class CharacterParams : INetworkSerializable
+    public class CharacterParams : INetworkSerializable, IDataChangedNotifiable
     {
-        public int ChibiIndex { get => chibiIndex; private set => chibiIndex = value; }
-        public FixedString32Bytes HairColor { get => hairColor; private set => hairColor = value; }
-        public int CostumeVariant { get => costumeVariant; private set => costumeVariant = value; }
-        public int Accessory { get => accessory; private set => accessory = value; }
+        public event Action OnDataChanged;
+
+        public int ChibiIndex
+        {
+            get => chibiIndex;
+            set
+            {
+                chibiIndex = value;
+                OnDataChanged?.Invoke();
+            }
+        }
+        public FixedString32Bytes HairColor
+        {
+            get => hairColor;
+            set
+            {
+                hairColor = value;
+                OnDataChanged?.Invoke();
+            }
+        }
+        public int CostumeVariant { 
+            get => costumeVariant; 
+            set 
+            {
+                costumeVariant = value;
+                OnDataChanged?.Invoke();
+            } 
+        }
+        public int Accessory { 
+            get => accessory; 
+            set 
+            {
+                accessory = value;
+                OnDataChanged?.Invoke();
+            } 
+        }
 
         public CharacterParams()
         {
@@ -29,6 +62,14 @@ namespace RicoShot.Core
             Accessory = 0;
         }
     
+        public CharacterParams(int ChibiIndex, FixedString32Bytes HairColor,  int CostumeVariant, int Accessory)
+        {
+            this.ChibiIndex = ChibiIndex;
+            this.HairColor = HairColor;
+            this.CostumeVariant = CostumeVariant;
+            this.Accessory = Accessory;
+        }
+
         public static CharacterParams GetRandomCharacterParams()
         {
             var characterParams = new CharacterParams

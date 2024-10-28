@@ -20,11 +20,20 @@ namespace RicoShot.Play.Tests
 
         [Inject] private readonly INetworkController networkController;
         [Inject] private readonly INetworkScoreManager scoreManager;
-        
+        [Inject] private readonly IPlaySceneTester playSceneTester;
+
         // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
         // (サーバー)クライアントのプレイヤーとNPCを生成
         private void Start()
         {
+            if (playSceneTester.IsTest)
+            {
+                var player = Instantiate(networkObject, Vector3.zero, Quaternion.identity);
+                var initializer = player.GetComponent<CharacterInitializer>();
+                initializer.SetCharacterParams(new ClientData(playSceneTester.CharacterParams));
+                return;
+            }
+
             // サーバー側のみの処理
             if (!NetworkManager.Singleton.IsServer) return;
 

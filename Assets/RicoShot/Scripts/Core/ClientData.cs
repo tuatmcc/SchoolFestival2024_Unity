@@ -58,6 +58,11 @@ namespace RicoShot.Core
 
         }
 
+        public ClientData(CharacterParams CharacterParams)
+        {
+            this.CharacterParams = CharacterParams;
+        }
+
         // プレイヤーのクライアントデータ
         public ClientData(FixedString64Bytes UUID, ulong ClientID, CharacterParams CharacterParams)
         {
