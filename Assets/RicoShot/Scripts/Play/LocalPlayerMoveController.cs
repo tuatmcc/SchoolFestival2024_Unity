@@ -19,30 +19,37 @@ namespace RicoShot.Play
         private Transform TPSCam;
 
         private Rigidbody rb;
-        //private float speed;
-        //private float rotationSpeed;
+        private float _speed;
+        private float rotationSpeed;
         private Vector2 moveInput;
-        //public Animator animator;
-        //private int bullet_fire_count = 0;
+        private Animator _animator;
+        private int bullet_fire_count = 0;
         private bool OnCooltime = false;
-        private int COOLTIME = 2;
+        private const int COOLTIME = 2;
         private float _rotationVelocity = 20;
-        private float RotationSmoothTime = 0.2f;
+        private const float RotationSmoothTime = 0.1f;
+        private const float Acceleration = 10f;
 
         private bool LT_pressed = false;
         private bool setUpFinished = false;
 
-        [SerializeField] private float moveSpeedConst = 5.0f;
+        [SerializeField] private float moveSpeedConst = 1.0f;
         [SerializeField] private float rotationSpeedConst = 5.0f;
 
         //[Inject] IBulletObjectPoolManager bulletObjectPoolManager;
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
+        // animator parameters and constants
+        private readonly int _animIDSpeed = Animator.StringToHash("Speed");
+        private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        private float _animationBlend;
+        private const float SpeedMultiplierForAnimation = 5.0f;
+
         void Start()
         {
             rb = GetComponent<Rigidbody>();
-            //animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
 
             SetUpEvents().Forget();
             SetUpTestEvents().Forget();
@@ -51,11 +58,12 @@ namespace RicoShot.Play
         // SpawnとInjectを待って、ClientかつOwnerなら入力を取るイベントを登録、それ以外ならスクリプトを無効化
         private async UniTask SetUpEvents()
         {
-            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null,
+                cancellationToken: destroyCancellationToken);
             if (IsOwner && IsClient)
             {
-                playSceneManager.PlayInputs.Main.Move.performed += OnMove;
-                playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
+                // playSceneManager.PlayInputs.Main.Move.performed += OnMove;
+                // playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
                 //playSceneManager.PlayInputs.Main.Camera.started += SetRotationCam;
                 //playSceneManager.PlayInputs.Main.Camera.canceled += SetRotationCam;
@@ -65,7 +73,6 @@ namespace RicoShot.Play
             }
             else if (IsServer)
             {
-
             }
             else
             {
@@ -81,48 +88,54 @@ namespace RicoShot.Play
             {
                 NetworkObject.SynchronizeTransform = false;
                 rb.isKinematic = false;
-                playSceneManager.PlayInputs.Main.Move.performed += OnMove;
-                playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
             }
         }
 
-        void FixedUpdate()
-        {
-            if (!setUpFinished) return;
-
-            // move the player
-
-            // update animator if using character
-            /*
-            if (_hasAnimator)
-            {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-            }
-            */
-            Vector3 v = TPSCam.rotation * new Vector3(4 * moveInput.x, 0, 4 * moveInput.y);
-            v.y = 0;
-            rb.velocity = v;
-
-            //Debug.Log(rb.velocity);
-            //this.transform.rotation = Quaternion.Euler(targetDirection);
-
-        }
-
         private void Update()
         {
             if (!setUpFinished) return;
 
-            //speed = moveInput.magnitude * moveSpeedConst;
-            //rotationSpeed = moveInput.x * rotationSpeedConst;
-            float _targetRotation = 0;
+            Move();
+            Rotate();
+        }
+
+        private void LateUpdate()
+        {
+            // AnimatorControllerのパラメータを更新
+            _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
+            _animator.SetFloat(_animIDMotionSpeed, moveInput.magnitude);
+        }
+
+        // 今のところ、移動のみを行い、回転は行わない. deltaTimeはフレーム間の調整に使う
+        private void Move()
+        {
+            moveInput = playSceneManager.PlayInputs.Main.Move.ReadValue<Vector2>();
+
+            // 移動速度の変化を平滑化
+            var targetSpeed = moveInput.magnitude * moveSpeedConst;
+            var currentSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+            _speed = Mathf.Abs(targetSpeed - currentSpeed) < 0.1f
+                ? Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * Acceleration)
+                : targetSpeed;
+
+            // 移動方向をカメラの向きを基準に決定
+            var dir = TPSCam.rotation * new Vector3(moveInput.x, 0, moveInput.y).normalized;
+            dir.y = 0;
+            rb.velocity = dir * _speed;
+
+            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
+        }
+
+        private void Rotate()
+        {
+            var targetRotation = 0.0f;
             if (LT_pressed)
             {
-                _targetRotation = TPSCam.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                targetRotation = TPSCam.eulerAngles.y;
+                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref _rotationVelocity,
                     RotationSmoothTime / 100);
 
                 // rotate to face input direction relative to camera position
@@ -132,22 +145,16 @@ namespace RicoShot.Play
             {
                 if (moveInput != Vector2.zero)
                 {
-                    _targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
-                                      TPSCam.eulerAngles.y;
-                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                    targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
+                                     TPSCam.eulerAngles.y;
+                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation,
+                        ref _rotationVelocity,
                         RotationSmoothTime);
 
                     // rotate to face input direction relative to camera position
                     this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
             }
-        }
-
-        private void OnMove(InputAction.CallbackContext context)
-        {
-            moveInput = context.ReadValue<Vector2>();
-            //animator.SetFloat("speed", Math.Abs(moveInput.magnitude));
-            //animator.SetFloat("rotate", moveInput.x);
         }
 
         private void SetRotationCam(InputAction.CallbackContext context)
@@ -179,7 +186,16 @@ namespace RicoShot.Play
                 OnCooltime = true;
                 FireAsync().Forget();
             }
+
             Debug.Log("Fire");
+        }
+
+        private void OnFootstep(AnimationEvent animationEvent)
+        {
+            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            {
+                //footStepAudio.Play();
+            }
         }
 
         private async UniTask FireAsync()
@@ -194,7 +210,9 @@ namespace RicoShot.Play
         [Rpc(SendTo.Server)]
         private void ShotBulletRpc(float rag)
         {
-            var bullet = Instantiate(Bullet, transform.position + Vector3.up * 0.5f + transform.forward * 0.2f + 5f * rag * rb.velocity, Quaternion.identity);
+            var bullet = Instantiate(Bullet,
+                transform.position + Vector3.up * 0.5f + transform.forward * 0.2f + 5f * rag * rb.velocity,
+                Quaternion.identity);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
