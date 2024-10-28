@@ -26,6 +26,7 @@ namespace RicoShot.Play
             if (playSceneTester.IsTest)
             {
                 playSceneManager.LocalPlayer = gameObject;
+                ClientData.CharacterParams.OnDataChanged += OnCharacterParamsChanged;
                 return;
             }
 
@@ -81,6 +82,11 @@ namespace RicoShot.Play
             characterSettingController.hairColor = characterParams.HairColor.ToString();
             characterSettingController.costumeVariant = characterParams.CostumeVariant;
             characterSettingController.accessory = characterParams.Accessory;
+        }
+
+        private void OnCharacterParamsChanged()
+        {
+            ReflectCharacterParams(ClientData.CharacterParams);
         }
     }
 }

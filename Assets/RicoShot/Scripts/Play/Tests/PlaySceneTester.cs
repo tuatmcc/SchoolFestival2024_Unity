@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 namespace RicoShot.Play.Tests
 {
@@ -39,6 +40,19 @@ namespace RicoShot.Play.Tests
         private void Awake()
         {
             CharacterParams = new CharacterParams(debugChibiIndex, debugHairColor, debugCostumeVariant, debugAccessory);
+        }
+
+        private void FixedUpdate()
+        {
+            if ((CharacterParams.ChibiIndex == debugChibiIndex &&
+                CharacterParams.HairColor == debugHairColor &&
+                CharacterParams.CostumeVariant == debugCostumeVariant &&
+                CharacterParams.Accessory == debugAccessory)||
+                !ColorUtility.TryParseHtmlString(debugHairColor, out var _)) return;
+            CharacterParams.ChibiIndex = debugChibiIndex;
+            CharacterParams.HairColor = debugHairColor;
+            CharacterParams.CostumeVariant = debugCostumeVariant;
+            CharacterParams.Accessory = debugAccessory;
         }
     }
 }
