@@ -12,10 +12,16 @@ namespace RicoShot.Play.Tests
         private TextMeshProUGUI countText;
 
         [Inject] private readonly ITimeManager timeManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
             countText = GetComponent<TextMeshProUGUI>();
+            if (playSceneTester.IsTest)
+            {
+                countText.enabled = false;
+                return;
+            }
             countText.text = "0";
             timeManager.OnCountChanged += OnCountChanged;
             timeManager.OnPlayTimeChanged += OnPlayTimeChanged;

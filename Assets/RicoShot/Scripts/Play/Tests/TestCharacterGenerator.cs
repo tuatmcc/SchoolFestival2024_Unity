@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
-using static UnityEditor.PlayerSettings;
 
 namespace RicoShot.Play.Tests
 {
