@@ -7,9 +7,13 @@ using UnityEngine;
 
 namespace RicoShot.Core
 {
+    /// <summary>
+    /// Netcodeでクラスのリストを同期するためにNetworkVariableBaseとIListを実装したクラス
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     [Serializable]
     [GenerateSerializationForGenericParameter(0)]
-    public class NetworkClassList<T> : NetworkVariableBase, IList<T> where T : IDataChangedNotofiable
+    public class NetworkClassList<T> : NetworkVariableBase, IList<T> where T : IDataChangedNotifiable
     {
         public event Action OnDataChanged;
 
@@ -60,6 +64,7 @@ namespace RicoShot.Core
             OnDataChanged?.Invoke();
         }
 
+        // 各要素のOnDataChangedイベントに登録するための関数
         private void ElementDataChanged()
         {
             SetDirty(true);
@@ -67,17 +72,19 @@ namespace RicoShot.Core
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            return SomeDataToSynchronize.IndexOf(item);
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            SomeDataToSynchronize.Insert(index, item);
+            SetDirty(true);
         }
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            SomeDataToSynchronize.RemoveAt(index);
+            SetDirty(true);
         }
 
         public void Add(T item)
@@ -95,7 +102,7 @@ namespace RicoShot.Core
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return SomeDataToSynchronize.Contains(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)

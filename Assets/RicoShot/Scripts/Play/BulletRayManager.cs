@@ -1,48 +1,82 @@
+using Cysharp.Threading.Tasks;
+using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace RicoShot.Play
 {
-    public class BulletRayManager : MonoBehaviour
+    public class BulletRayManager : NetworkBehaviour
     {
-        [SerializeField]
-        public Transform shootPoint;
-        public PlayerInput playerInput;
+        [SerializeField] private Transform shootPoint;
 
         //PlayerInput playerInput;
-        LineRenderer linerend;
+        private LineRenderer linerend;
         private float BULLET_RADIUS = 0.15f;
+        private bool drawRay = false;
+
+        [Inject] private readonly IPlaySceneManager playSceneManager;
+
         private void Start()
         {
-            //playerInput = this.GetComponent<PlayerInput>();
-            linerend = this.GetComponent<LineRenderer>();
+            linerend = GetComponent<LineRenderer>();
             linerend.positionCount = 0;
+            SetUpBulletRay().Forget();
+        }
+
+        private async UniTask SetUpBulletRay()
+        {
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
+            if (IsClient && IsOwner)
+            {
+                playSceneManager.PlayInputs.Main.DrawRay.performed += OnDrawRay;
+                playSceneManager.PlayInputs.Main.DrawRay.canceled += OnCancelDrawRay;
+            }
+            else
+            {
+                enabled = false;
+            }
         }
 
         private void Update()
         {
-            if (playerInput.actions["Draw_Ray"].IsPressed())
+            if (drawRay)
             {
-                Draw_Bullet_shot(shootPoint);
+                DrawBulletShot();
             }
-            else if (!playerInput.actions["Draw_Ray"].IsPressed())
+            else
             {
-                Delete_BulletShot();
+                if (linerend.positionCount != 0)
+                {
+                    DeleteBulletShot();
+                }
             }
         }
 
-        public void Draw_Bullet_shot(Transform ShootPoint)
+        private void OnDrawRay(InputAction.CallbackContext context)
+        {
+            drawRay = true;
+        }
+
+        private void OnCancelDrawRay(InputAction.CallbackContext context)
+        {
+            drawRay = false;
+        }
+
+        private void DrawBulletShot()
         {
             var direction = shootPoint.rotation * Vector3.forward;
-            Ray ray1 = new Ray(ShootPoint.position, direction),
-                ray2 = new Ray(ShootPoint.position, direction),
-                ray3 = new Ray(ShootPoint.position, direction),
-                ray4 = new Ray(ShootPoint.position, direction);
+            Debug.Log(direction);
+            Ray ray1 = new Ray(shootPoint.position, direction),
+                ray2 = new Ray(shootPoint.position, direction),
+                ray3 = new Ray(shootPoint.position, direction),
+                ray4 = new Ray(shootPoint.position, direction);
             Ray[] rays = new Ray[4];
             RaycastHit[] hits = new RaycastHit[5];
-            rays[0] = new Ray(ShootPoint.position, direction);
+            rays[0] = new Ray(shootPoint.position, direction);
             if (Physics.SphereCast(rays[0], BULLET_RADIUS, out hits[0]))
             {
                 rays[1] = new Ray(hits[0].point, Vector3.Reflect(direction, hits[0].normal));
@@ -56,7 +90,7 @@ namespace RicoShot.Play
                 rays[3] = new Ray(hits[2].point, Vector3.Reflect(hits[2].point - hits[1].point, hits[2].normal));
             }
             Physics.SphereCast(rays[3], BULLET_RADIUS, out hits[3]);
-            DrawRayLine(ShootPoint.position, hits);
+            DrawRayLine(shootPoint.position, hits);
         }
 
         private void DrawRayLine(Vector3 start, RaycastHit[] hits)
@@ -78,7 +112,7 @@ namespace RicoShot.Play
             linerend.SetPosition(4, hits[3].point);
         }
 
-        public void Delete_BulletShot()
+        private void DeleteBulletShot()
         {
             linerend.positionCount = 0;
         }

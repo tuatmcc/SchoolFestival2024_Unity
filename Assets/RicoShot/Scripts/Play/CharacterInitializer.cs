@@ -1,0 +1,78 @@
+using Chibi;
+using Cysharp.Threading.Tasks;
+using RicoShot.Core;
+using RicoShot.Play.Interface;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+using Zenject;
+
+namespace RicoShot.Play
+{
+    [RequireComponent(typeof(LocalPlayerMoveController))]
+    public class CharacterInitializer : NetworkBehaviour, IClientDataHolder
+    {
+        public ClientData ClientData { get; private set; }
+
+        [Inject] private readonly IPlaySceneManager playSceneManager;
+
+        private void Start()
+        {
+            // ここでZenAutoInjectorを付けることでうまくいく
+            gameObject.AddComponent<ZenAutoInjecter>();
+            SetUpCharacter().Forget();
+        }
+
+        // SpawnとInjectが終わるのを待ってからセッティングを開始
+        private async UniTask SetUpCharacter()
+        {
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
+            if (IsClient && IsOwner)
+            {
+                playSceneManager.LocalPlayer = gameObject;
+            }
+            else if (IsServer && IsOwner)
+            {
+
+            }
+            else
+            {
+
+            }
+            Debug.Log("Initialized character");
+        }
+
+        // (サーバー)クライアントのデータをセットする関数
+        public void SetCharacterParams(ClientData clientData)
+        {
+            ClientData = clientData;
+            ReflectCharacterParamsAsync(clientData).Forget();
+        }
+
+        // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
+        private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
+        {
+            ReflectCharacterParams(clientData.CharacterParams);
+            await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
+            SendCharaterParamsRpc(clientData);
+        }
+
+        // (サーバー→クライアント)サーバーからクライアントにCharacterParamsを送信して反映する関数
+        [Rpc(SendTo.NotServer)]
+        private void SendCharaterParamsRpc(ClientData clientData)
+        {
+            ClientData = clientData;
+            ReflectCharacterParams(clientData.CharacterParams);
+        }
+
+        private void ReflectCharacterParams(CharacterParams characterParams)
+        {
+            var characterSettingController = GetComponent<CharacterSettingsController>();
+            characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
+            characterSettingController.hairColor = characterParams.HairColor.ToString();
+            characterSettingController.costumeVariant = characterParams.CostumeVariant;
+            characterSettingController.accessory = characterParams.Accessory;
+        }
+    }
+}
