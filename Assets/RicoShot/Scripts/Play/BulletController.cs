@@ -22,6 +22,7 @@ namespace RicoShot.Play
         private Vector3 normal;
         private int reflect_count = 0;
         private FixedString64Bytes shooterUUID;
+        private bool destroying = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly INetworkScoreManager scoreManager;
@@ -67,7 +68,7 @@ namespace RicoShot.Play
 
         private void OnCollisionEnter(Collision other)
         {
-            if (IsOwner)
+            if (IsOwner & !destroying)
             {
                 Debug.Log("衝突");
                 if (other.gameObject.CompareTag("Border"))
@@ -99,6 +100,7 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         scoreManager.AddScoreRpc(shooterUUID, score);
                         DestroyThisRpc();
+                        destroying = true;
                     }
                 }
                 if (reflect_count >= max_reflect_num + 1)
@@ -107,6 +109,7 @@ namespace RicoShot.Play
                     this.transform.position = new Vector3(0, -0.4f, 0);
                     reflect_count = 0;
                     DestroyThisRpc();
+                    destroying = true;
                 }
             }
         }

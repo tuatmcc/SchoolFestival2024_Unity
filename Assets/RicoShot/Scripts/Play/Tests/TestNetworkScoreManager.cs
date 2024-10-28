@@ -17,7 +17,7 @@ namespace RicoShot.Play.Tests
 
         private void Start()
         {
-            if (!NetworkManager.IsServer)
+            if (NetworkManager.IsServer)
             {
                 playSceneManager.OnPlayStateChanged += UploadResult;
             }
@@ -52,6 +52,10 @@ namespace RicoShot.Play.Tests
             if (playState == PlayState.Finish)
             {
                 DontDestroyOnLoad(gameObject);
+                foreach(ScoreData scoreData in ScoreList)
+                {
+                    Debug.Log($"{scoreData.UUID} -> {scoreData.Score}");
+                }
                 Debug.Log("Upload result to Supabase");
             }
         }

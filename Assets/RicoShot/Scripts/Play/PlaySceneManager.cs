@@ -5,6 +5,7 @@ using RicoShot.Play.Interface;
 using System;
 using RicoShot.InputActions;
 using Zenject;
+using RicoShot.Core.Interface;
 
 namespace RicoShot.Play
 {
@@ -37,6 +38,8 @@ namespace RicoShot.Play
 
         private PlayState playState;
         private GameObject localPlayer;
+
+        [Inject] private readonly IGameStateManager gameStateManager;
 
         PlaySceneManager()
         {

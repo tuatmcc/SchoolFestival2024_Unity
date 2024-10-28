@@ -176,7 +176,6 @@ namespace RicoShot.Play
         private void ShotBulletRpc(float rag)
         {
             var bullet = Instantiate(Bullet, transform.position + Vector3.up * 0.5f + transform.forward * 0.2f + 5f * rag * rb.velocity, Quaternion.identity);
-            Debug.Log(rag);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
