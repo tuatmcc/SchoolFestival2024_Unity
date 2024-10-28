@@ -1,5 +1,6 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
+using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -18,6 +19,7 @@ namespace RicoShot.Play.Tests
         private int TeamBravoCount = 0;
 
         [Inject] private readonly INetworkController networkController;
+        [Inject] private readonly INetworkScoreManager scoreManager;
         
         // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
         // (サーバー)クライアントのプレイヤーとNPCを生成
@@ -61,6 +63,8 @@ namespace RicoShot.Play.Tests
 
             player.SpawnAsPlayerObject(clientData.ClientID);
             Debug.Log($"Created character: { clientData.ClientID }");
+
+            scoreManager.RegistCharacter(clientData.UUID, clientData.Team);
         }
 
         private void SpawnNpc(Team team)
@@ -73,9 +77,12 @@ namespace RicoShot.Play.Tests
             var npc = Instantiate(networkObject, pos, Quaternion.identity);
 
             var initializer = npc.GetComponent<CharacterInitializer>();
-            initializer.SetCharacterParams(ClientData.GetClientDataForNpc(team));
+            var npcData = ClientData.GetClientDataForNpc(team);
+            initializer.SetCharacterParams(npcData);
 
             npc.Spawn();
+
+            scoreManager.RegistCharacter(npcData.UUID, npcData.Team);
 
             TeamAlphaCount += team == Team.Alpha ? 1 : 0;
             TeamBravoCount += team == Team.Bravo ? 1 : 0;

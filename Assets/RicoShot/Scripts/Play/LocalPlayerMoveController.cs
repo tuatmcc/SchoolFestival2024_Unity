@@ -179,6 +179,8 @@ namespace RicoShot.Play
             Debug.Log(rag);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
+            var bulletController = bullet.GetComponent<BulletController>();
+            bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
         }
     }
 }

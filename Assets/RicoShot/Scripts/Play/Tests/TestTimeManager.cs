@@ -95,6 +95,7 @@ namespace RicoShot.Play.Tests
                 await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                 PlayTime--;
             }
+            playSceneManager.PlayState = PlayState.Finish;
         }
     }
 }
