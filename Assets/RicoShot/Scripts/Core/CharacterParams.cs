@@ -29,6 +29,14 @@ namespace RicoShot.Core
             Accessory = 0;
         }
     
+        public CharacterParams(int ChibiIndex, FixedString32Bytes HairColor,  int CostumeVariant, int Accessory)
+        {
+            this.ChibiIndex = ChibiIndex;
+            this.HairColor = HairColor;
+            this.CostumeVariant = CostumeVariant;
+            this.Accessory = Accessory;
+        }
+
         public static CharacterParams GetRandomCharacterParams()
         {
             var characterParams = new CharacterParams

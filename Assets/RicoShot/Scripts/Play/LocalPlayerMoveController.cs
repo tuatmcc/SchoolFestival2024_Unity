@@ -37,6 +37,7 @@ namespace RicoShot.Play
 
         //[Inject] IBulletObjectPoolManager bulletObjectPoolManager;
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         void Start()
         {
@@ -44,6 +45,7 @@ namespace RicoShot.Play
             //animator = GetComponent<Animator>();
 
             SetUpEvents().Forget();
+            SetUpTestEvents().Forget();
         }
 
         // SpawnとInjectを待って、ClientかつOwnerなら入力を取るイベントを登録、それ以外ならスクリプトを無効化
@@ -68,6 +70,22 @@ namespace RicoShot.Play
             else
             {
                 enabled = false;
+            }
+        }
+
+        // playSceneTesterのInjectを待って入力イベントを登録
+        private async UniTask SetUpTestEvents()
+        {
+            await UniTask.WaitUntil(() => playSceneTester != null, cancellationToken: destroyCancellationToken);
+            if (playSceneTester.IsTest)
+            {
+                NetworkObject.SynchronizeTransform = false;
+                rb.isKinematic = false;
+                playSceneManager.PlayInputs.Main.Move.performed += OnMove;
+                playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
+                playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
+                TPSCam = playSceneManager.VCamTransform;
+                setUpFinished = true;
             }
         }
 
@@ -166,6 +184,7 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
+            if (playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat);
             await UniTask.WaitForSeconds(COOLTIME);

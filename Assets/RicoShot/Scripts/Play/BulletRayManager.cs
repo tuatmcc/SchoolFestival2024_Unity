@@ -19,12 +19,14 @@ namespace RicoShot.Play
         private bool drawRay = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
             linerend = GetComponent<LineRenderer>();
             linerend.positionCount = 0;
             SetUpBulletRay().Forget();
+            SetUpBulletRayTest().Forget();
         }
 
         private async UniTask SetUpBulletRay()
@@ -38,6 +40,16 @@ namespace RicoShot.Play
             else
             {
                 enabled = false;
+            }
+        }
+
+        private async UniTask SetUpBulletRayTest()
+        {
+            await UniTask.WaitUntil(() => playSceneTester != null, cancellationToken: destroyCancellationToken);
+            if (playSceneTester.IsTest)
+            {
+                playSceneManager.PlayInputs.Main.DrawRay.performed += OnDrawRay;
+                playSceneManager.PlayInputs.Main.DrawRay.canceled += OnCancelDrawRay;
             }
         }
 
@@ -69,7 +81,6 @@ namespace RicoShot.Play
         private void DrawBulletShot()
         {
             var direction = shootPoint.rotation * Vector3.forward;
-            Debug.Log(direction);
             Ray ray1 = new Ray(shootPoint.position, direction),
                 ray2 = new Ray(shootPoint.position, direction),
                 ray3 = new Ray(shootPoint.position, direction),

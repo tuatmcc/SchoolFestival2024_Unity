@@ -341,6 +341,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13e28032f8fd08d4cb7436d3f87a24ac, type: 3}
+--- !u!114 &1203080963 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7304021644437879626, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
+    type: 3}
+  m_PrefabInstance: {fileID: 1203080962}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e40a97435c981c4dad6d31b7e9b5403, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1476951128 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7635686852611465765, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
@@ -559,6 +571,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2030376945019627535, guid: 3526e53618c20c8418dc1561d0e6cc4e,
+        type: 3}
+      propertyPath: playSceneTester
+      value: 
+      objectReference: {fileID: 1203080963}
+    - target: {fileID: 3879501864461533567, guid: 3526e53618c20c8418dc1561d0e6cc4e,
+        type: 3}
+      propertyPath: playSceneTester
+      value: 
+      objectReference: {fileID: 1203080963}
     - target: {fileID: 4178025965762658268, guid: 3526e53618c20c8418dc1561d0e6cc4e,
         type: 3}
       propertyPath: timeManager

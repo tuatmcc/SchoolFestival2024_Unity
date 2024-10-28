@@ -16,11 +16,19 @@ namespace RicoShot.Play
         public ClientData ClientData { get; private set; }
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
             // ここでZenAutoInjectorを付けることでうまくいく
             gameObject.AddComponent<ZenAutoInjecter>();
+            
+            if (playSceneTester.IsTest)
+            {
+                playSceneManager.LocalPlayer = gameObject;
+                return;
+            }
+
             SetUpCharacter().Forget();
         }
 
