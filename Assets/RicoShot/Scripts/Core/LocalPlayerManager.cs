@@ -8,5 +8,6 @@ namespace RicoShot.Core
     public class LocalPlayerManager : ILocalPlayerManager
     {
         public string LocalPlayerUUID { get; set; }
+        public CharacterParams CharacterParams { get; set; }
     }
 }

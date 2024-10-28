@@ -14,17 +14,17 @@ namespace RicoShot.Matching.Tests
 
         void Start()
         {
-            networkController.ClientDatas.OnDataChanged += UpdateStatusText;
+            networkController.ClientDataList.OnDataChanged += UpdateStatusText;
         }
 
         private void UpdateStatusText()
         {
-            for(int i = 0; i < networkController.ClientDatas.Count; i++)
+            for(int i = 0; i < networkController.ClientDataList.Count; i++)
             {
-                var data = networkController.ClientDatas[i];
+                var data = networkController.ClientDataList[i];
                 textMeshProList[i].text = $"{data.Name} | {data.Team} | {data.IsReady}";
             }
-            for (int i = networkController.ClientDatas.Count; i < textMeshProList.Count; i++)
+            for (int i = networkController.ClientDataList.Count; i < textMeshProList.Count; i++)
             {
                 textMeshProList[i].text = $"Name | Team | IsReady";
             }
