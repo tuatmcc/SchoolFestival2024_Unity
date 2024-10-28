@@ -374,4 +374,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99418ed56fc2e4c43bb73c5224128419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shootPoint: {fileID: 487235101643156239}
+  shootPoint: {fileID: 3653662239633825434}
+--- !u!4 &3653662239633825434 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4807615010434140253}
+  m_PrefabAsset: {fileID: 0}
