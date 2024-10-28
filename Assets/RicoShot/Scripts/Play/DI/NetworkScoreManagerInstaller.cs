@@ -6,13 +6,13 @@ using Zenject;
 
 namespace RicoShot.Play.DI
 {
-    public class TimeManagerInstaller : MonoInstaller
+    public class NetworkScoreManagerInstaller : MonoInstaller
     {
-        [SerializeField] TestTimeManager timeManager;
+        [SerializeField] private TestNetworkScoreManager scoreManager;
 
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<TestTimeManager>().FromInstance(timeManager);
+            Container.BindInterfacesTo<TestNetworkScoreManager>().FromInstance(scoreManager);
         }
     }
 }

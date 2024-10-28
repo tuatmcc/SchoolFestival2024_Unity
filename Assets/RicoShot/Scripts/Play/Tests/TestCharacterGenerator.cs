@@ -1,5 +1,6 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
+using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
@@ -18,7 +19,8 @@ namespace RicoShot.Play.Tests
         private int TeamBravoCount = 0;
 
         [Inject] private readonly INetworkController networkController;
-
+        [Inject] private readonly INetworkScoreManager scoreManager;
+        
         // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
         // (サーバー)クライアントのプレイヤーとNPCを生成
         private void Start()
@@ -49,7 +51,6 @@ namespace RicoShot.Play.Tests
                 0,
                 (clientData.Team == Team.Alpha ? -2 : 2));
 
-            // InstantiateAndSpawnへの置き換えを検討
             var player = Instantiate(networkObject, pos, Quaternion.identity);
 
             TeamAlphaCount += clientData.Team == Team.Alpha ? 1 : 0;
@@ -62,6 +63,8 @@ namespace RicoShot.Play.Tests
 
             player.SpawnAsPlayerObject(clientData.ClientID);
             Debug.Log($"Created character: { clientData.ClientID }");
+
+            scoreManager.RegistCharacter(clientData.UUID, clientData.Team);
         }
 
         private void SpawnNpc(Team team)
@@ -71,12 +74,18 @@ namespace RicoShot.Play.Tests
                 0,
                 (team == Team.Alpha ? -2 : 2));
 
-            var player = Instantiate(networkObject, pos, Quaternion.identity);
+            var npc = Instantiate(networkObject, pos, Quaternion.identity);
+
+            var initializer = npc.GetComponent<CharacterInitializer>();
+            var npcData = ClientData.GetClientDataForNpc(team);
+            initializer.SetCharacterParams(npcData);
+
+            npc.Spawn();
+
+            scoreManager.RegistCharacter(npcData.UUID, npcData.Team);
 
             TeamAlphaCount += team == Team.Alpha ? 1 : 0;
             TeamBravoCount += team == Team.Bravo ? 1 : 0;
-
-            player.Spawn();
         }
     }
 }

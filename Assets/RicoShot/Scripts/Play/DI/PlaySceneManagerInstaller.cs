@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class PlaySceneManagerInstaller : MonoInstaller
+namespace RicoShot.Play.DI
 {
-    public override void InstallBindings()
+    public class PlaySceneManagerInstaller : MonoInstaller
     {
-        Container.BindInterfacesTo<PlaySceneManager>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.BindInterfacesTo<PlaySceneManager>().AsSingle();
+        }
     }
 }

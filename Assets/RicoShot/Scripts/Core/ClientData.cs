@@ -43,6 +43,7 @@ namespace RicoShot.Core
             }
         }
         public CharacterParams CharacterParams { get => characterParams; private set => characterParams = value; }
+        public bool IsNpc { get; set; }
 
         private FixedString64Bytes uuid = default;
         private ulong clientID = default;
@@ -50,17 +51,32 @@ namespace RicoShot.Core
         private Team team = default;
         private bool isReady = default;
         private CharacterParams characterParams = new();
+        private bool isNpc = default;
 
         public ClientData()
         {
 
         }
 
+        // プレイヤーのクライアントデータ
         public ClientData(FixedString64Bytes UUID, ulong ClientID, CharacterParams CharacterParams)
         {
             this.UUID = UUID;
             this.ClientID = ClientID;
             this.CharacterParams = CharacterParams;
+            this.IsNpc = false;
+        }
+
+        // NPCのインスタンス取得用
+        public static ClientData GetClientDataForNpc(Team Team)
+        {
+            var clientData = new ClientData();
+            clientData.UUID = Guid.NewGuid().ToSafeString();
+            clientData.ClientID = NetworkManager.ServerClientId;
+            clientData.Team = Team;
+            clientData.characterParams = CharacterParams.GetRandomCharacterParams();
+            clientData.IsNpc = true;
+            return clientData;
         }
 
         public override string ToString()
@@ -75,6 +91,7 @@ namespace RicoShot.Core
             serializer.SerializeValue(ref name);
             serializer.SerializeValue(ref team);
             serializer.SerializeValue(ref isReady);
+            serializer.SerializeValue(ref isNpc);
             CharacterParams.NetworkSerialize(serializer);
         }
 
