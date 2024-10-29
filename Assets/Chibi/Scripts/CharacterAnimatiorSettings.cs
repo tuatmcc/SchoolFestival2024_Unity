@@ -12,10 +12,6 @@ namespace Chibi
         {
             _settingsController = GetComponent<CharacterSettingsController>();
             _animator = GetComponent<Animator>();
-        }
-
-        private void Start()
-        {
             _animator.avatar = _settingsController.animator.avatar;
         }
     }
