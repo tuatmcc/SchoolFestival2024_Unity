@@ -147,7 +147,7 @@ namespace RicoShot.Core
         public void Dispose()
         {
             OnGameStateChanged -= TransitScene;
-            CoreInputs.Dispose();
+            CoreInputs.Disable();
             JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
         }
     }
