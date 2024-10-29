@@ -15,6 +15,7 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
+        [SerializeField] private AudioClip footStepAudio;
 
         private Transform TPSCam;
 
@@ -25,7 +26,7 @@ namespace RicoShot.Play
         private Animator _animator;
         private int bullet_fire_count = 0;
         private bool OnCooltime = false;
-        private const int COOLTIME = 2;
+        private const int COOLTIME = 0;
         private float _rotationVelocity = 20;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -43,7 +44,9 @@ namespace RicoShot.Play
         // animator parameters and constants
         private readonly int _animIDSpeed = Animator.StringToHash("Speed");
         private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        private readonly int _animIDThrow = Animator.StringToHash("Throw");
         private float _animationBlend;
+        private bool _isThrowing;
         private const float SpeedMultiplierForAnimation = 5.0f;
 
         void Start()
@@ -62,11 +65,7 @@ namespace RicoShot.Play
                 cancellationToken: destroyCancellationToken);
             if (IsOwner && IsClient)
             {
-                // playSceneManager.PlayInputs.Main.Move.performed += OnMove;
-                // playSceneManager.PlayInputs.Main.Move.canceled += OnMove;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
-                //playSceneManager.PlayInputs.Main.Camera.started += SetRotationCam;
-                //playSceneManager.PlayInputs.Main.Camera.canceled += SetRotationCam;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
                 Debug.Log("Local player set up finished");
@@ -107,6 +106,13 @@ namespace RicoShot.Play
             // AnimatorControllerのパラメータを更新
             _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
             _animator.SetFloat(_animIDMotionSpeed, moveInput.magnitude);
+            if (_isThrowing)
+            
+            {
+                Debug.Log("Throw from LocalPlayerMoveController");
+                _animator.SetBool(_animIDThrow, true);
+                _isThrowing = false;
+            }
         }
 
         // 今のところ、移動のみを行い、回転は行わない. deltaTimeはフレーム間の調整に使う
@@ -157,18 +163,6 @@ namespace RicoShot.Play
             }
         }
 
-        private void SetRotationCam(InputAction.CallbackContext context)
-        {
-            if (context.started)
-            {
-                LT_pressed = true;
-            }
-            else if (context.canceled)
-            {
-                LT_pressed = false;
-            }
-        }
-
         private void OnFire(InputAction.CallbackContext context)
         {
             if (!OnCooltime)
@@ -184,7 +178,8 @@ namespace RicoShot.Play
                 //currentBullet.transform.parent = null;
                 //await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
                 OnCooltime = true;
-                FireAsync().Forget();
+                // FireAsync().Forget();
+                _isThrowing = true;
             }
 
             Debug.Log("Fire");
@@ -194,7 +189,7 @@ namespace RicoShot.Play
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                //footStepAudio.Play();
+                AudioSource.PlayClipAtPoint(footStepAudio, transform.position);
             }
         }
 

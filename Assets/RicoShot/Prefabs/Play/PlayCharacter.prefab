@@ -123,6 +123,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -6036910053819568211}
+    - targetCorrespondingSourceObject: {fileID: 6754958544534267075, guid: 148fd473f7dd11c588f699199847f3a6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6372556200579808316}
   m_SourcePrefab: {fileID: 100100000, guid: 148fd473f7dd11c588f699199847f3a6, type: 3}
 --- !u!4 &487235101643156239 stripped
 Transform:
@@ -242,6 +246,7 @@ MonoBehaviour:
   Bullet: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48, type: 3}
   ShootPoint: {fileID: 487235101643156239}
   BulletForce: 20
+  footStepAudio: {fileID: 8300000, guid: 9c1b82d21641cc24bbd6b76f210839ae, type: 3}
   moveSpeedConst: 3
   rotationSpeedConst: 5
 --- !u!114 &4660115133365371352
@@ -396,6 +401,19 @@ CapsuleCollider:
   m_Height: 1.0249999
   m_Direction: 1
   m_Center: {x: 0.002267003, y: 0.48750007, z: 0.0031846762}
+--- !u!114 &-6372556200579808316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2235609919811693726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698c1281e6f542db8b2746f65509c50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clip: {fileID: -203655887218126122, guid: 03e0522a8abcc84459a017949bb177f8, type: 3}
 --- !u!4 &3653662239633825434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
