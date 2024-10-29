@@ -1,9 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cysharp.Threading.Tasks;
-using System;
 using Zenject;
 using RicoShot.Play.Interface;
 using Unity.Netcode;
@@ -26,7 +23,7 @@ namespace RicoShot.Play
         private Animator _animator;
         private int bullet_fire_count = 0;
         private bool OnCooltime = false;
-        private const int COOLTIME = 0;
+        private const int CoolTime = 1;
         private float _rotationVelocity = 20;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -35,7 +32,6 @@ namespace RicoShot.Play
         private bool setUpFinished = false;
 
         [SerializeField] private float moveSpeedConst = 1.0f;
-        [SerializeField] private float rotationSpeedConst = 5.0f;
 
         //[Inject] IBulletObjectPoolManager bulletObjectPoolManager;
         [Inject] private readonly IPlaySceneManager playSceneManager;
@@ -46,8 +42,8 @@ namespace RicoShot.Play
         private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         private readonly int _animIDThrow = Animator.StringToHash("Throw");
         private float _animationBlend;
-        private bool _isThrowing;
-        private const float SpeedMultiplierForAnimation = 5.0f;
+        private bool _animateThrow;
+        private const float SpeedMultiplierForAnimation = 2.0f;
 
         void Start()
         {
@@ -103,19 +99,16 @@ namespace RicoShot.Play
 
         private void LateUpdate()
         {
-            // AnimatorControllerのパラメータを更新
+            // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
             _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
-            _animator.SetFloat(_animIDMotionSpeed, moveInput.magnitude);
-            if (_isThrowing)
-            
-            {
-                Debug.Log("Throw from LocalPlayerMoveController");
-                _animator.SetBool(_animIDThrow, true);
-                _isThrowing = false;
-            }
+            _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
+            _animator.SetBool(_animIDThrow, _animateThrow);
+
+            // フラグをリセット
+            _animateThrow = false;
         }
 
-        // 今のところ、移動のみを行い、回転は行わない. deltaTimeはフレーム間の調整に使う
+        // 今のところ、移動のみを行い、回転は行わない. 
         private void Move()
         {
             moveInput = playSceneManager.PlayInputs.Main.Move.ReadValue<Vector2>();
@@ -123,13 +116,15 @@ namespace RicoShot.Play
             // 移動速度の変化を平滑化
             var targetSpeed = moveInput.magnitude * moveSpeedConst;
             var currentSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+            // Time.deltaTime を掛けているためフレームレートによる移動速度差は発生しない
             _speed = Mathf.Abs(targetSpeed - currentSpeed) < 0.1f
                 ? Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * Acceleration)
                 : targetSpeed;
 
-            // 移動方向をカメラの向きを基準に決定
-            var dir = TPSCam.rotation * new Vector3(moveInput.x, 0, moveInput.y).normalized;
+            // 移動方向をカメラのXZ平面上の向きを基準に決定
+            var dir = TPSCam.forward * moveInput.y + TPSCam.right * moveInput.x;
             dir.y = 0;
+            dir.Normalize();
             rb.velocity = dir * _speed;
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
@@ -177,14 +172,14 @@ namespace RicoShot.Play
                 //currentBullet.GetComponent<Rigidbody>().AddForce(this.transform.forward * BulletForce, ForceMode.Impulse);
                 //currentBullet.transform.parent = null;
                 //await UniTask.Delay(TimeSpan.FromSeconds(COOLTIME));
-                OnCooltime = true;
-                // FireAsync().Forget();
-                _isThrowing = true;
+                FireAsync().Forget();
+                _animateThrow = true;
             }
 
             Debug.Log("Fire");
         }
 
+        // 歩行アニメーションで呼ばれる
         private void OnFootstep(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
@@ -198,7 +193,7 @@ namespace RicoShot.Play
             if (playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat);
-            await UniTask.WaitForSeconds(COOLTIME);
+            await UniTask.WaitForSeconds(CoolTime);
             OnCooltime = false;
         }
 
