@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2698180952021858690}
-  - component: {fileID: 4829365912774564145}
+  - component: {fileID: 4479013823869851363}
   - component: {fileID: 8388724167496232914}
-  - component: {fileID: 6787574860960252004}
+  - component: {fileID: 8413950761356754062}
   m_Layer: 0
-  m_Name: Trail1
+  m_Name: Trail2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!2083052967 &4829365912774564145
+--- !u!2083052967 &4479013823869851363
 VisualEffect:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7306934922203436812}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: fc24362dc2d53304c8c5b09d49576740, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 80bc123bc70406f4fa3be5147f01512a, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -84,11 +84,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bcdc4fc065b5fe469bc87d3689ac293, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vfx: {fileID: 4829365912774564145}
+  vfx: {fileID: 4479013823869851363}
   targetRb: {fileID: 0}
   minimumRate: 2
-  strength: 2
---- !u!73398921 &6787574860960252004
+  strength: 5
+--- !u!73398921 &8413950761356754062
 VFXRenderer:
   serializedVersion: 1
   m_ObjectHideFlags: 0
