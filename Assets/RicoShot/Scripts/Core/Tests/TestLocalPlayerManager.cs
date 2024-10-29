@@ -1,4 +1,5 @@
 using RicoShot.Core.Interface;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,11 +9,7 @@ namespace RicoShot.Core.Tests
 {
     public class TestLocalPlayerManager : ILocalPlayerManager, IInitializable
     {
-        public string LocalPlayerUUID
-        {
-            get => "";
-            set { }
-        }
+        public string LocalPlayerUUID { get; set; } = Guid.NewGuid().ToString();
 
         public CharacterParams CharacterParams { get; set; } = CharacterParams.GetRandomCharacterParams();
 

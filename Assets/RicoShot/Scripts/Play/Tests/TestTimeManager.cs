@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using Zenject;
 
-namespace RicoShot.Play
+namespace RicoShot.Play.Tests
 {
     public class TestTimeManager : NetworkBehaviour, ITimeManager
     {
@@ -36,11 +37,13 @@ namespace RicoShot.Play
         }
 
         private int _count;
-        private long _playTime;
+        private long _playTime = 180;
 
         [SerializeField] private int countDownLength = 3;
 
         private readonly List<float> _lagList = new();
+
+        [Inject] private readonly IPlaySceneManager playSceneManager;
 
         void Start()
         {
@@ -73,13 +76,26 @@ namespace RicoShot.Play
         private async UniTask CountDownStartAsync(float startTime)
         {
             await UniTask.WaitUntil(() => startTime >= NetworkManager.Singleton.ServerTime.TimeAsFloat);
+            playSceneManager.PlayState = PlayState.Countdown;
             Count = countDownLength;
             while(Count > 0)
             {
                 await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                 Count--;
             }
+            PlayStartAsync().Forget();
+        }
 
+        // プレイ時間の計測を始める関数
+        private async UniTask PlayStartAsync()
+       {
+            playSceneManager.PlayState = PlayState.Playing;
+            while (PlayTime > 0)
+            {
+                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: destroyCancellationToken);
+                PlayTime--;
+            }
+            playSceneManager.PlayState = PlayState.Finish;
         }
     }
 }
