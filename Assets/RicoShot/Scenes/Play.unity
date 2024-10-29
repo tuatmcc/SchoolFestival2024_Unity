@@ -336,16 +336,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7304021644437879626, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
-        type: 3}
-      propertyPath: testPlayScene
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7304021644437879626, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
-        type: 3}
-      propertyPath: debugChibiIndex
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
