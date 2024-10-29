@@ -17,7 +17,6 @@ namespace RicoShot.VFX
             var rate = targetRb.velocity.magnitude;
             rate = Mathf.Max(minimumRate, rate) - minimumRate;
             rate *= strength;
-            Debug.Log(rate);
             vfx.SetFloat(RatePropertyName, rate);
         }
     }
