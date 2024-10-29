@@ -33,7 +33,7 @@ namespace RicoShot.ModeSelect
 
         public void Dispose()
         {
-            ModeSeletotInputs.Dispose();
+            ModeSeletotInputs.Disable();
         }
     }
 }
