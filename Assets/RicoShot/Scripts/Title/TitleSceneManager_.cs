@@ -34,7 +34,7 @@ namespace RicoShot.Title
 
         public void Dispose()
         {
-            TitleInputs.Dispose();
+            TitleInputs.Disable();
         }
     }
 }

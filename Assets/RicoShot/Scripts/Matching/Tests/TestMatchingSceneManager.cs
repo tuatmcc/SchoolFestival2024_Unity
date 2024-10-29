@@ -79,7 +79,7 @@ namespace RicoShot.Matching.Tests
 
         public void Dispose()
         {
-            MatchingInputs.Dispose();
+            MatchingInputs.Disable();
         }
     }
 }
