@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: chibi_asuka-skin
-  m_Shader: {fileID: 4800000, guid: df12117ecd77c31469c224178886498e, type: 3}
+  m_Shader: {fileID: 4800000, guid: efa77a80ca0344749b4f19fdd5891cbe, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -394,7 +394,7 @@ Material:
     - _DistanceFadeRimFresnelPower: 5
     - _DitherMaxValue: 255
     - _DstBlend: 0
-    - _DstBlendAlpha: 0
+    - _DstBlendAlpha: 10
     - _DstBlendAlphaFA: 1
     - _DstBlendFA: 1
     - _DummyProperty: 0
@@ -564,7 +564,7 @@ Material:
     - _OutlineVectorScale: 1
     - _OutlineVectorUVMode: 0
     - _OutlineVertexR2Width: 0
-    - _OutlineWidth: 0.08
+    - _OutlineWidth: 0.2
     - _OutlineZBias: 0
     - _OutlineZClip: 1
     - _OutlineZTest: 2
@@ -582,7 +582,7 @@ Material:
     - _RimApplyTransparency: 1
     - _RimBackfaceMask: 1
     - _RimBlendMode: 1
-    - _RimBlur: 0.65
+    - _RimBlur: 0
     - _RimBorder: 0.5
     - _RimDirRange: 0
     - _RimDirStrength: 0
@@ -607,9 +607,9 @@ Material:
     - _Shadow3rdBorder: 0.25
     - _Shadow3rdNormalStrength: 1
     - _Shadow3rdReceive: 0
-    - _ShadowBlur: 0.1
+    - _ShadowBlur: 0
     - _ShadowBlurMaskLOD: 0
-    - _ShadowBorder: 0.15
+    - _ShadowBorder: 0.1
     - _ShadowBorderMaskLOD: 0
     - _ShadowBorderRange: 0.08
     - _ShadowColorType: 0
@@ -687,7 +687,7 @@ Material:
     - _UsePOM: 0
     - _UseParallax: 0
     - _UseReflection: 0
-    - _UseRim: 0
+    - _UseRim: 1
     - _UseRimShade: 0
     - _UseShadow: 1
     - _VertexLightStrength: 0
@@ -760,7 +760,7 @@ Material:
     - _MatCap2ndColor: {r: 1, g: 1, b: 1, a: 1}
     - _MatCapBlendUV1: {r: 0, g: 0, b: 0, a: 0}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 0.6, g: 0.56, b: 0.73, a: 1}
+    - _OutlineColor: {r: 0.3301887, g: 0.20617098, b: 0.19780171, a: 1}
     - _OutlineLitColor: {r: 1, g: 0.19999996, b: 0, a: 0}
     - _OutlineTexHSVG: {r: 0, g: 1, b: 1, a: 1}
     - _OutlineTex_ScrollRotate: {r: 0, g: 0, b: 0, a: 0}

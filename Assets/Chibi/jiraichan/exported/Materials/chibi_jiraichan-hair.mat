@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: chibi_jiraichan-hair
-  m_Shader: {fileID: 4800000, guid: df12117ecd77c31469c224178886498e, type: 3}
+  m_Shader: {fileID: 4800000, guid: efa77a80ca0344749b4f19fdd5891cbe, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -564,7 +564,7 @@ Material:
     - _OutlineVectorScale: 1
     - _OutlineVectorUVMode: 0
     - _OutlineVertexR2Width: 0
-    - _OutlineWidth: 0.2
+    - _OutlineWidth: 0.3
     - _OutlineZBias: 0
     - _OutlineZClip: 1
     - _OutlineZTest: 2
@@ -599,7 +599,7 @@ Material:
     - _RimShadeNormalStrength: 1
     - _RimShadowMask: 0.5
     - _RimVRParallaxStrength: 1
-    - _Shadow2ndBlur: 0.1
+    - _Shadow2ndBlur: 0
     - _Shadow2ndBorder: 0.15
     - _Shadow2ndNormalStrength: 1
     - _Shadow2ndReceive: 0
@@ -607,7 +607,7 @@ Material:
     - _Shadow3rdBorder: 0.25
     - _Shadow3rdNormalStrength: 1
     - _Shadow3rdReceive: 0
-    - _ShadowBlur: 0.02
+    - _ShadowBlur: 0
     - _ShadowBlurMaskLOD: 0
     - _ShadowBorder: 0.5
     - _ShadowBorderMaskLOD: 0
@@ -713,7 +713,7 @@ Material:
     - _AudioLinkVertexUVParams: {r: 0.25, g: 0, b: 0, a: 0.125}
     - _BackfaceColor: {r: 0, g: 0, b: 0, a: 0}
     - _BacklightColor: {r: 0.85, g: 0.8, b: 0.7, a: 1}
-    - _BaseColor: {r: 0.9063317, g: 0.9063317, b: 0.9063317, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 0}
     - _Color2nd: {r: 1, g: 1, b: 1, a: 1}
     - _Color3rd: {r: 1, g: 1, b: 1, a: 1}

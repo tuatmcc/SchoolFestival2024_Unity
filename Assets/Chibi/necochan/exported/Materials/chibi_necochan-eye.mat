@@ -381,7 +381,7 @@ Material:
     - _DistanceFadeRimFresnelPower: 5
     - _DitherMaxValue: 255
     - _DstBlend: 0
-    - _DstBlendAlpha: 0
+    - _DstBlendAlpha: 10
     - _DstBlendAlphaFA: 1
     - _DstBlendFA: 1
     - _DummyProperty: 0
@@ -676,7 +676,7 @@ Material:
     - _UseReflection: 0
     - _UseRim: 0
     - _UseRimShade: 0
-    - _UseShadow: 1
+    - _UseShadow: 0
     - _VertexLightStrength: 0
     - _WorkflowMode: 1
     - _ZClip: 1

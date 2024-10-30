@@ -6,9 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Chibi/Scenes/SkinningTest.unity
-    guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
     path: Assets/RicoShot/Scenes/ModeSelect.unity
     guid: 7414511ebcef61b46b00d9669c3ef7c3
+  - enabled: 1
+    path: Assets/RicoShot/Scenes/Matching.unity
+    guid: 13b31129f9143a34a9b8849d626bdc67
+  - enabled: 1
+    path: Assets/RicoShot/Scenes/Play.unity
+    guid: f2454f6784182764db0ec09b3e5718a6
+  - enabled: 1
+    path: Assets/RicoShot/Scenes/Result.unity
+    guid: 9ac102e44ef5dbe42855573f71c7a58c
+  - enabled: 1
+    path: Assets/RicoShot/Scenes/Title.unity
+    guid: 7dcbfeab736e1bc44908d99d620889ed
   m_configObjects: {}
