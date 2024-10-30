@@ -32,9 +32,9 @@ namespace RicoShot.Play.Tests
             countText.text = $"{count}";
         }
 
-        private void OnPlayTimeChanged(long playTime)
+        private void OnPlayTimeChanged(float playTime)
         {
-            countText.text = $"{playTime/60:00}:{playTime%60:00}";
+            countText.text = $"{(long)playTime/60:00}:{(long)playTime%60:00}";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace RicoShot.Play.Tests
     public class TestTimeManager : NetworkBehaviour, ITimeManager
     {
         public event Action<int> OnCountChanged;
-        public event Action<long> OnPlayTimeChanged;
+        public event Action<float> OnPlayTimeChanged;
 
         public int Count
         {
@@ -26,7 +26,7 @@ namespace RicoShot.Play.Tests
             }
         }
 
-        public long PlayTime
+        public float PlayTime
         {
             get => _playTime;
             set
@@ -37,7 +37,7 @@ namespace RicoShot.Play.Tests
         }
 
         private int _count;
-        private long _playTime = 180;
+        private float _playTime = 180;
 
         [SerializeField] private int countDownLength = 3;
 
@@ -50,6 +50,18 @@ namespace RicoShot.Play.Tests
             if (IsClient)
             {
                 SendLagRpc(NetworkManager.Singleton.LocalTime.TimeAsFloat - NetworkManager.Singleton.ServerTime.TimeAsFloat);
+            }
+        }
+
+        private void Update()
+        {
+            if (playSceneManager.PlayState == PlayState.Playing && PlayTime > 0)
+            {
+                PlayTime -= Time.deltaTime;
+            }
+            if (PlayTime == 0 && playSceneManager.PlayState == PlayState.Playing)
+            {
+                playSceneManager.PlayState = PlayState.Finish;
             }
         }
 
@@ -83,19 +95,7 @@ namespace RicoShot.Play.Tests
                 await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                 Count--;
             }
-            PlayStartAsync().Forget();
-        }
-
-        // プレイ時間の計測を始める関数
-        private async UniTask PlayStartAsync()
-       {
             playSceneManager.PlayState = PlayState.Playing;
-            while (PlayTime > 0)
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: destroyCancellationToken);
-                PlayTime--;
-            }
-            playSceneManager.PlayState = PlayState.Finish;
         }
     }
 }
