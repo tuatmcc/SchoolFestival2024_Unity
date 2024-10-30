@@ -54,7 +54,7 @@ namespace RicoShot.Play
 
         public void Dispose()
         {
-            PlayInputs.Dispose();
+            PlayInputs.Disable();
         }
     }
 }
