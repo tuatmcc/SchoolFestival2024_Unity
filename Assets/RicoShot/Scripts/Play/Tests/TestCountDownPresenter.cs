@@ -1,4 +1,5 @@
 using RicoShot.Play.Interface;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -32,9 +33,10 @@ namespace RicoShot.Play.Tests
             countText.text = $"{count}";
         }
 
-        private void OnPlayTimeChanged(float playTime)
+        private void OnPlayTimeChanged(long playTime)
         {
-            countText.text = $"{(long)playTime/60:00}:{(long)playTime%60:00}";
+            var time = TimeSpan.FromTicks(playTime);
+            countText.text = $"{time.Minutes:00}:{time.Seconds:00}";
         }
     }
 }

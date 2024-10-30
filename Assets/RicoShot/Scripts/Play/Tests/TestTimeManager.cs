@@ -13,7 +13,7 @@ namespace RicoShot.Play.Tests
     public class TestTimeManager : NetworkBehaviour, ITimeManager
     {
         public event Action<int> OnCountChanged;
-        public event Action<float> OnPlayTimeChanged;
+        public event Action<long> OnPlayTimeChanged;
 
         public int Count
         {
@@ -26,7 +26,7 @@ namespace RicoShot.Play.Tests
             }
         }
 
-        public float PlayTime
+        public long PlayTime
         {
             get => _playTime;
             set
@@ -37,7 +37,8 @@ namespace RicoShot.Play.Tests
         }
 
         private int _count;
-        private float _playTime = 180;
+        private long _playTime = 180;
+        private long _startTime;
 
         [SerializeField] private int countDownLength = 3;
 
@@ -57,9 +58,9 @@ namespace RicoShot.Play.Tests
         {
             if (playSceneManager.PlayState == PlayState.Playing && PlayTime > 0)
             {
-                PlayTime -= Time.deltaTime;
+                PlayTime = TimeSpan.FromMinutes(3).Ticks - (DateTime.Now.Ticks - _startTime);
             }
-            if (PlayTime == 0 && playSceneManager.PlayState == PlayState.Playing)
+            if (PlayTime <= 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 playSceneManager.PlayState = PlayState.Finish;
             }
@@ -96,6 +97,7 @@ namespace RicoShot.Play.Tests
                 Count--;
             }
             playSceneManager.PlayState = PlayState.Playing;
+            _startTime = DateTime.Now.Ticks;
         }
     }
 }

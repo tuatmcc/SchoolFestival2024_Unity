@@ -8,9 +8,9 @@ namespace RicoShot.Play.Interface
     public interface ITimeManager
     {
         public event Action<int> OnCountChanged;
-        public event Action<float> OnPlayTimeChanged;
+        public event Action<long> OnPlayTimeChanged;
 
         public int Count { get; }
-        public float PlayTime { get; }
+        public long PlayTime { get; }
     }
 }
