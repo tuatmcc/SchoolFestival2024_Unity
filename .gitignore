@@ -218,3 +218,6 @@ Assets/Shooting_test/UnityChanAdventure/Font
 
 #Ignore MLagents results
 /results/
+
+#Ignore MLagents Timer
+/Assets/ML-Agents/
