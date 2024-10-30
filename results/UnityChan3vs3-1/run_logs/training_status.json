@@ -1,0 +1,30 @@
+{
+    "UnityChan3vs3": {
+        "elo": 1200.0,
+        "checkpoints": [
+            {
+                "steps": 2304,
+                "file_path": "results\\UnityChan3vs3-1\\UnityChan3vs3\\UnityChan3vs3-2304.onnx",
+                "reward": null,
+                "creation_time": 1729003128.9709935,
+                "auxillary_file_paths": [
+                    "results\\UnityChan3vs3-1\\UnityChan3vs3\\UnityChan3vs3-2304.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2304,
+            "file_path": "results\\UnityChan3vs3-1\\UnityChan3vs3.onnx",
+            "reward": null,
+            "creation_time": 1729003128.9709935,
+            "auxillary_file_paths": [
+                "results\\UnityChan3vs3-1\\UnityChan3vs3\\UnityChan3vs3-2304.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.0.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
