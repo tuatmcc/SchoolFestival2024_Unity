@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using RicoShot.Core;
+using RicoShot.Core.Interface;
 using Supabase;
 using Unity.Collections;
 using UnityEngine;
-
+using Zenject;
 
 namespace RicoShot.Core
 {
-    public class SupabaseController : ISupabaseController
+    public class SupabaseController : ISupabaseController, IInitializable
     {
-        [SerializeField] private string supabaseURL;
-        [SerializeField] private string supabaseKey;
+        private string supabaseURL;
+        private string supabaseKey;
         private Client _supabaseClient;
         
+        [Inject] private readonly IGameStateManager _gameStateManager;
+
         private async UniTask<ProfileContainer> GetProfile(string userID)
         {
             var response = await _supabaseClient.From<ProfileContainer>().Get();
@@ -63,7 +66,7 @@ namespace RicoShot.Core
         }
         */
 
-        public async UniTask ConnectSupabase(string url, string key)
+        private async UniTask ConnectSupabase(string url, string key)
         {
             var options = new SupabaseOptions()
             {
@@ -71,10 +74,13 @@ namespace RicoShot.Core
             }; 
             _supabaseClient = new Client(url, key, options);
             await _supabaseClient.InitializeAsync();
+            Debug.Log("Supabase connected");
         }
 
         public void Initialize()
         {
+            supabaseURL = _gameStateManager.GameConfig.SupabaseURL;
+            supabaseKey = _gameStateManager.GameConfig.SupabaseSecretKey;
             ConnectSupabase(supabaseURL, supabaseKey).Forget();
         }
 

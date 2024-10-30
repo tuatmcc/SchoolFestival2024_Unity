@@ -6,11 +6,10 @@ using RicoShot.Core;
 using Unity.Collections;
 using UnityEngine;
 
-namespace RicoShot.Core
+namespace RicoShot.Core.Interface
 {
     public interface ISupabaseController
     {
-        UniTask ConnectSupabase(string url, string key);
         /*
          * DBの "public.profiles" テーブルからプレイヤーのキャラ情報等のデータを取得し、パース結果を返す
          * (userIDはQRコードで渡されることを想定)
