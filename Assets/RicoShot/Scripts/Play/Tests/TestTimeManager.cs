@@ -38,6 +38,7 @@ namespace RicoShot.Play.Tests
 
         private int _count;
         private long _playTime = 180;
+        private long _startTime;
 
         [SerializeField] private int countDownLength = 3;
 
@@ -50,6 +51,18 @@ namespace RicoShot.Play.Tests
             if (IsClient)
             {
                 SendLagRpc(NetworkManager.Singleton.LocalTime.TimeAsFloat - NetworkManager.Singleton.ServerTime.TimeAsFloat);
+            }
+        }
+
+        private void Update()
+        {
+            if (playSceneManager.PlayState == PlayState.Playing && PlayTime > 0)
+            {
+                PlayTime = TimeSpan.FromMinutes(3).Ticks - (DateTime.Now.Ticks - _startTime);
+            }
+            if (PlayTime <= 0 && playSceneManager.PlayState == PlayState.Playing)
+            {
+                playSceneManager.PlayState = PlayState.Finish;
             }
         }
 
@@ -83,19 +96,8 @@ namespace RicoShot.Play.Tests
                 await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                 Count--;
             }
-            PlayStartAsync().Forget();
-        }
-
-        // プレイ時間の計測を始める関数
-        private async UniTask PlayStartAsync()
-       {
             playSceneManager.PlayState = PlayState.Playing;
-            while (PlayTime > 0)
-            {
-                await UniTask.Delay(TimeSpan.FromSeconds(1), cancellationToken: destroyCancellationToken);
-                PlayTime--;
-            }
-            playSceneManager.PlayState = PlayState.Finish;
+            _startTime = DateTime.Now.Ticks;
         }
     }
 }
