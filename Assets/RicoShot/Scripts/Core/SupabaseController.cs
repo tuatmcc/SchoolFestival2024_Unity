@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using RicoShot.Core.Interface;
+using Newtonsoft.Json;
+using RicoShot.Core;
 using Supabase;
+using Unity.Collections;
 using UnityEngine;
 
 
-namespace RicoShot.SupabaseController
+namespace RicoShot.Core
 {
     public class SupabaseController : ISupabaseController
     {
@@ -23,7 +25,8 @@ namespace RicoShot.SupabaseController
             return response.Models.Find(x => x.id == userID);
         }
 
-        private TeamContainer ConstructuTeam(Team team, Guid matchingID)
+        /*
+        private TeamContainer ConstructTeam(Team team, Guid matchingID)
         {
             TeamContainer teamContainer = new TeamContainer();
             teamContainer.id = team.TeamID.ToString();
@@ -58,6 +61,7 @@ namespace RicoShot.SupabaseController
         {
             await _supabaseClient.From<PlayerContainer>().Upsert(player);
         }
+        */
 
         public async UniTask ConnectSupabase(string url, string key)
         {
@@ -74,39 +78,43 @@ namespace RicoShot.SupabaseController
             ConnectSupabase(supabaseURL, supabaseKey).Forget();
         }
 
-        public async UniTask<PlayerProfile> FetchPlayerProfile(string userID)
+        public async UniTask<CharacterParams> FetchPlayerProfile(string userID)
         {
-            ProfileContainer container  = await GetProfile(userID);
-            PlayerProfile profile = new PlayerProfile(container.user_id, container.display_name);
-            // profile.ParsePreset(container.character_preset);
-            return profile;
+            ProfileContainer container = await GetProfile(userID);
+            CharacterPreset preset = JsonConvert.DeserializeObject<CharacterPreset>(container.character_setting);
+            CharacterParams param = new CharacterParams(preset.chibiIndex, preset.colorCode, preset.costumeVariant,
+                preset.accessory);
+            return param;
         }
 
-        public void UpsertResult(MatchingResult result)
+        public void UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
         {
-            MatchingResultContainer matchingResultContainer = new MatchingResultContainer();
-            matchingResultContainer.id = result.MatchingID.ToString();
-            matchingResultContainer.start_at = result.StartTime;
-            matchingResultContainer.end_at = result.EndTime;
-            UpsertMatching(matchingResultContainer);
-            
-            TeamContainer teamA = ConstructuTeam(result.TeamA, result.MatchingID);
-            UpsertTeam(teamA);
-            TeamContainer teamB = ConstructuTeam(result.TeamB, result.MatchingID);
-            UpsertTeam(teamB);
-
-            foreach (var profile in result.TeamA.Members)
-            {
-                PlayerContainer player = ConstructPlayer(profile, result.TeamA.TeamID, result.MatchingID);
-                UpsertPlayer(player);
-            }
-            
-            foreach (var profile in result.TeamB.Members)
-            {
-                PlayerContainer player = ConstructPlayer(profile, result.TeamB.TeamID, result.MatchingID);
-                UpsertPlayer(player);
-            }
+            TeamContainer container = new TeamContainer();
+            container.id = teamID.ToString();
+            container.is_win = isWin;
+            container.matching_result_id = matchingID.ToString();
+            _supabaseClient.From<TeamContainer>().Upsert(container);
         }
 
+        public void UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)
+        {
+            MatchingResultContainer container = new MatchingResultContainer();
+            container.id = matchingID.ToString();
+            container.start_at = startTime;
+            container.end_at = endTime;
+            _supabaseClient.From<MatchingResultContainer>().Upsert(container);
+        }
+
+        public void UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID,
+            FixedString32Bytes matchingID)
+        {
+            PlayerContainer container = new PlayerContainer();
+            container.id = Guid.NewGuid().ToString();
+            container.user_id = userID.ToString();
+            container.matching_result_id = matchingID.ToString();
+            container.team_id = teamID.ToString();
+            container.score = score;
+            _supabaseClient.From<PlayerContainer>().Upsert(container);
+        }
     }
 }

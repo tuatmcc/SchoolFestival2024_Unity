@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using RicoShot.Core;
+using Unity.Collections;
 using UnityEngine;
 
-namespace RicoShot.SupabaseController
+namespace RicoShot.Core
 {
     public interface ISupabaseController
     {
@@ -13,11 +15,12 @@ namespace RicoShot.SupabaseController
          * DBの "public.profiles" テーブルからプレイヤーのキャラ情報等のデータを取得し、パース結果を返す
          * (userIDはQRコードで渡されることを想定)
          */
-        UniTask<PlayerProfile> FetchPlayerProfile(string userID);
+        UniTask<CharacterParams> FetchPlayerProfile(string userID);
+
+        void UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin);
         
-        /*
-         * MatchingResult内のデータから "対戦結果"、"チーム情報"、"各プレイヤーのスコア" をそれぞれSupabaseに送信する
-         */
-        void UpsertResult(MatchingResult result);
+        void UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime);
+        
+        void UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID, FixedString32Bytes matchingID);
     }
 }

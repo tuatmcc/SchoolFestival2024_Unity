@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Postgrest.Attributes;
 using Postgrest.Models;
+using Unity.Collections;
 using UnityEngine;
 
-namespace RicoShot.SupabaseController
+namespace RicoShot.Core
 {
 
     /*
      * ユーザーがWeb上で作ったキャラクターのデータをJSONからパースするためのコンテナクラス
-     * 現状の定義は適当なので改修の必要有り
      */
     public class CharacterPreset
     {
-        public int modelID { get; set; }
-        public Vector3 colorCode { get; set; }
-        // アクセサリとかのコンテナを追加?
+        public int chibiIndex { get; set; }
+        public FixedString32Bytes colorCode { get; set; }
+        public int costumeVariant { get; set; }
+        public int accessory { get; set; }
     }
 
     /*
@@ -26,6 +27,7 @@ namespace RicoShot.SupabaseController
      *   - JSONデータのパース
      *   - 結果をSupabase上のIDをリンクさせて保持
      */
+    /*
     public class PlayerProfile
     {
         private string _userID;
@@ -96,6 +98,7 @@ namespace RicoShot.SupabaseController
         public void SetTeamA(Team teamA) { _teamA = teamA; }
         public void SetTeamB(Team teamB) { _teamB = teamB; }
     }
+    */
     
     [Table("profiles")]
     public class ProfileContainer : BaseModel
@@ -104,9 +107,9 @@ namespace RicoShot.SupabaseController
         [Column("user_id")] public string user_id { get; set; }
         [Column("display_name")] public string display_name { get; set; }
         /*
-         * キャラクターの設定情報を格納したJSONを格納するためのコンテナ(現状Supabaseの方に定義が無いためコメントアウト)
+         * キャラクターの設定情報を格納したJSONを格納するためのコンテナ
          */
-        // [Column("character_preset")] public string character_preset { get; set; }
+        [Column("character_preset")] public string character_setting { get; set; }
     }
 
     [Table("matching_results")]
