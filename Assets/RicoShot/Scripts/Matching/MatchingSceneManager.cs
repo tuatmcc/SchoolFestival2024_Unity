@@ -35,7 +35,7 @@ namespace RicoShot.Matching
 
         public void Dispose()
         {
-            MatchingInputs.Dispose();
+            MatchingInputs.Disable();
         }
     }
 }

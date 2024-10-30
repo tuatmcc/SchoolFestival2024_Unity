@@ -16,11 +16,20 @@ namespace RicoShot.Play
         public ClientData ClientData { get; private set; }
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
             // ここでZenAutoInjectorを付けることでうまくいく
             gameObject.AddComponent<ZenAutoInjecter>();
+            
+            if (playSceneTester.IsTest)
+            {
+                playSceneManager.LocalPlayer = gameObject;
+                ClientData.CharacterParams.OnDataChanged += OnCharacterParamsChanged;
+                return;
+            }
+
             SetUpCharacter().Forget();
         }
 
@@ -73,6 +82,11 @@ namespace RicoShot.Play
             characterSettingController.hairColor = characterParams.HairColor.ToString();
             characterSettingController.costumeVariant = characterParams.CostumeVariant;
             characterSettingController.accessory = characterParams.Accessory;
+        }
+
+        private void OnCharacterParamsChanged()
+        {
+            ReflectCharacterParams(ClientData.CharacterParams);
         }
     }
 }

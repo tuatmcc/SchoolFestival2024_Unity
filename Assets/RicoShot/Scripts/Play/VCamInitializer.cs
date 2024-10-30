@@ -16,9 +16,17 @@ namespace RicoShot.Play
     public class VCamInitializer : MonoBehaviour
     {
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Awake()
         {
+            if (playSceneTester.IsTest)
+            {
+                playSceneManager.VCamTransform = transform;
+                playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
+                return;
+            }
+
             if (NetworkManager.Singleton.IsClient)
             {
                 playSceneManager.VCamTransform = transform;

@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using RicoShot.Play.Interface;
 using RicoShot.Utils;
 using Supabase.Storage;
+using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Components;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace RicoShot.Play
 {
     public class BulletController : NetworkBehaviour
     {
+        [SerializeField] private int score = 10;
         [SerializeField] private int max_reflect_num = 3;
         [SerializeField] private int bulletForce = 20;
         private Vector3 velocity;
@@ -19,8 +21,11 @@ namespace RicoShot.Play
         private Renderer renderer;
         private Vector3 normal;
         private int reflect_count = 0;
+        private FixedString64Bytes shooterUUID;
+        private bool destroying = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly INetworkScoreManager scoreManager;
 
         void Start()
         {
@@ -61,12 +66,12 @@ namespace RicoShot.Play
         }
 
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnCollisionEnter(Collision other)
         {
-            if (IsOwner)
+            if (IsOwner & !destroying)
             {
                 Debug.Log("衝突");
-                if (collision.gameObject.CompareTag("Border"))
+                if (other.gameObject.CompareTag("Border"))
                 {
                     if (velocity.magnitude <= 0.1)
                     {
@@ -75,7 +80,7 @@ namespace RicoShot.Play
                         reflect_count = 0;
                     }
                     reflect_count++;
-                    normal = collision.contacts[0].normal;
+                    normal = other.contacts[0].normal;
 
                     Vector3 result = Vector3.Reflect(velocity, normal);
 
@@ -84,14 +89,19 @@ namespace RicoShot.Play
                     // directionの更新
                     velocity = rb.velocity;
                 }
-                else if (collision.gameObject.CompareTag("Enemy"))
+                else if (other.gameObject.TryGetComponent<IClientDataHolder>(out var clientDataHolder))
                 {
-                    Debug.Log("敵にヒット");
-                    rb.velocity = new Vector3(0, 0, 0);
-                    this.transform.position = new Vector3(0, -0.4f, 0);
-                    reflect_count = 0;
-                    //scoreManager.AddScore(100);
-                    DestroyThisRpc();
+                    var clientData = clientDataHolder.ClientData;
+                    if (clientData.Team != playSceneManager.LocalPlayer.GetComponent<IClientDataHolder>().ClientData.Team)
+                    {                        
+                        Debug.Log("敵にヒット");
+                        rb.velocity = new Vector3(0, 0, 0);
+                        this.transform.position = new Vector3(0, -0.4f, 0);
+                        reflect_count = 0;
+                        scoreManager.AddScoreRpc(shooterUUID, score);
+                        DestroyThisRpc();
+                        destroying = true;
+                    }
                 }
                 if (reflect_count >= max_reflect_num + 1)
                 {
@@ -99,8 +109,16 @@ namespace RicoShot.Play
                     this.transform.position = new Vector3(0, -0.4f, 0);
                     reflect_count = 0;
                     DestroyThisRpc();
+                    destroying = true;
                 }
             }
+        }
+
+        // (サーバー→全体)
+        [Rpc(SendTo.Everyone)]
+        public void SetShooterUUIDRpc(FixedString64Bytes uuid)
+        {
+            shooterUUID = uuid;
         }
 
         // (クライアント→サーバー)このBulletの削除をする関数
