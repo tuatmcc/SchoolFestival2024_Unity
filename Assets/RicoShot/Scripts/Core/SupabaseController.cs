@@ -14,18 +14,73 @@ using Zenject;
 
 namespace RicoShot.Core
 {
-    public class SupabaseController : ISupabaseController, IInitializable
+    public class SupabaseController : ISupabaseController
     {
-        private string supabaseURL;
-        private string supabaseKey;
+        public bool Connected { get; private set; } = false;
+
         private Client _supabaseClient;
         
         [Inject] private readonly IGameStateManager _gameStateManager;
 
+        // Supabaseに接続する関数
+        public async UniTask Connect()
+        {
+            var url = _gameStateManager.GameConfig.SupabaseURL;
+            var key = _gameStateManager.GameConfig.SupabaseSecretKey;
+            var options = new SupabaseOptions()
+            {
+                AutoConnectRealtime = true
+            }; 
+            _supabaseClient = new Client(url, key, options);
+            await _supabaseClient.InitializeAsync();
+            Debug.Log("Supabase connected");
+            Connected = true;
+        }
+
         private async UniTask<ProfileContainer> GetProfile(string userID)
         {
-            var response = await _supabaseClient.From<ProfileContainer>().Get();
-            return response.Models.Find(x => x.id == userID);
+            var response = await _supabaseClient.From<ProfileContainer>().Where(x => x.UserID == userID).Single();
+            return response;
+        }
+        
+        // UUIDから表示名とキャラクターのパラメーターを取得する関数
+        public async UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID)
+        {
+            var container = await GetProfile(userID);
+            // 存在しない場合
+            if (container == null) { return (string.Empty, null); }
+            // 存在する場合(Jsonのパースは勝手にやってくれる)
+            return (container.DisplayName, container.CharacterSetting);
+        }
+
+        public async UniTask UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
+        {
+            TeamContainer container = new TeamContainer();
+            container.id = teamID.ToString();
+            container.is_win = isWin;
+            container.matching_result_id = matchingID.ToString();
+            await _supabaseClient.From<TeamContainer>().Upsert(container);
+        }
+
+        public async UniTask UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)
+        {
+            MatchingResultContainer container = new MatchingResultContainer();
+            container.id = matchingID.ToString();
+            container.start_at = startTime;
+            container.end_at = endTime;
+            await _supabaseClient.From<MatchingResultContainer>().Upsert(container);
+        }
+
+        public async UniTask UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID,
+            FixedString32Bytes matchingID)
+        {
+            PlayerContainer container = new PlayerContainer();
+            container.id = Guid.NewGuid().ToString();
+            container.user_id = userID.ToString();
+            container.matching_result_id = matchingID.ToString();
+            container.team_id = teamID.ToString();
+            container.score = score;
+            await _supabaseClient.From<PlayerContainer>().Upsert(container);
         }
 
         /*
@@ -65,62 +120,5 @@ namespace RicoShot.Core
             await _supabaseClient.From<PlayerContainer>().Upsert(player);
         }
         */
-
-        private async UniTask ConnectSupabase(string url, string key)
-        {
-            var options = new SupabaseOptions()
-            {
-                AutoConnectRealtime = true
-            }; 
-            _supabaseClient = new Client(url, key, options);
-            await _supabaseClient.InitializeAsync();
-            Debug.Log("Supabase connected");
-        }
-
-        public void Initialize()
-        {
-            supabaseURL = _gameStateManager.GameConfig.SupabaseURL;
-            supabaseKey = _gameStateManager.GameConfig.SupabaseSecretKey;
-            ConnectSupabase(supabaseURL, supabaseKey).Forget();
-        }
-
-        public async UniTask<CharacterParams> FetchPlayerProfile(string userID)
-        {
-            ProfileContainer container = await GetProfile(userID);
-            CharacterPreset preset = JsonConvert.DeserializeObject<CharacterPreset>(container.character_setting);
-            CharacterParams param = new CharacterParams(preset.chibiIndex, preset.colorCode, preset.costumeVariant,
-                preset.accessory);
-            return param;
-        }
-
-        public void UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
-        {
-            TeamContainer container = new TeamContainer();
-            container.id = teamID.ToString();
-            container.is_win = isWin;
-            container.matching_result_id = matchingID.ToString();
-            _supabaseClient.From<TeamContainer>().Upsert(container);
-        }
-
-        public void UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)
-        {
-            MatchingResultContainer container = new MatchingResultContainer();
-            container.id = matchingID.ToString();
-            container.start_at = startTime;
-            container.end_at = endTime;
-            _supabaseClient.From<MatchingResultContainer>().Upsert(container);
-        }
-
-        public void UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID,
-            FixedString32Bytes matchingID)
-        {
-            PlayerContainer container = new PlayerContainer();
-            container.id = Guid.NewGuid().ToString();
-            container.user_id = userID.ToString();
-            container.matching_result_id = matchingID.ToString();
-            container.team_id = teamID.ToString();
-            container.score = score;
-            _supabaseClient.From<PlayerContainer>().Upsert(container);
-        }
     }
 }

@@ -10,16 +10,20 @@ namespace RicoShot.Core.Interface
 {
     public interface ISupabaseController
     {
+        public bool Connected { get; }
+
+        public UniTask Connect();
+
         /*
          * DBの "public.profiles" テーブルからプレイヤーのキャラ情報等のデータを取得し、パース結果を返す
          * (userIDはQRコードで渡されることを想定)
          */
-        UniTask<CharacterParams> FetchPlayerProfile(string userID);
+        public UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID);
 
-        void UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin);
+        public UniTask UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin);
         
-        void UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime);
+        public UniTask UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime);
         
-        void UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID, FixedString32Bytes matchingID);
+        public UniTask UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID, FixedString32Bytes matchingID);
     }
 }

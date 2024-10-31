@@ -103,13 +103,13 @@ namespace RicoShot.Core
     [Table("profiles")]
     public class ProfileContainer : BaseModel
     {
-        [PrimaryKey("id", false)] public string id { get; set; }
-        [Column("user_id")] public string user_id { get; set; }
-        [Column("display_name")] public string display_name { get; set; }
+        [PrimaryKey("id", false)] public string ID { get; set; }
+        [Column("user_id")] public string UserID { get; set; }
+        [Column("display_name")] public string DisplayName { get; set; }
         /*
          * キャラクターの設定情報を格納したJSONを格納するためのコンテナ
          */
-        [Column("character_preset")] public string character_setting { get; set; }
+        [Column("character_setting")] public CharacterParams CharacterSetting { get; set; }
     }
 
     [Table("matching_results")]
