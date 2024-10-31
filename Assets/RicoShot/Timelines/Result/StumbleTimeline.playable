@@ -251,12 +251,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 0
   m_Tracks:
+  - {fileID: -2075078229866075687}
   - {fileID: 9017818846776383909}
   - {fileID: -187461714043921712}
-  - {fileID: -2075078229866075687}
   m_FixedDuration: 0
   m_EditorSettings:
-    m_Framerate: 30
+    m_Framerate: 60
     m_ScenePreview: 1
   m_DurationMode: 0
   m_MarkerTrack: {fileID: 0}
