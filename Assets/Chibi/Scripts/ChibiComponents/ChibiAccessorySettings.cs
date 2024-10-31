@@ -11,7 +11,7 @@ namespace Chibi.ChibiComponents
         public const int MAX_ACCESSORY_INDEX = 4;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer glasses;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer goggles;
-        [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer mask;
+        [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer halo;
         [Foldout("Meshes")] [SerializeField] private SkinnedMeshRenderer eyePatch;
 
         [Range(0, MAX_ACCESSORY_INDEX)] [SerializeField]
@@ -33,7 +33,7 @@ namespace Chibi.ChibiComponents
                 // if index is 0, disable all accessories
                 glasses.gameObject.SetActive(value == 1);
                 goggles.gameObject.SetActive(value == 2);
-                mask.gameObject.SetActive(value == 3);
+                halo.gameObject.SetActive(value == 3);
                 eyePatch.gameObject.SetActive(value == 4);
             }
         }
