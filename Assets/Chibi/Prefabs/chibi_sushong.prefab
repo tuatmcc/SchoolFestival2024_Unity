@@ -178,6 +178,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5179077176108650291, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -4681382230662638706, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
         type: 3}
       propertyPath: m_IsActive
@@ -263,6 +268,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1329445287711907895}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &2149580808232947147 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1128146385743015420, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1329445287711907895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2211912434932751718 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
@@ -320,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glasses: {fileID: 5549973667509671896}
   goggles: {fileID: 2895174946690453951}
-  mask: {fileID: 4252326534711640303}
+  halo: {fileID: 2149580808232947147}
   eyePatch: {fileID: 8048350813353780440}
   accessory: 0
 --- !u!114 &1466609895961106215
@@ -389,12 +400,6 @@ Transform:
 --- !u!137 &3661082945815166778 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -6864078500204175603, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1329445287711907895}
-  m_PrefabAsset: {fileID: 0}
---- !u!137 &4252326534711640303 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -6237363412077764392, guid: f585a5eb3a3cb63e8a138b9d59ff528c,
     type: 3}
   m_PrefabInstance: {fileID: 1329445287711907895}
   m_PrefabAsset: {fileID: 0}
