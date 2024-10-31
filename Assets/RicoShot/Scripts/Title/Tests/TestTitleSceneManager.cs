@@ -84,7 +84,7 @@ namespace RicoShot.Title.Tests
             {
                 FetchedDisplayName = displayName;
                 FetchedCharacterParams = characterParams;
-                Debug.Log($"Fetched name: {FetchedDisplayName}");
+                Debug.Log($"Fetched name: {FetchedDisplayName}, characterParams: {characterParams}");
                 TitleState = TitleState.Confirming;
             }
             fetching = false;

@@ -9,16 +9,17 @@ using UnityEngine;
 
 public class TestSupabaseController : ISupabaseController
 {
-    public bool Connected => throw new NotImplementedException();
+    public bool Connected { get; private set; } = false;
 
-    public UniTask Connect()
+    public async UniTask Connect()
     {
-        throw new NotImplementedException();
+        await UniTask.WaitForSeconds(0.1f);
     }
 
     public async UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID)
     {
-        throw new NotImplementedException();
+        await UniTask.WaitForSeconds(0.1f);
+        return ("Test Character", CharacterParams.GetRandomCharacterParams());
     }
 
     public async UniTask UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)

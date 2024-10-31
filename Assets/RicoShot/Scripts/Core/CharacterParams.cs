@@ -82,10 +82,10 @@ namespace RicoShot.Core
             return characterParams;
         }
 
-        [SerializeField] private int chibiIndex;
-        [SerializeField] private FixedString32Bytes hairColor;
-        [SerializeField] private int costumeVariant;
-        [SerializeField] private int accessory;
+        [SerializeField] private int chibiIndex = 0;
+        [SerializeField] private FixedString32Bytes hairColor = "#000000";
+        [SerializeField] private int costumeVariant = 0;
+        [SerializeField] private int accessory = 0;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -93,6 +93,11 @@ namespace RicoShot.Core
             serializer.SerializeValue(ref hairColor);
             serializer.SerializeValue(ref costumeVariant);
             serializer.SerializeValue(ref accessory);
+        }
+
+        public override string ToString()
+        {
+            return $"CharacterParams: ChibiIndex => {ChibiIndex}, HairColor => {HairColor}, CostumeVariant => {CostumeVariant}, Accessory => {Accessory}";
         }
     }
 }
