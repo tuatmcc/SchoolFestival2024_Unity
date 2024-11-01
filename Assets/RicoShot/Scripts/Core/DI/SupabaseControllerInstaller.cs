@@ -7,7 +7,7 @@ namespace RicoShot.Core.DI
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<SupabaseController>().AsSingle();
+            Container.BindInterfacesTo<TestSupabaseController>().AsSingle();
         }
     }
 }

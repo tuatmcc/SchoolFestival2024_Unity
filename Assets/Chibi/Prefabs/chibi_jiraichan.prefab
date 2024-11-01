@@ -204,7 +204,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8571196105558976924, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -5652817541652043657, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5179077176108650291, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
         type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -433,12 +443,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8088972444602310186}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &6427096894780456690 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -6237363412077764392, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
-    type: 3}
-  m_PrefabInstance: {fileID: 8088972444602310186}
-  m_PrefabAsset: {fileID: 0}
 --- !u!137 &6817601265850396925 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -5846462117305798953, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
@@ -517,7 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   glasses: {fileID: 3402356558837623237}
   goggles: {fileID: 5341080731807084450}
-  mask: {fileID: 6427096894780456690}
+  halo: {fileID: 9216113876707046358}
   eyePatch: {fileID: 973783069968210629}
   accessory: 0
 --- !u!114 &7427107709693959448
@@ -565,3 +569,9 @@ MonoBehaviour:
   leftHandBone: {fileID: 406386205179453706}
   rightHandBone: {fileID: 2043939904621316137}
   _chibiSettings: {fileID: -4014414103657443648}
+--- !u!137 &9216113876707046358 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1128146385743015420, guid: d42481e8a0dbd1c84bd0b08f9a7cdd55,
+    type: 3}
+  m_PrefabInstance: {fileID: 8088972444602310186}
+  m_PrefabAsset: {fileID: 0}
