@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2390913376910582326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9104753638413449567}
+  - component: {fileID: 4809683098020910193}
+  m_Layer: 0
+  m_Name: AgentSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9104753638413449567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2390913376910582326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4809683098020910193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2390913376910582326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 526f6feb87784cc4b9e066d4f6e1a2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentSpeed: 0.3
+  maxVelocity: 50
+  AlphaBullet: {fileID: 5576397720142144200, guid: a5a7fed5a42c21642bebfbb8d0116ee3,
+    type: 3}
+  BravoBullet: {fileID: 5576397720142144200, guid: 896e0ad1bec7a88418615793d8ca9778,
+    type: 3}
+  agentlist:
+  - obj: {fileID: 2251797419645823035, guid: 7e1186842852c75468166e7e08c8f55b, type: 3}
+    agent: {fileID: 0}
+    initPos: {x: 0, y: 0, z: 0}
+    initRot: {x: 0, y: 0, z: 0}
+    teamID: 0

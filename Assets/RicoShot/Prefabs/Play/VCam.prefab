@@ -550,7 +550,6 @@ GameObject:
   - component: {fileID: 8453179249662864585}
   - component: {fileID: 7944607453839979906}
   - component: {fileID: 434500262447148610}
-  - component: {fileID: 3207433115618756123}
   - component: {fileID: 2298979506672670751}
   m_Layer: 0
   m_Name: VCam
@@ -633,36 +632,6 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: 8577270173313879021, guid: ef2d3390ca5780645a0dd6d96f746173, type: 3}
   ZAxis: {fileID: 0}
---- !u!114 &3207433115618756123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4204469036141055894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_CollideAgainst:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IgnoreTag: 
-  m_TransparentLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_MinimumDistanceFromTarget: 0.1
-  m_AvoidObstacles: 1
-  m_DistanceLimit: 0
-  m_MinimumOcclusionTime: 0
-  m_CameraRadius: 0.1
-  m_Strategy: 1
-  m_MaximumEffort: 4
-  m_SmoothingTime: 0
-  m_Damping: 0
-  m_DampingWhenOccluded: 0
-  m_OptimalTargetDistance: 0
 --- !u!114 &2298979506672670751
 MonoBehaviour:
   m_ObjectHideFlags: 0

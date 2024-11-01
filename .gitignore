@@ -209,3 +209,15 @@ Assets/Shooting_test/UnityChanAdventure/Font
 
 # Ignore .env
 /Assets/.env
+
+#Ignore .vscode
+/.vscode/
+
+#Ignore MLagents config
+/config/
+
+#Ignore MLagents results
+/results/
+
+#Ignore MLagents Timer
+/Assets/ML-Agents/

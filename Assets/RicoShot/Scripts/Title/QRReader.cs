@@ -10,6 +10,7 @@ using RicoShot.Core.Interface;
 using UnityEngine.InputSystem;
 using System.Runtime.CompilerServices;
 using RicoShot.Title.Interface;
+using Cysharp.Threading.Tasks;
 
 namespace RicoShot.Title
 {
@@ -24,6 +25,7 @@ namespace RicoShot.Title
         // UI
         private RawImage _rawImage;
         private WebCamTexture _webCamTexture = null;
+        private string readString;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ITitleSceneManager titleSceneManager;
@@ -60,6 +62,22 @@ namespace RicoShot.Title
             webCameraRawImage.texture = this._webCamTexture;
 
             Debug.Log($"Camera started index: {_selectingCameraIndex}");
+        
+            CheckReadStringAsync().Forget();
+        }
+
+        private async UniTask CheckReadStringAsync()
+        {
+            while (!destroyCancellationToken.IsCancellationRequested)
+            {
+                await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
+                if (titleSceneManager.TitleState == TitleState.Reading)
+                {
+                    titleSceneManager.FetchData(readString);
+                    Debug.Log(readString);
+                    readString = null;
+                }
+            }
         }
 
         private void Update()
@@ -67,10 +85,12 @@ namespace RicoShot.Title
             // Webカメラがまだセットされている場合
             if (_webCamTexture != null)
             {
-                titleSceneManager.TitleState = TitleState.Read;
+                var result = Read(this._webCamTexture);
 
-                // Webカメラの映像からQRコードを読み取り、その結果をTextコンポーネントに表示
-                resultText.text = $"Read: {Read(this._webCamTexture)}";
+                if (result != null)
+                {
+                    readString = result;
+                }
             }
             else
             {
