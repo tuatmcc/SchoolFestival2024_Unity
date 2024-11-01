@@ -1185,8 +1185,6 @@ MonoBehaviour:
   - {fileID: 8181736971970100702}
   - {fileID: 3882836008622012236}
   - {fileID: 1757955467801546378}
-  debug: 1
-  debugCameraIndex: 2
 --- !u!1 &1812712880842464416
 GameObject:
   m_ObjectHideFlags: 0
@@ -4367,7 +4365,7 @@ PrefabInstance:
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -4565,7 +4563,7 @@ PrefabInstance:
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -4754,7 +4752,7 @@ PrefabInstance:
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -5042,7 +5040,7 @@ PrefabInstance:
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: debugMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 939602837400980691, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}

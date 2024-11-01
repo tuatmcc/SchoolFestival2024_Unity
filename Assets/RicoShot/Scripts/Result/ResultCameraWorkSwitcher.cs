@@ -1,8 +1,7 @@
-using Chibi;
-using Chibi.ChibiComponents;
-using NaughtyAttributes;
-using RicoShot.Core;
+using RicoShot.Core.Interface;
+using RicoShot.Result.Interface;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 
@@ -13,54 +12,44 @@ namespace RicoShot.Result
     public class ResultCameraWorkSwitcher : MonoBehaviour
     {
         public const int CameraWorkMaxIndex = 3;
+
+        [Inject] private IResultSceneManager _resultSceneManager;
+        [Inject] private IResultSceneTester _resultSceneTester;
+        [Inject] private ILocalPlayerManager _localPlayerManager;
+
         [SerializeField] private CameraWork[] cameraWorks;
-        [SerializeField] private bool debug;
 
-        [EnableIf("debug")] [SerializeField] [Range(0, CameraWorkMaxIndex)]
-        private int debugCameraWorkIndex;
-
-        [EnableIf("debug")] [SerializeField] [Range(0, CharacterSettingsController.MAX_CHIBI_INDEX)]
-        private int debugChibiIndex;
-
-        [EnableIf("debug")] [SerializeField] [Range(0, ChibiCostumeColorSettings.MAX_COSTUME_VARIANT_INDEX)]
-        private int debugCostumeVariant;
-
-        [EnableIf("debug")] [SerializeField] private string debugHairColor = "#000000";
-
-        private CameraWork _currentCameraWork;
-
-        public CharacterParams CharacterParams { get; private set; }
-
-        private void Awake()
-        {
-            CharacterParams = new CharacterParams(debugChibiIndex, debugHairColor, debugCostumeVariant, 0);
-        }
+        private CameraWork _cameraWork;
 
         private void SelectCameraWork()
         {
             // とりあえずランダムに選択
-            var currentIndex = Random.Range(0, CameraWorkMaxIndex + 1);
+            var currentIndex = _resultSceneTester.TestEnabled
+                ? _resultSceneTester.CameraWorkIndex
+                : Random.Range(0, CameraWorkMaxIndex + 1);
+
             // デバッグモードの場合は指定されたカメラを選択
-            if (debug) currentIndex = debugCameraWorkIndex;
             foreach (var x in cameraWorks)
                 x.gameObject.SetActive(false);
             cameraWorks[currentIndex].gameObject.SetActive(true);
-            _currentCameraWork = cameraWorks[currentIndex];
+            _cameraWork = cameraWorks[currentIndex];
         }
 
-        public void SetCharacterParams(CharacterParams characterParams)
+        private void SetupCharacterSettings()
         {
-            CharacterParams = characterParams;
+            var characterParams = _resultSceneTester.TestEnabled
+                ? _resultSceneTester.CharacterParams
+                : _resultSceneManager.CharacterParams;
+            _cameraWork.CharacterSettings.activeChibiIndex = characterParams.ChibiIndex;
+            _cameraWork.CharacterSettings.accessory = characterParams.Accessory;
+            _cameraWork.CharacterSettings.hairColor = characterParams.HairColor.ToString();
+            _cameraWork.CharacterSettings.costumeVariant = characterParams.CostumeVariant;
         }
 
         private void Start()
         {
-            // これ以前にCharacterSettingsControllerが指定されていることが前提
             SelectCameraWork();
-
-            if (debug)
-            {
-            }
+            SetupCharacterSettings();
         }
 
         private void OnValidate()
