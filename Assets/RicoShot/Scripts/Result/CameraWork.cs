@@ -7,10 +7,6 @@ namespace RicoShot.Result
     {
         [SerializeField] private CharacterSettingsController characterSettings;
 
-        public CharacterSettingsController CharacterSettings
-        {
-            get => characterSettings;
-            set => characterSettings = value;
-        }
+        public CharacterSettingsController CharacterSettings => characterSettings;
     }
 }
