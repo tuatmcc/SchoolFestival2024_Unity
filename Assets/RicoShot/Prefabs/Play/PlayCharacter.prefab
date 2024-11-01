@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 354433576
+  GlobalObjectIdHash: 467218574
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -276,9 +276,13 @@ MonoBehaviour:
   Bullet: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48, type: 3}
   ShootPoint: {fileID: 487235101643156239}
   BulletForce: 20
-  footStepAudio: {fileID: 8300000, guid: 9c1b82d21641cc24bbd6b76f210839ae, type: 3}
+  footStepAudio:
+  - {fileID: 8300000, guid: 6d98138ac1356204f98e019bd96a6d99, type: 3}
+  - {fileID: 8300000, guid: 3bc85902bfe0a8e4884afd223ebadea7, type: 3}
+  - {fileID: 8300000, guid: 019ad186cd40dc84688f26b148b36567, type: 3}
+  - {fileID: 8300000, guid: d295dde3db9f64d0b965a66f87b57791, type: 3}
+  - {fileID: 8300000, guid: 47f7c3d8688fa442cbc3c7b424022e70, type: 3}
   moveSpeedConst: 3
-  rotationSpeedConst: 5
 --- !u!114 &4660115133365371352
 MonoBehaviour:
   m_ObjectHideFlags: 0
