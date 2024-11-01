@@ -19,6 +19,7 @@ namespace RicoShot.Play
         private Vector3 velocity;
         private Rigidbody rb;
         private Renderer renderer;
+        private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
         private FixedString64Bytes shooterUUID;
@@ -33,6 +34,8 @@ namespace RicoShot.Play
             rb = this.GetComponent<Rigidbody>();
             renderer = GetComponent<Renderer>();
             renderer.enabled = false;
+            networkTransform = GetComponent<NetworkTransform>();
+            networkTransform.Interpolate = false;
             SpawnBullet().Forget();
         }
 
@@ -43,21 +46,20 @@ namespace RicoShot.Play
             if (IsOwner)
             {
                 var localPlayerTransform = playSceneManager.LocalPlayer.transform;
-                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + transform.forward * 0.2f;
+                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + transform.forward * 0.7f;
                 rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
                 renderer.enabled = true;
-                Debug.Log("Shoted");
-            }
-            else
-            {
-                EnableRendererAsync().Forget();
+                networkTransform.Interpolate = true;
+                EnableRendererRpc();
+                Debug.Log("Shot");
             }
         }
 
-        private async UniTask EnableRendererAsync()
+        [Rpc(SendTo.NotOwner)]
+        private void EnableRendererRpc()
         {
-            await UniTask.WaitForSeconds((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat, cancellationToken: destroyCancellationToken);
             renderer.enabled = true;
+            networkTransform.Interpolate = true;
         }
 
         private void FixedUpdate()
@@ -68,7 +70,7 @@ namespace RicoShot.Play
 
         private void OnCollisionEnter(Collision other)
         {
-            if (IsOwner & !destroying)
+            if (IsOwner & !destroying & IsSpawned)
             {
                 Debug.Log("衝突");
                 if (other.gameObject.CompareTag("Border"))
