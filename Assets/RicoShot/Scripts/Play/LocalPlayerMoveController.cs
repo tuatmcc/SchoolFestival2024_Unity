@@ -127,10 +127,18 @@ namespace RicoShot.Play
             _animateThrow = false;
         }
 
+        public void SetValues(Vector2 moveInput)
+        {
+            this.moveInput = moveInput;
+        }
+
         // 今のところ、移動のみを行い、回転は行わない. 
         private void Move()
         {
-            moveInput = playSceneManager.PlayInputs.Main.Move.ReadValue<Vector2>();
+            if (playSceneTester.IsTest || !IsServer)
+            {
+                moveInput = playSceneManager.PlayInputs.Main.Move.ReadValue<Vector2>();
+            }
 
             // 移動速度の変化を平滑化
             var targetSpeed = moveInput.magnitude * moveSpeedConst;
@@ -177,7 +185,7 @@ namespace RicoShot.Play
             }
         }
 
-        private void OnFire(InputAction.CallbackContext context)
+        public void OnFire(InputAction.CallbackContext context)
         {
             if (!OnCooltime)
             {
