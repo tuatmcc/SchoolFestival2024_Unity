@@ -12,7 +12,7 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
-        [SerializeField] private AudioClip footStepAudio;
+        [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
 
         private Transform TPSCam;
 
@@ -44,6 +44,9 @@ namespace RicoShot.Play
         private float _animationBlend;
         private bool _animateThrow;
         private const float SpeedMultiplierForAnimation = 2.0f;
+
+        //Foot step
+        private int recentplayedIndex = -1;
 
         void Start()
         {
@@ -184,7 +187,12 @@ namespace RicoShot.Play
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                AudioSource.PlayClipAtPoint(footStepAudio, transform.position);
+                int idx = Random.Range(0, footStepAudio.Length);
+                if(idx == recentplayedIndex)
+                {
+                    idx = (idx + 1) % footStepAudio.Length;
+                }
+                AudioSource.PlayClipAtPoint(footStepAudio[idx], transform.position);
             }
         }
 
