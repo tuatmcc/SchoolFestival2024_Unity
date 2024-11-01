@@ -37,6 +37,7 @@ namespace RicoShot.Result
         {
             if (isTest)
             {
+                CameraWorkIndex = cameraWorkIndex;
                 CharacterParams = new CharacterParams(chibiIndex, hairColor, costumeVariant, accessoryIndex);
             }
         }
