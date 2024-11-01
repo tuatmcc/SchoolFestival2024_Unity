@@ -208,7 +208,9 @@ namespace RicoShot.Play
         [Rpc(SendTo.Server)]
         private void ShotBulletRpc()
         {
-            var bullet = Instantiate(Bullet, new Vector3(0, 0.5f, 0), Quaternion.identity);
+            var bullet = Instantiate(Bullet,
+                transform.position + Vector3.up * 0.5f + transform.forward,
+                Quaternion.identity);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();

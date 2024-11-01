@@ -46,12 +46,15 @@ namespace RicoShot.Play
             if (IsOwner)
             {
                 var localPlayerTransform = playSceneManager.LocalPlayer.transform;
-                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + transform.forward * 0.7f;
+                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + localPlayerTransform.forward * 0.5f;
                 rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
                 renderer.enabled = true;
-                networkTransform.Interpolate = true;
                 EnableRendererRpc();
                 Debug.Log("Shot");
+            }
+            else if (!IsServer)
+            {
+                EnableInterpolateRpc();
             }
         }
 
@@ -59,6 +62,11 @@ namespace RicoShot.Play
         private void EnableRendererRpc()
         {
             renderer.enabled = true;
+        }
+
+        [Rpc(SendTo.Owner)]
+        private void EnableInterpolateRpc()
+        {
             networkTransform.Interpolate = true;
         }
 
