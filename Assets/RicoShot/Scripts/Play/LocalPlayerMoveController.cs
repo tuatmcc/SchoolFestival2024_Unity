@@ -229,6 +229,7 @@ namespace RicoShot.Play
                 Quaternion.identity);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
+            bullet.tag = $"{clientDataHolder.ClientData.Team}Bullet";
             var bulletController = bullet.GetComponent<BulletController>();
             bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
         }
