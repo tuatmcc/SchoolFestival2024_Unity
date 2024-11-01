@@ -116,6 +116,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraWork0
       objectReference: {fileID: 0}
+    - target: {fileID: 6203852035846081644, guid: 847b9f96fff83cf41adb97737a109029,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -157,6 +162,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraWork2
+      objectReference: {fileID: 0}
+    - target: {fileID: 673223921846223842, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8241918146602658132, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
         type: 3}
