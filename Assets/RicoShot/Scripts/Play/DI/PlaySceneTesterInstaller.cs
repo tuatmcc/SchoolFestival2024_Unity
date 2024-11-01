@@ -13,6 +13,10 @@ namespace RicoShot.Play.DI
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<PlaySceneTester>().FromInstance(playSceneTester);
+            if (playSceneTester.IsTest)
+            {
+                Container.BindInterfacesTo<DummyNetworkController>().AsSingle();
+            }
         }
 }
 }
