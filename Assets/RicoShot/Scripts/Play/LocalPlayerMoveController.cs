@@ -200,16 +200,16 @@ namespace RicoShot.Play
         {
             if (playSceneTester.IsTest) return;
             OnCooltime = true;
-            ShotBulletRpc((NetworkManager.LocalTime - NetworkManager.ServerTime).TimeAsFloat);
+            ShotBulletRpc();
             await UniTask.WaitForSeconds(CoolTime);
             OnCooltime = false;
         }
 
         [Rpc(SendTo.Server)]
-        private void ShotBulletRpc(float rag)
+        private void ShotBulletRpc()
         {
             var bullet = Instantiate(Bullet,
-                transform.position + Vector3.up * 0.5f + transform.forward * 0.2f + 5f * rag * rb.velocity,
+                transform.position + Vector3.up * 0.5f + transform.forward,
                 Quaternion.identity);
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
