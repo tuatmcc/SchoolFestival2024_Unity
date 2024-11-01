@@ -25,6 +25,7 @@ namespace RicoShot.Play
         }
 
         public PlayInputs PlayInputs { get; private set; }
+
         public GameObject LocalPlayer
         {
             get => localPlayer;
@@ -34,6 +35,7 @@ namespace RicoShot.Play
                 OnLocalPlayerSpawned?.Invoke(localPlayer);
             }
         }
+
         public Transform VCamTransform { get; set; }
 
         private PlayState playState;
