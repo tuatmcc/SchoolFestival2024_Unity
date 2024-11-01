@@ -6,11 +6,13 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 using System.Text.RegularExpressions;
+using RicoShot.ModeSelect;
 
 namespace RicoShot {
     public class GameConfigUIManager : MonoBehaviour
     {
         [Inject] private RicoShot.Core.Interface.IGameStateManager gameStateManager;
+        [Inject] private ModeSelectSceneManager modeSelectSceneManager;
 
         [SerializeField]
         public TMP_InputField InputField_ServerIPAddress;
@@ -27,6 +29,18 @@ namespace RicoShot {
             InputField_SupabaseURL.text = gameStateManager.GameConfig.SupabaseURL.ToString();
             InputField_SupabaseSecretKey.text = gameStateManager.GameConfig.SupabaseSecretKey.ToString();
             InputField_CameraIndex.text = gameStateManager.GameConfig.CameraIndex.ToString();
+            
+            InputField_ServerIPAddress.onSelect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Disable());
+            InputField_ServerPort.onSelect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Disable());
+            InputField_SupabaseURL.onSelect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Disable());
+            InputField_SupabaseSecretKey.onSelect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Disable());
+            InputField_CameraIndex.onSelect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Disable());
+            
+            InputField_ServerIPAddress.onDeselect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Enable());
+            InputField_ServerPort.onDeselect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Enable());
+            InputField_SupabaseURL.onDeselect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Enable());
+            InputField_SupabaseSecretKey.onDeselect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Enable());
+            InputField_CameraIndex.onDeselect.AddListener(_ => modeSelectSceneManager.ModeSeletotInputs.Enable());
         }
 
         // Update is called once per frame
