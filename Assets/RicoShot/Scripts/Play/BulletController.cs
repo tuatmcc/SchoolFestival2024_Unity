@@ -16,6 +16,7 @@ namespace RicoShot.Play
         [SerializeField] private int score = 10;
         [SerializeField] private int max_reflect_num = 3;
         [SerializeField] private int bulletForce = 20;
+        [SerializeField] private int damage = 10;
         private Vector3 velocity;
         private Rigidbody rb;
         private Renderer renderer;
@@ -108,6 +109,8 @@ namespace RicoShot.Play
                         rb.velocity = new Vector3(0, 0, 0);
                         this.transform.position = new Vector3(0, -0.4f, 0);
                         reflect_count = 0;
+                        var hpHolder = other.gameObject.GetComponent<IHpHolder>();
+                        hpHolder.DecreaseHp(damage);
                         scoreManager.AddScoreRpc(shooterUUID, score);
                         DestroyThisRpc();
                         destroying = true;
