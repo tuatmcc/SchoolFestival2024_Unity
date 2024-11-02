@@ -466,7 +466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BrainParameters:
     VectorObservationSize: 5
-    NumStackedVectorObservations: 10
+    NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
       BranchSizes: 03000000030000000300000002000000
@@ -474,9 +474,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 30196c855c654624ab4f1927aa7d6e73, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: fec86f99f7c7e614fb76914ec3efb61a, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: UnityChan3vs3
   TeamId: 0
   m_UseChildSensors: 1
