@@ -119,6 +119,8 @@ namespace RicoShot.Play
 
         private void LateUpdate()
         {
+            if (!setUpFinished) return;
+
             // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
             _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
             _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
