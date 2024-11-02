@@ -4,15 +4,31 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using RicoShot.Play.Interface;
 using Unity.Netcode;
+using System;
 
 namespace RicoShot.Play
 {
-    public class LocalPlayerMoveController : NetworkBehaviour
+    public class LocalPlayerMoveController : NetworkBehaviour, IHpHolder
     {
+        public event Action<int> OnHpChanged;
+
+        public int Hp
+        {
+            get => hp;
+            set
+            {
+                hp = value;
+                OnHpChanged?.Invoke(hp);
+                Debug.Log($"hp changed -> {hp}");
+            }
+        }
+
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
+        [SerializeField] private int hp = 50;
         [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
+
 
         private Transform TPSCam;
 
@@ -187,7 +203,7 @@ namespace RicoShot.Play
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                int idx = Random.Range(0, footStepAudio.Length);
+                int idx = UnityEngine.Random.Range(0, footStepAudio.Length);
                 if(idx == recentplayedIndex)
                 {
                     idx = (idx + 1) % footStepAudio.Length;
@@ -215,6 +231,17 @@ namespace RicoShot.Play
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
             bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
+        }
+
+        public void DecreaseHp(int damage)
+        {
+            DecreaseHpRpc(damage);
+        }
+
+        [Rpc(SendTo.Owner)]
+        private void DecreaseHpRpc(int damage)
+        {
+            Hp -= damage;
         }
     }
 }
