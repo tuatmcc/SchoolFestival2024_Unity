@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -14,16 +15,27 @@ namespace RicoShot.Play
     public class AgentPlayer : Agent
     {
         private LocalPlayerMoveController playerMoveController;
+        private Rigidbody rb;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
 
-        private void Start()
+        protected override void Awake()
         {
+            base.Awake();
             playerMoveController = GetComponent<LocalPlayerMoveController>();
+            rb = GetComponent<Rigidbody>();
+        }
+
+        public override void CollectObservations(VectorSensor sensor)
+        {
+            sensor.AddObservation(transform.position);
+            sensor.AddObservation(rb.velocity.x);
+            sensor.AddObservation(rb.velocity.z);
         }
 
         public override void OnActionReceived(ActionBuffers actionsBuffer)
         {
+            if(playerMoveController == null) return;
             Debug.Log("called");
             ActionSegment<int> act = actionsBuffer.DiscreteActions;
             //前進 or　後退

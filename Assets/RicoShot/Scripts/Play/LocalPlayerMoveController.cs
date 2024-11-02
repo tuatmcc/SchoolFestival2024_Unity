@@ -135,7 +135,7 @@ namespace RicoShot.Play
         // 今のところ、移動のみを行い、回転は行わない. 
         private void Move()
         {
-            if (playSceneTester.IsTest || !IsServer)
+            if ((playSceneTester.IsTest && !playSceneTester.BehaveAsNPC) || (IsSpawned && !IsServer))
             {
                 moveInput = playSceneManager.PlayInputs.Main.Move.ReadValue<Vector2>();
             }
