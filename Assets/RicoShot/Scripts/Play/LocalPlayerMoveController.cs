@@ -87,6 +87,7 @@ namespace RicoShot.Play
             }
             else if (IsServer)
             {
+                enabled = false;
             }
             else
             {
