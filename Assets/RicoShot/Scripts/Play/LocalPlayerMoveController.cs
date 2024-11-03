@@ -11,6 +11,8 @@ namespace RicoShot.Play
 {
     public class LocalPlayerMoveController : NetworkBehaviour, IHpHolder
     {
+        public event Action OnFireEvent;
+        
         private const int CoolTime = 1;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -195,6 +197,7 @@ namespace RicoShot.Play
         {
             if (!OnCooltime)
             {
+                OnFireEvent?.Invoke();
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
@@ -208,8 +211,6 @@ namespace RicoShot.Play
                 FireAsync().Forget();
                 _animateThrow = true;
             }
-
-            Debug.Log("Fire");
         }
 
         // 歩行アニメーションで呼ばれる
