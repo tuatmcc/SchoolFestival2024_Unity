@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -8781002609353762684}
   m_Layer: 2
   m_Name: AlphaBullet
-  m_TagString: Untagged
+  m_TagString: AlphaCharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

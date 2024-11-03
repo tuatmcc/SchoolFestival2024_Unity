@@ -148,7 +148,7 @@ namespace NPC
             switch(Fire)
             {
                 case 1:
-                    if(Time.realtimeSinceStartup - BulletFiredTime < 2.0)
+                    if(Time.realtimeSinceStartup - BulletFiredTime < .2)
                     {
                         break;
                     }  

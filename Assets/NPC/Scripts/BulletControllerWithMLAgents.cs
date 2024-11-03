@@ -11,7 +11,7 @@ namespace NPC
     {
         [SerializeField]
         private GameObject agentSettings;
-        private AgentEnvController env;
+        // private AgentEnvController env;
 
         private Vector3 velocity;
         private Rigidbody rb;
@@ -42,7 +42,7 @@ namespace NPC
             // {
             //     Debug.LogError("Correct");
             // }
-            GameObject goj = GameObject.Find("GameManager");
+            GameObject goj = GameObject.Find("AgentSettings");
             if(goj != null)
             {
                 // Debug.LogWarning("goj found");
@@ -77,21 +77,24 @@ namespace NPC
 
         void OnTriggerEnter(Collider collider)
         {
-            if(env = null)
+            // Debug.Log(collider.gameObject.)
+            // if(env = null)
+            // {
+            //     env = agentSettings.GetComponent<AgentEnvController>();
+            // }
+            if(collider.gameObject.CompareTag("AlphaCharacter"))//env.AlphaCharacterTag
             {
-                env = agentSettings.GetComponent<AgentEnvController>();
+                if(this.gameObject.tag == "AlphaCharacter") return;
+                Debug.Log("hitted A");
+                
+                envController.Hitted("AlphaCharacter");
             }
-            if(collider.gameObject.CompareTag(env.AlphaCharacterTag))
+            else if(collider.gameObject.CompareTag("BravoCharacter"))//env.BravoCharacterTag
             {
-                if(this.gameObject.tag == env.AlphaBulletTag) return;
-
-                env.Hitted(env.AlphaCharacterTag);
-            }
-            else if(collider.gameObject.CompareTag(env.BravoCharacterTag))
-            {
-                if(this.gameObject.tag == env.BravoBulletTag) return;
-
-                env.Hitted(env.BravoCharacterTag);
+                if(this.gameObject.tag == "BravoCharacter") return;
+                Debug.Log("hitted B");
+                
+                envController.Hitted("BravoCharacter");
             }
         }
 

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -2672730073656731658}
   m_Layer: 2
   m_Name: BravoBullet
-  m_TagString: Untagged
+  m_TagString: BravoCharacter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
