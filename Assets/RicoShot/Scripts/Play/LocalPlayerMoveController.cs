@@ -241,7 +241,7 @@ namespace RicoShot.Play
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
-            bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
+            bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
         [Rpc(SendTo.Owner)]

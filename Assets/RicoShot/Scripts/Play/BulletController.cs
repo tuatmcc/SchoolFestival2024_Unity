@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using RicoShot.Core;
 using RicoShot.Play.Interface;
 using RicoShot.Utils;
 using Supabase.Storage;
@@ -23,7 +24,9 @@ namespace RicoShot.Play
         private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
-        private FixedString64Bytes shooterUUID;
+        private ClientData shooterData;
+        private Vector3 shooterPosition;
+        private Vector3 shooterForward;
         private bool destroying = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
@@ -46,9 +49,9 @@ namespace RicoShot.Play
             await UniTask.WaitUntil(() => playSceneManager != null && IsSpawned, cancellationToken: destroyCancellationToken);
             if (IsOwner)
             {
-                var localPlayerTransform = playSceneManager.LocalPlayer.transform;
-                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + localPlayerTransform.forward * 0.5f;
-                rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
+                // この実装の場合ラグを基に微調整したほうがいいかも
+                transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 1f;
+                rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
                 renderer.enabled = true;
                 EnableRendererRpc();
                 Debug.Log("Shot");
@@ -111,7 +114,7 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
-                        scoreManager.AddScoreRpc(shooterUUID, score);
+                        scoreManager.AddScoreRpc(shooterData.UUID, score);
                         DestroyThisRpc();
                         destroying = true;
                     }
@@ -129,9 +132,11 @@ namespace RicoShot.Play
 
         // (サーバー→全体)
         [Rpc(SendTo.Everyone)]
-        public void SetShooterUUIDRpc(FixedString64Bytes uuid)
+        public void SetShooterDataRpc(Vector3 shooterPosition, Vector3 shooterForward, ClientData shooterData)
         {
-            shooterUUID = uuid;
+            this.shooterPosition = shooterPosition;
+            this.shooterForward = shooterForward;
+            this.shooterData = shooterData;
         }
 
         // (クライアント→サーバー)このBulletの削除をする関数
