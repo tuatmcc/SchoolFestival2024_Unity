@@ -1,15 +1,94 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+using System;
 using Cysharp.Threading.Tasks;
-using Zenject;
 using RicoShot.Play.Interface;
 using Unity.Netcode;
-using System;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using Zenject;
+using Random = UnityEngine.Random;
 
 namespace RicoShot.Play
 {
     public class LocalPlayerMoveController : NetworkBehaviour, IHpHolder
     {
+        public event Action OnFireEvent;
+        
+        private const int CoolTime = 1;
+        private const float RotationSmoothTime = 0.1f;
+        private const float Acceleration = 10f;
+        private const float SpeedMultiplierForAnimation = 2.0f;
+
+        [SerializeField] private NetworkObject Bullet;
+        [SerializeField] private Transform ShootPoint;
+        [SerializeField] private float BulletForce = 20;
+        [SerializeField] private int hp = 50;
+        [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
+
+        [SerializeField] private float moveSpeedConst = 1.0f;
+        private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+
+        // animator parameters and constants
+        private readonly int _animIDSpeed = Animator.StringToHash("Speed");
+        private readonly int _animIDThrow = Animator.StringToHash("Throw");
+
+        private readonly bool LT_pressed = false;
+
+        //[Inject] IBulletObjectPoolManager bulletObjectPoolManager;
+        [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
+
+        //Foot step
+        private readonly int recentplayedIndex = -1;
+        private bool _animateThrow;
+        private float _animationBlend;
+        private Animator _animator;
+        private float _rotationVelocity = 20;
+
+        private SpawnAnimationController _spawnAnimationController;
+        private float _speed;
+        private int bullet_fire_count = 0;
+        private Vector2 moveInput;
+        private bool OnCooltime;
+
+        private Rigidbody rb;
+        private float rotationSpeed;
+        private bool setUpFinished;
+
+
+        private Transform TPSCam;
+
+        private void Start()
+        {
+            rb = GetComponent<Rigidbody>();
+            _animator = GetComponent<Animator>();
+            _spawnAnimationController = GetComponent<SpawnAnimationController>();
+
+            SetUpEvents().Forget();
+            SetUpTestEvents().Forget();
+        }
+
+        private void Update()
+        {
+            if (!setUpFinished) return;
+            if (_spawnAnimationController.isSpawning) return;
+
+            Move();
+            Rotate();
+        }
+
+        private void LateUpdate()
+        {
+            if (!setUpFinished) return;
+
+            // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
+            _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
+            _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
+            _animator.SetBool(_animIDThrow, _animateThrow);
+
+            // フラグをリセット
+            _animateThrow = false;
+        }
+
         public event Action<int> OnHpChanged;
 
         public int Hp
@@ -23,54 +102,9 @@ namespace RicoShot.Play
             }
         }
 
-        [SerializeField] private NetworkObject Bullet;
-        [SerializeField] private Transform ShootPoint;
-        [SerializeField] private float BulletForce = 20;
-        [SerializeField] private int hp = 50;
-        [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
-
-
-        private Transform TPSCam;
-
-        private Rigidbody rb;
-        private float _speed;
-        private float rotationSpeed;
-        private Vector2 moveInput;
-        private Animator _animator;
-        private int bullet_fire_count = 0;
-        private bool OnCooltime = false;
-        private const int CoolTime = 1;
-        private float _rotationVelocity = 20;
-        private const float RotationSmoothTime = 0.1f;
-        private const float Acceleration = 10f;
-
-        private bool LT_pressed = false;
-        private bool setUpFinished = false;
-
-        [SerializeField] private float moveSpeedConst = 1.0f;
-
-        //[Inject] IBulletObjectPoolManager bulletObjectPoolManager;
-        [Inject] private readonly IPlaySceneManager playSceneManager;
-        [Inject] private readonly IPlaySceneTester playSceneTester;
-
-        // animator parameters and constants
-        private readonly int _animIDSpeed = Animator.StringToHash("Speed");
-        private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
-        private readonly int _animIDThrow = Animator.StringToHash("Throw");
-        private float _animationBlend;
-        private bool _animateThrow;
-        private const float SpeedMultiplierForAnimation = 2.0f;
-
-        //Foot step
-        private int recentplayedIndex = -1;
-
-        void Start()
+        public void DecreaseHp(int damage)
         {
-            rb = GetComponent<Rigidbody>();
-            _animator = GetComponent<Animator>();
-
-            SetUpEvents().Forget();
-            SetUpTestEvents().Forget();
+            DecreaseHpRpc(damage);
         }
 
         // SpawnとInjectを待って、ClientかつOwnerなら入力を取るイベントを登録、それ以外ならスクリプトを無効化
@@ -87,6 +121,7 @@ namespace RicoShot.Play
             }
             else if (IsServer)
             {
+                enabled = false;
             }
             else
             {
@@ -106,25 +141,6 @@ namespace RicoShot.Play
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
             }
-        }
-
-        private void Update()
-        {
-            if (!setUpFinished) return;
-
-            Move();
-            Rotate();
-        }
-
-        private void LateUpdate()
-        {
-            // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
-            _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
-            _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
-            _animator.SetBool(_animIDThrow, _animateThrow);
-
-            // フラグをリセット
-            _animateThrow = false;
         }
 
         // 今のところ、移動のみを行い、回転は行わない. 
@@ -155,11 +171,11 @@ namespace RicoShot.Play
             if (LT_pressed)
             {
                 targetRotation = TPSCam.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref _rotationVelocity,
+                var rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref _rotationVelocity,
                     RotationSmoothTime / 100);
 
                 // rotate to face input direction relative to camera position
-                this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
             else
             {
@@ -167,12 +183,12 @@ namespace RicoShot.Play
                 {
                     targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg +
                                      TPSCam.eulerAngles.y;
-                    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation,
+                    var rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation,
                         ref _rotationVelocity,
                         RotationSmoothTime);
 
                     // rotate to face input direction relative to camera position
-                    this.transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+                    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
                 }
             }
         }
@@ -181,6 +197,7 @@ namespace RicoShot.Play
         {
             if (!OnCooltime)
             {
+                OnFireEvent?.Invoke();
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
@@ -194,8 +211,6 @@ namespace RicoShot.Play
                 FireAsync().Forget();
                 _animateThrow = true;
             }
-
-            Debug.Log("Fire");
         }
 
         // 歩行アニメーションで呼ばれる
@@ -203,11 +218,8 @@ namespace RicoShot.Play
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
             {
-                int idx = UnityEngine.Random.Range(0, footStepAudio.Length);
-                if(idx == recentplayedIndex)
-                {
-                    idx = (idx + 1) % footStepAudio.Length;
-                }
+                var idx = Random.Range(0, footStepAudio.Length);
+                if (idx == recentplayedIndex) idx = (idx + 1) % footStepAudio.Length;
                 AudioSource.PlayClipAtPoint(footStepAudio[idx], transform.position);
             }
         }
@@ -231,11 +243,6 @@ namespace RicoShot.Play
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
             bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
-        }
-
-        public void DecreaseHp(int damage)
-        {
-            DecreaseHpRpc(damage);
         }
 
         [Rpc(SendTo.Owner)]

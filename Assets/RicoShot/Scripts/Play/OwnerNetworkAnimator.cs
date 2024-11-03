@@ -6,14 +6,13 @@ using UnityEngine;
 namespace RicoShot.Play
 {
     /// <summary>
-    /// NetworkTransformの代わりにこれをつけることでClientから動きを制御できるようになる
+    /// NetworkAnimatorの代わりにこれをつけることでOwnerからアニメーションを制御できるようになる
     /// </summary>
-    [DisallowMultipleComponent]
-    public class ClientNetworkTransform : NetworkTransform
+    public class OwnerNetworkAnimator : NetworkAnimator
     {
         protected override bool OnIsServerAuthoritative()
         {
             return false;
-        }    
+        }
     }
 }
