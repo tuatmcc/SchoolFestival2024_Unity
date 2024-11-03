@@ -627,7 +627,7 @@ MonoBehaviour:
   m_Model: {fileID: 5022602860645237092, guid: fec86f99f7c7e614fb76914ec3efb61a, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: UnityChan3vs3
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -670,10 +670,10 @@ MonoBehaviour:
   - AlphaCharacter
   - BravoCharacter
   - Border
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 70
-  m_SphereCastRadius: 0.5
-  m_RayLength: 20
+  m_RaysPerDirection: 6
+  m_MaxRayDegrees: 90
+  m_SphereCastRadius: 1.18
+  m_RayLength: 181
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967291
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_UseBatchedRaycasts: 0
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 0
+  m_StartVerticalOffset: 1.337
   m_EndVerticalOffset: 0
 --- !u!114 &3387215405331324059
 MonoBehaviour:
@@ -698,7 +698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 20
   DecisionStep: 0
-  TakeActionsBetweenDecisions: 1
+  TakeActionsBetweenDecisions: 0
 --- !u!4 &3653662239633825434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,

@@ -4,6 +4,9 @@ using RicoShot.Core;
 using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.MLAgents;
+using Unity.MLAgents.Policies;
+using Unity.MLAgents.Sensors;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -15,8 +18,25 @@ namespace RicoShot.Play
     {
         public ClientData ClientData { get; private set; }
 
+        private BehaviorParameters behaviorParameters;
+        private AgentPlayer agentPlayer;
+        private RayPerceptionSensorComponent3D rayPerceptionSensor;
+        private DecisionRequester decisionRequester;
+
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
+
+        private void Awake()
+        {
+            behaviorParameters = GetComponent<BehaviorParameters>();
+            agentPlayer = GetComponent<AgentPlayer>();
+            rayPerceptionSensor = GetComponent<RayPerceptionSensorComponent3D>();
+            decisionRequester = GetComponent<DecisionRequester>();
+            behaviorParameters.enabled = false;
+            agentPlayer.enabled = false;
+            rayPerceptionSensor.enabled = false;
+            decisionRequester.enabled = false;
+        }
 
         private void Start()
         {
