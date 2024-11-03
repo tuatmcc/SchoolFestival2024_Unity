@@ -47,6 +47,16 @@ namespace RicoShot.Play
             {
                 playSceneManager.LocalPlayer = gameObject;
                 ClientData.CharacterParams.OnDataChanged += OnCharacterParamsChanged;
+                NetworkObject.SynchronizeTransform = false;
+                var rb = GetComponent<Rigidbody>();
+                rb.isKinematic = false;
+                if (playSceneTester.BehaveAsNPC)
+                {
+                    behaviorParameters.enabled = true;
+                    agentPlayer.enabled = true;
+                    rayPerceptionSensor.enabled = true;
+                    decisionRequester.enabled = true;
+                }
                 return;
             }
 

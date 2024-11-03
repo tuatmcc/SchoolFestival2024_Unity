@@ -131,13 +131,15 @@ namespace RicoShot.Play
         private async UniTask SetUpTestEvents()
         {
             await UniTask.WaitUntil(() => playSceneTester != null, cancellationToken: destroyCancellationToken);
-            if (playSceneTester.IsTest)
+            if (playSceneTester.IsTest && !playSceneTester.BehaveAsNPC)
             {
-                NetworkObject.SynchronizeTransform = false;
-                rb.isKinematic = false;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
+            }
+            else if (playSceneTester.IsTest && playSceneTester.BehaveAsNPC)
+            {
+                enabled = false;
             }
         }
 

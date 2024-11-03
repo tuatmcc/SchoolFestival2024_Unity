@@ -652,7 +652,7 @@ MonoBehaviour:
   coolTime: 1
   bulletPrefab: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48,
     type: 3}
-  agentSpeed: 1
+  agentSpeed: 15
 --- !u!114 &7611585664718904774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 20
+  DecisionPeriod: 10
   DecisionStep: 0
   TakeActionsBetweenDecisions: 0
 --- !u!4 &3653662239633825434 stripped

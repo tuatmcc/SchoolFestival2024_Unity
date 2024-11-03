@@ -24,18 +24,24 @@ namespace RicoShot.Play
         private Rigidbody rb;
         private bool onCoolTime = false;
 
-        [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IPlaySceneTester playSceneTester;
 
         protected override void Awake()
         {
-            base.Awake();
             playerMoveController = GetComponent<LocalPlayerMoveController>();
             rb = GetComponent<Rigidbody>();
         }
 
         private void Update()
         {
+            if (rb.velocity.magnitude != 0)
+            {
+                // 移動方向に向かせる回転を計算
+                Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
 
+                // 現在の回転から目標の回転へ徐々に回転
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+            }
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -103,11 +109,12 @@ namespace RicoShot.Play
                     break;
             }
 
-            rb.AddForce(dirToGo, ForceMode.VelocityChange);
+            rb.AddForce(dirToGo * agentSpeed);
         }
 
         private void OnFire()
         {
+            if (playSceneTester.IsTest) return;
             if (!onCoolTime)
             {
                 FireAsync().Forget();
