@@ -85,8 +85,9 @@ namespace RicoShot.Play
                 setUpFinished = true;
                 Debug.Log("Local player set up finished");
             }
-            else if (IsServer)
+            else if (IsOwner || IsServer)
             {
+                setUpFinished = true;
             }
             else
             {
@@ -112,8 +113,11 @@ namespace RicoShot.Play
         {
             if (!setUpFinished) return;
 
-            Move();
-            Rotate();
+            if (IsOwner && IsClient)
+            {
+                Move();
+                Rotate();
+            }
         }
 
         private void LateUpdate()
@@ -187,6 +191,7 @@ namespace RicoShot.Play
 
         public void OnFire(InputAction.CallbackContext context)
         {
+            if (playSceneTester.IsTest  || !setUpFinished) return;
             if (!OnCooltime)
             {
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);
@@ -222,7 +227,6 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
-            if (playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc();
             await UniTask.WaitForSeconds(CoolTime);
@@ -236,10 +240,17 @@ namespace RicoShot.Play
                 transform.position + Vector3.up * 0.5f + transform.forward,
                 Quaternion.identity);
             var clientDataHolder = GetComponent<IClientDataHolder>();
-            bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
+            if (!IsServer)
+            {
+                bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
+            }
+            else
+            {
+                bullet.Spawn();
+            }
             bullet.tag = $"{clientDataHolder.ClientData.Team}Bullet";
             var bulletController = bullet.GetComponent<BulletController>();
-            bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
+            bulletController.SetShooterPositionRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
         public void DecreaseHp(int damage)

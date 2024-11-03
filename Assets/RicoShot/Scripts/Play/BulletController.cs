@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using RicoShot.Core;
 using RicoShot.Play.Interface;
 using RicoShot.Utils;
 using Supabase.Storage;
@@ -23,7 +24,9 @@ namespace RicoShot.Play
         private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
-        private FixedString64Bytes shooterUUID;
+        private ClientData shooterData;
+        private Vector3 shooterPosition;
+        private Vector3 shooterForward;
         private bool destroying = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
@@ -32,7 +35,7 @@ namespace RicoShot.Play
         void Start()
         {
             gameObject.AddComponent<ZenAutoInjecter>();
-            rb = this.GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody>();
             renderer = GetComponent<Renderer>();
             renderer.enabled = false;
             networkTransform = GetComponent<NetworkTransform>();
@@ -43,12 +46,11 @@ namespace RicoShot.Play
         // Spawnを待ってBulletをセット
         private async UniTask SpawnBullet()
         {
-            await UniTask.WaitUntil(() => playSceneManager != null && IsSpawned, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => shooterPosition != null && IsSpawned, cancellationToken: destroyCancellationToken);
             if (IsOwner)
             {
-                var localPlayerTransform = playSceneManager.LocalPlayer.transform;
-                transform.position = localPlayerTransform.position + Vector3.up * 0.5f + localPlayerTransform.forward * 0.5f;
-                rb.AddForce(localPlayerTransform.forward * bulletForce, ForceMode.Impulse);
+                transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 0.5f;
+                rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
                 renderer.enabled = true;
                 EnableRendererRpc();
                 Debug.Log("Shot");
@@ -79,13 +81,14 @@ namespace RicoShot.Play
 
         private void OnCollisionEnter(Collision other)
         {
-            if (IsOwner & !destroying & IsSpawned)
+            if (IsOwner && !destroying && IsSpawned)
             {
                 Debug.Log("衝突");
                 if (other.gameObject.CompareTag("Border"))
                 {
                     if (velocity.magnitude <= 0.1)
                     {
+                        Debug.Log(rb);
                         rb.velocity = new Vector3(0, 0, 0);
                         this.transform.position = new Vector3(0, -0.4f, 0);
                         reflect_count = 0;
@@ -103,7 +106,7 @@ namespace RicoShot.Play
                 else if (other.gameObject.TryGetComponent<IClientDataHolder>(out var clientDataHolder))
                 {
                     var clientData = clientDataHolder.ClientData;
-                    if (clientData.Team != playSceneManager.LocalPlayer.GetComponent<IClientDataHolder>().ClientData.Team)
+                    if (clientData.Team != shooterData.Team)
                     {                        
                         Debug.Log("敵にヒット");
                         rb.velocity = new Vector3(0, 0, 0);
@@ -111,7 +114,7 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
-                        scoreManager.AddScoreRpc(shooterUUID, score);
+                        scoreManager.AddScoreRpc(shooterData.UUID, score);
                         DestroyThisRpc();
                         destroying = true;
                     }
@@ -127,11 +130,11 @@ namespace RicoShot.Play
             }
         }
 
-        // (サーバー→全体)
-        [Rpc(SendTo.Everyone)]
-        public void SetShooterUUIDRpc(FixedString64Bytes uuid)
+        public void SetShooterPositionRpc(Vector3 shooterPosition, Vector3 shooterForward, ClientData shooterData)
         {
-            shooterUUID = uuid;
+            this.shooterPosition = shooterPosition;
+            this.shooterForward = shooterForward;
+            this.shooterData = shooterData;
         }
 
         // (クライアント→サーバー)このBulletの削除をする関数
