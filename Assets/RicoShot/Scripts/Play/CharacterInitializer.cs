@@ -2,8 +2,9 @@ using Chibi;
 using Cysharp.Threading.Tasks;
 using RicoShot.Core;
 using RicoShot.Play.Interface;
-using System.Collections;
-using System.Collections.Generic;
+using Unity.MLAgents;
+using Unity.MLAgents.Policies;
+using Unity.MLAgents.Sensors;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -15,8 +16,25 @@ namespace RicoShot.Play
     {
         public ClientData ClientData { get; private set; }
 
+        private BehaviorParameters behaviorParameters;
+        private AgentPlayer agentPlayer;
+        private RayPerceptionSensorComponent3D rayPerceptionSensor;
+        private DecisionRequester decisionRequester;
+
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
+
+        private void Awake()
+        {
+            behaviorParameters = GetComponent<BehaviorParameters>();
+            agentPlayer = GetComponent<AgentPlayer>();
+            rayPerceptionSensor = GetComponent<RayPerceptionSensorComponent3D>();
+            decisionRequester = GetComponent<DecisionRequester>();
+            behaviorParameters.enabled = false;
+            agentPlayer.enabled = false;
+            rayPerceptionSensor.enabled = false;
+            decisionRequester.enabled = false;
+        }
 
         private void Start()
         {
@@ -27,6 +45,13 @@ namespace RicoShot.Play
             {
                 playSceneManager.LocalPlayer = gameObject;
                 ClientData.CharacterParams.OnDataChanged += OnCharacterParamsChanged;
+                if (playSceneTester.BehaveAsNPC)
+                {
+                    behaviorParameters.enabled = true;
+                    agentPlayer.enabled = true;
+                    rayPerceptionSensor.enabled = true;
+                    decisionRequester.enabled = true;
+                }
                 return;
             }
 
@@ -66,6 +91,13 @@ namespace RicoShot.Play
         {
             ReflectCharacterParams(clientData.CharacterParams);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
+            if (IsOwner && clientData.IsNpc)
+            {
+                behaviorParameters.enabled = true;
+                agentPlayer.enabled = true;
+                rayPerceptionSensor.enabled = true;
+                decisionRequester.enabled = true;
+            }
             SendCharaterParamsRpc(clientData);
         }
 

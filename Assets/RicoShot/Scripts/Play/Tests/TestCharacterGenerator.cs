@@ -30,7 +30,9 @@ namespace RicoShot.Play.Tests
             {
                 var player = Instantiate(networkObject, Vector3.zero, Quaternion.identity);
                 var initializer = player.GetComponent<CharacterInitializer>();
-                initializer.SetCharacterParams(new ClientData(playSceneTester.CharacterParams));
+                var clientData = new ClientData(playSceneTester.CharacterParams);
+                clientData.IsNpc = true;
+                initializer.SetCharacterParams(clientData);
                 return;
             }
 
