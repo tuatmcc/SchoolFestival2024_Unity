@@ -30,12 +30,13 @@ Material:
     - _Alpha: 0
     - _Border: 0.236
     - _Position: -0.58
+    - _QueueControl: 0
     - _Rotate: -0.8
     - _Scale: 24.33
-    - _Speed: 0
+    - _Speed: 0.0461279
     - _Stretch: 0.07
     m_Colors:
-    - _Color1: {r: 0.8, g: 0.5, b: 0.5, a: 1}
+    - _Color1: {r: 0.8, g: 0.3, b: 0.3, a: 1}
     - _Color2: {r: 0.8, g: 0.5, b: 0.5, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7106465492712294667
