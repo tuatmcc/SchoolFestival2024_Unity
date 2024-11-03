@@ -137,6 +137,7 @@ namespace RicoShot.Play
             this.shooterPosition = shooterPosition;
             this.shooterForward = shooterForward;
             this.shooterData = shooterData;
+            tag = $"{shooterData.Team}Bullet";
         }
 
         // (クライアント→サーバー)このBulletの削除をする関数

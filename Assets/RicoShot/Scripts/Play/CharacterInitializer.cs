@@ -56,6 +56,7 @@ namespace RicoShot.Play
         public void SetCharacterParams(ClientData clientData)
         {
             ClientData = clientData;
+            tag = $"{ClientData.Team}Character";
             ReflectCharacterParamsAsync(clientData).Forget();
         }
 
