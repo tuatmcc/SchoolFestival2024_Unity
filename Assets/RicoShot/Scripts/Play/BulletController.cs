@@ -58,11 +58,15 @@ namespace RicoShot.Play
                 rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
                 _renderer.enabled = true;
                 EnableRendererRpc();
-                Debug.Log("Shot");
+                //Debug.Log("Shot");
             }
             else if (!IsServer)
             {
                 EnableInterpolateRpc();
+            }
+            if (IsServer)
+            {
+                playSceneManager.OnPlayStateChanged += DestroyInServer;
             }
         }
 
@@ -89,7 +93,7 @@ namespace RicoShot.Play
         {
             if (IsOwner & !destroying & IsSpawned)
             {
-                Debug.Log("衝突");
+                //Debug.Log("衝突");
                 if (other.gameObject.CompareTag("Border"))
                 {
                     if (velocity.magnitude <= 0.1)
@@ -150,6 +154,21 @@ namespace RicoShot.Play
         private void DestroyThisRpc()
         {
             Destroy(gameObject);
-        }    
+        }
+
+        // (サーバー)リザルトへ移動時に破棄する関数
+        private void DestroyInServer(PlayState playState)
+        {
+            if (playState == PlayState.Despawn)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            playSceneManager.OnPlayStateChanged -= DestroyInServer;
+            base.OnDestroy();
+        }
     }
 }

@@ -82,6 +82,10 @@ namespace RicoShot.Play
             {
 
             }
+            if (IsServer)
+            {
+                playSceneManager.OnPlayStateChanged += DestroyInServer;
+            }
             Debug.Log("Initialized character");
         }
 
@@ -121,6 +125,15 @@ namespace RicoShot.Play
         private void OnCharacterParamsChanged()
         {
             ReflectCharacterParams(ClientData.CharacterParams);
+        }
+
+        // (サーバー)リザルトへ移動時に破棄する関数
+        private void DestroyInServer(PlayState playState)
+        {
+            if (playState == PlayState.Despawn)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
