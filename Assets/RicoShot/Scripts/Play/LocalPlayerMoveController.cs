@@ -11,6 +11,8 @@ namespace RicoShot.Play
 {
     public class LocalPlayerMoveController : NetworkBehaviour, IHpHolder
     {
+        public event Action OnFireEvent;
+        
         private const int CoolTime = 1;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -131,13 +133,15 @@ namespace RicoShot.Play
         private async UniTask SetUpTestEvents()
         {
             await UniTask.WaitUntil(() => playSceneTester != null, cancellationToken: destroyCancellationToken);
-            if (playSceneTester.IsTest)
+            if (playSceneTester.IsTest && !playSceneTester.BehaveAsNPC)
             {
-                NetworkObject.SynchronizeTransform = false;
-                rb.isKinematic = false;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
+            }
+            else if (playSceneTester.IsTest && playSceneTester.BehaveAsNPC)
+            {
+                enabled = false;
             }
         }
 
@@ -195,6 +199,7 @@ namespace RicoShot.Play
         {
             if (!OnCooltime)
             {
+                OnFireEvent?.Invoke();
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
@@ -208,8 +213,6 @@ namespace RicoShot.Play
                 FireAsync().Forget();
                 _animateThrow = true;
             }
-
-            Debug.Log("Fire");
         }
 
         // 歩行アニメーションで呼ばれる
@@ -225,7 +228,7 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
-            if (playSceneTester.IsTest) return;
+            if (playSceneTester == null || playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc();
             await UniTask.WaitForSeconds(CoolTime);
@@ -241,7 +244,7 @@ namespace RicoShot.Play
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
-            bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
+            bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
         [Rpc(SendTo.Owner)]
