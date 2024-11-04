@@ -46,6 +46,7 @@ namespace NPC
         public override void Initialize()
         {
             m_BehaviorParameters = gameObject.GetComponent<BehaviorParameters>();
+            // Transform parent = transform.parent;
             initialPos = this.transform.position;
             
             //teamはBehaviorParameterのteamIDを元にして設定される。

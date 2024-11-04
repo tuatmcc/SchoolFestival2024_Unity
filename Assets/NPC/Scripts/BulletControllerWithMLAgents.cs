@@ -43,6 +43,7 @@ namespace NPC
             //     Debug.LogError("Correct");
             // }
             GameObject goj = GameObject.Find("AgentSettings");
+            // GameObject goj = transform.parent.gameObject;
             if(goj != null)
             {
                 // Debug.LogWarning("goj found");
