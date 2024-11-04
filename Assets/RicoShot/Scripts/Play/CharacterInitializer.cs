@@ -73,7 +73,10 @@ namespace RicoShot.Play
             }
             else if (IsServer && IsOwner)
             {
-
+                behaviorParameters.enabled = true;
+                agentPlayer.enabled = true;
+                rayPerceptionSensor.enabled = true;
+                decisionRequester.enabled = true;
             }
             else
             {

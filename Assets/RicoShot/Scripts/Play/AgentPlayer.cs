@@ -20,15 +20,14 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject bulletPrefab;
         [SerializeField] private float agentSpeed = 10f;
 
-        private LocalPlayerMoveController playerMoveController;
         private Rigidbody rb;
         private bool onCoolTime = false;
 
+        [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
         protected override void Awake()
         {
-            playerMoveController = GetComponent<LocalPlayerMoveController>();
             rb = GetComponent<Rigidbody>();
         }
 
@@ -53,7 +52,7 @@ namespace RicoShot.Play
 
         public override void OnActionReceived(ActionBuffers actionsBuffer)
         {
-            if (playerMoveController == null) return;
+            if (playSceneManager.PlayState != PlayState.Playing) return;
             Debug.Log("called");
             ActionSegment<int> act = actionsBuffer.DiscreteActions;
             //前進 or　後退
@@ -132,6 +131,7 @@ namespace RicoShot.Play
             var bulletController = bullet.GetComponent<BulletController>();
             bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
             await UniTask.WaitForSeconds(coolTime);
+            onCoolTime = false;
         }
     }
 }

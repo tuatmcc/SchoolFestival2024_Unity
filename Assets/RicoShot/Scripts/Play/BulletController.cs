@@ -20,7 +20,7 @@ namespace RicoShot.Play
         [SerializeField] private int damage = 10;
         private Vector3 velocity;
         private Rigidbody rb;
-        private Renderer renderer;
+        private Renderer _renderer;
         private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
@@ -32,12 +32,16 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly INetworkScoreManager scoreManager;
 
-        void Start()
+        private void Awake()
+        {
+            _renderer = GetComponent<Renderer>();
+            _renderer.enabled = false;
+        }
+
+        private void Start()
         {
             gameObject.AddComponent<ZenAutoInjecter>();
             rb = this.GetComponent<Rigidbody>();
-            renderer = GetComponent<Renderer>();
-            renderer.enabled = false;
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
@@ -46,13 +50,13 @@ namespace RicoShot.Play
         // Spawnを待ってBulletをセット
         private async UniTask SpawnBullet()
         {
-            await UniTask.WaitUntil(() => playSceneManager != null && IsSpawned, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => shooterData != null && IsSpawned, cancellationToken: destroyCancellationToken);
             if (IsOwner)
             {
                 // この実装の場合ラグを基に微調整したほうがいいかも
                 transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 1f;
                 rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
-                renderer.enabled = true;
+                _renderer.enabled = true;
                 EnableRendererRpc();
                 Debug.Log("Shot");
             }
@@ -62,10 +66,11 @@ namespace RicoShot.Play
             }
         }
 
+        // NPCの場合Startよりも前に呼ばれる可能性がある
         [Rpc(SendTo.NotOwner)]
         private void EnableRendererRpc()
         {
-            renderer.enabled = true;
+            _renderer.enabled = true;
         }
 
         [Rpc(SendTo.Owner)]
@@ -106,7 +111,7 @@ namespace RicoShot.Play
                 else if (other.gameObject.TryGetComponent<IClientDataHolder>(out var clientDataHolder))
                 {
                     var clientData = clientDataHolder.ClientData;
-                    if (clientData.Team != playSceneManager.LocalPlayer.GetComponent<IClientDataHolder>().ClientData.Team)
+                    if (clientData.Team != shooterData.Team)
                     {                        
                         Debug.Log("敵にヒット");
                         rb.velocity = new Vector3(0, 0, 0);

@@ -227,7 +227,7 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
-            if (playSceneTester.IsTest) return;
+            if (playSceneTester == null || playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc();
             await UniTask.WaitForSeconds(CoolTime);
