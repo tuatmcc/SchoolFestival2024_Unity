@@ -15,7 +15,7 @@ namespace RicoShot.Play.Tests
 
         public NetworkVariable<bool> AllClientsReady => throw new NotImplementedException();
 
-        public INetworkScoreManager ScoreManager { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public INetworkScoreManager ScoreManager { get => throw new NotImplementedException(); set { } }
 
         public event Action<bool> OnAllClientsReadyChanged;
 

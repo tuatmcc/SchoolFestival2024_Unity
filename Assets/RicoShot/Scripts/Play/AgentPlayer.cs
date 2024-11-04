@@ -52,7 +52,7 @@ namespace RicoShot.Play
 
         public override void OnActionReceived(ActionBuffers actionsBuffer)
         {
-            if (playSceneManager.PlayState != PlayState.Playing) return;
+            if (playSceneManager.PlayState != PlayState.Playing && !playSceneTester.IsTest) return;
             //Debug.Log("called");
             ActionSegment<int> act = actionsBuffer.DiscreteActions;
             //前進 or　後退
