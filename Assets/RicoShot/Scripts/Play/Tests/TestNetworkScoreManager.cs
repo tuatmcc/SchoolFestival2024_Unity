@@ -27,11 +27,7 @@ namespace RicoShot.Play.Tests
         {
             networkController.ScoreManager = this;
             if (playSceneTester.IsTest) return;
-
-            if (NetworkManager.IsServer)
-            {
-                playSceneManager.OnPlayStateChanged += UploadResult;
-            }
+            DontDestroyOnLoad(gameObject);
         }
 
         public void RegistCharacter(FixedString64Bytes uuid, Team team)
@@ -56,7 +52,6 @@ namespace RicoShot.Play.Tests
             return null;
         }
 
-        // (サーバー)ここでSupabaseにデータをアップロードする処理
         // 終了後Destroy
         private void UploadResult(PlayState playState)
         {
