@@ -5,7 +5,6 @@ using RicoShot.Core;
 using RicoShot.Core.Interface;
 using RicoShot.Matching.Interface;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Zenject;
 
