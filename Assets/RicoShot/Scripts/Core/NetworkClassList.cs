@@ -17,17 +17,22 @@ namespace RicoShot.Core
     {
         public event Action OnDataChanged;
 
-        public List<T> SomeDataToSynchronize { get; private set; } = new List<T>();
-        public int Count {  get { return SomeDataToSynchronize.Count; } }
+        private List<T> SomeDataToSynchronize { get; set; } = new();
+
+        public int Count => SomeDataToSynchronize.Count;
 
         public bool IsReadOnly => false;
 
-        public T this[int index] { get => SomeDataToSynchronize[index]; set => SomeDataToSynchronize[index] = value; }
+        public T this[int index]
+        {
+            get => SomeDataToSynchronize[index];
+            set => SomeDataToSynchronize[index] = value;
+        }
 
         public override void WriteField(FastBufferWriter writer)
         {
             writer.WriteValueSafe(SomeDataToSynchronize.Count);
-            for (int i = 0; i < SomeDataToSynchronize.Count; i++)
+            for (var i = 0; i < SomeDataToSynchronize.Count; i++)
             {
                 var dataEntry = SomeDataToSynchronize[i];
                 NetworkVariableSerialization<T>.Write(writer, ref dataEntry);
@@ -38,7 +43,7 @@ namespace RicoShot.Core
         {
             reader.ReadValueSafe(out int itemsToUpdate);
             SomeDataToSynchronize.Clear();
-            for (int i = 0; i < itemsToUpdate; i++)
+            for (var i = 0; i < itemsToUpdate; i++)
             {
                 T newEntry = default;
                 NetworkVariableSerialization<T>.Read(reader, ref newEntry);
@@ -107,7 +112,7 @@ namespace RicoShot.Core
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            SomeDataToSynchronize.CopyTo(array, arrayIndex);
         }
 
         public bool Remove(T item)
