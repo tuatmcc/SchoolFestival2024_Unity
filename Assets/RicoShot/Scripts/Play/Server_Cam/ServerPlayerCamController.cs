@@ -8,12 +8,15 @@ using System;
 namespace RicoShot {
     public class ServerPlayerCamController : MonoBehaviour
     {
-        int ChangeInterval = 10;
-        bool isEdited = false;
+        private int ChangeInterval = 10;
+        private bool isEdited = false;
+        private CinemachineVirtualCamera virtualCamera;
+
         [Inject] private readonly IGameStateManager gameStateManager;
-        // Start is called before the first frame update
+        
         void Start()
         {
+            virtualCamera = GetComponent<CinemachineVirtualCamera>();
             if(gameStateManager.NetworkMode == NetworkMode.Client)
             {
                 this.gameObject.SetActive(false);
@@ -24,10 +27,10 @@ namespace RicoShot {
         void Update()
         {
             //Debug.Log(Time.time);
-            Debug.Log(GetComponent<CinemachineVirtualCamera>().Priority);
+            //Debug.Log(virtualCamera.Priority);
             if (DateTime.Now.Second % ChangeInterval == 0 && !isEdited)
             {
-                GetComponent<CinemachineVirtualCamera>().Priority = UnityEngine.Random.Range(0, 11);
+                virtualCamera.Priority = UnityEngine.Random.Range(0, 11);
                 isEdited = true;
             }
             else if(DateTime.Now.Second % ChangeInterval != 0)

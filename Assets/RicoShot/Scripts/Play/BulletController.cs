@@ -34,6 +34,7 @@ namespace RicoShot.Play
 
         private void Awake()
         {
+            rb = GetComponent<Rigidbody>();
             _renderer = GetComponent<Renderer>();
             _renderer.enabled = false;
         }
@@ -41,7 +42,6 @@ namespace RicoShot.Play
         private void Start()
         {
             gameObject.AddComponent<ZenAutoInjecter>();
-            rb = this.GetComponent<Rigidbody>();
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
@@ -123,6 +123,7 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
+                        // nullable
                         scoreManager.AddScoreRpc(shooterData.UUID, score);
                         DestroyThisRpc();
                         destroying = true;
