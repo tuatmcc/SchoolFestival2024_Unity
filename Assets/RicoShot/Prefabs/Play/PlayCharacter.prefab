@@ -324,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 354433576
+  GlobalObjectIdHash: 467218574
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -657,6 +657,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48,
     type: 3}
   agentSpeed: 20
+  maxSpeed: 3
 --- !u!114 &7611585664718904774
 MonoBehaviour:
   m_ObjectHideFlags: 0
