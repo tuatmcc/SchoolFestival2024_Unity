@@ -6,6 +6,7 @@ using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using UnityEngine.InputSystem;
 using Zenject;
+using Unity.Netcode;
 
 namespace RicoShot.Matching
 {
@@ -39,6 +40,7 @@ namespace RicoShot.Matching
 
         public void Initialize()
         {
+            _networkController.OnServerConnectionCompleted += OnConnected;
             if (_gameStateManager.NetworkMode == NetworkMode.Client)
             {
                 Observable.FromEvent<InputAction.CallbackContext>
@@ -63,6 +65,12 @@ namespace RicoShot.Matching
             }
         }
 
+        private void OnConnected()
+        {
+            MatchingState = MatchingState.Connected;
+            OnSelectAlpha();
+        }
+
         public void Dispose()
         {
             MatchingInputs.Disable();
@@ -71,6 +79,7 @@ namespace RicoShot.Matching
 
         private void OnSelectAlpha()
         {
+            if (!NetworkManager.Singleton.IsClient) return;
             _networkController.UpdateReadyStatusRpc(false);
             _networkController.UpdateTeamRpc(Team.Alpha);
             _networkController.UpdateReadyStatusRpc(true);
@@ -78,6 +87,7 @@ namespace RicoShot.Matching
 
         private void OnSelectBravo()
         {
+            if (!NetworkManager.Singleton.IsClient) return;
             _networkController.UpdateReadyStatusRpc(false);
             _networkController.UpdateTeamRpc(Team.Bravo);
             _networkController.UpdateReadyStatusRpc(true);
@@ -85,11 +95,13 @@ namespace RicoShot.Matching
 
         private void OnConfirm()
         {
+            if (!NetworkManager.Singleton.IsClient) return;
             _networkController.StartPlayRpc();
         }
 
         private void OnCancel()
         {
+            if (!NetworkManager.Singleton.IsClient) return;
             _gameStateManager.ForceReset();
         }
     }

@@ -18,6 +18,7 @@ namespace RicoShot.Core
     {
         // 説明はインターフェース(INetworkManager)を参照
         public event Action<bool> OnAllClientsReadyChanged;
+        public event Action OnServerConnectionCompleted;
         public NetworkClassList<ClientData> ClientDataList { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
         public INetworkScoreManager ScoreManager { get; set; }
@@ -157,6 +158,7 @@ namespace RicoShot.Core
             Debug.Log($"[Client] Connected server as ID:{clientId}");
             // 自身のデータを登録
             AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId, localPlayerManager.CharacterParams));
+            OnServerConnectionCompleted?.Invoke();
         }
 
          // (クライアント)接続解除時の挙動

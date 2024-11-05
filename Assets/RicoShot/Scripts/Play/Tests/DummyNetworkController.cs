@@ -18,6 +18,7 @@ namespace RicoShot.Play.Tests
         public INetworkScoreManager ScoreManager { get => throw new NotImplementedException(); set { } }
 
         public event Action<bool> OnAllClientsReadyChanged;
+        public event Action OnServerConnectionCompleted;
 
         public void StartPlayRpc()
         {
