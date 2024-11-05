@@ -6,6 +6,8 @@ using Zenject;
 using System;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using RicoShot.Play;
+using RicoShot.Play.Interface;
 
 namespace RicoShot.Core
 {
@@ -18,9 +20,11 @@ namespace RicoShot.Core
         public event Action<bool> OnAllClientsReadyChanged;
         public NetworkClassList<ClientData> ClientDataList { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
+        public INetworkScoreManager ScoreManager { get; set; }
 
         [SerializeField] private int maxClientCount = 4;
         private bool callbackRegisted = false;
+        private bool resetInProgress = false;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ILocalPlayerManager localPlayerManager;
@@ -51,6 +55,7 @@ namespace RicoShot.Core
                     NetworkManager.Singleton.ConnectionApprovalCallback = ApprovalCheck; // 接続チェック
                     NetworkManager.Singleton.OnClientConnectedCallback += ResetAllReadyState; // 接続時
                     NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect; // 接続解除時
+                    gameStateManager.OnGameStateChanged += OnGameFinished;
                 }
                 else if (gameStateManager.NetworkMode == NetworkMode.Client) // クライアントのとき
                 {
@@ -109,18 +114,18 @@ namespace RicoShot.Core
         // (サーバー)接続解除時の挙動
         private void OnClientDisconnect(ulong clientId)
         {
-            var clientData = GetClientDataFromClientID(clientId);
-            // 接続失敗のときclientDataはnull
-            if (clientData != null)
-            {
-                ClientDataList.Remove(clientData);
-            }
-            Debug.Log($"[Server] Disconnected -> ID: {clientId}");
-
             if (gameStateManager.GameState == GameState.Matching)
             {
+                var clientData = GetClientDataFromClientID(clientId);
+                // 接続失敗のときclientDataはnull
+                if (clientData != null)
+                {
+                    ClientDataList.Remove(clientData);
+                }
+
                 CheckAllReadyAndNotify();
             }
+            Debug.Log($"[Server] Disconnected -> ID: {clientId}");
         }
 
         // (サーバー)クライアントの新規接続時にAllReadyをリセットする関数
@@ -128,6 +133,22 @@ namespace RicoShot.Core
         {
             AllClientsReady.Value = false;
             ReadyStatusChangedRpc(false);
+        }
+
+        // (サーバー) リザルトシーンに入ったらIScoreManagerのデータを基にSupabaseにデータをUpする関数
+        private void OnGameFinished(GameState gameState)
+        {
+            if (gameState == GameState.Result)
+            {
+                UniTask.Create(async () =>
+                {
+                    Debug.Log("Upload data to Supabase");
+                    // ここでSupabaseにデータを送信する処理
+                    // クライアントが全て切断するとMatchingに戻る
+                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == 0, cancellationToken: destroyCancellationToken);
+                    gameStateManager.NextScene();
+                });
+            }
         }
 
         // (クライアント)接続時の挙動
@@ -208,6 +229,8 @@ namespace RicoShot.Core
         // リセット用メソッド
         private void ResetNetwork()
         {
+            if (resetInProgress || (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)) return;
+            resetInProgress = true;
             if (gameStateManager.NetworkMode == NetworkMode.Client)
             {
                 UniTask.Create(async () =>
@@ -232,6 +255,7 @@ namespace RicoShot.Core
                     Debug.Log($"Shutdown Server completed");
                 }).Forget();
             }
+            resetInProgress = false;
         }
 
         // (サーバー→クライアント)サーバーのシャットダウンを通知

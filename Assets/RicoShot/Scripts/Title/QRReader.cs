@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 using System.Runtime.CompilerServices;
 using RicoShot.Title.Interface;
 using Cysharp.Threading.Tasks;
+using R3;
 
 namespace RicoShot.Title
 {
@@ -33,18 +34,37 @@ namespace RicoShot.Title
         private void Start()
         {
             // カメラ変更のeventを登録
-            titleSceneManager.TitleInputs.Main.Right.performed += CameraIndexIncrement;
-            titleSceneManager.TitleInputs.Main.Left.performed += CameraIndexDecrement;
+            Observable.FromEvent<InputAction.CallbackContext>
+                (h => titleSceneManager.TitleInputs.Main.Select.performed += h,
+                    h => titleSceneManager.TitleInputs.Main.Select.performed -= h)
+                .Subscribe(_ => CameraIndexIncrement()).AddTo(this);
 
+
+            Debug.Log($"Camera started index: {_selectingCameraIndex}");
+
+            StartCamera();
+
+            // 0.5秒ごとにQRコードを読み取る
+            Observable.Interval(TimeSpan.FromSeconds(0.5f)).Subscribe(_ =>
+            {
+                if (titleSceneManager.TitleState != TitleState.Reading) return;
+
+                if (_webCamTexture == null) return;
+                var result = Read(_webCamTexture);
+                if (result == null) return;
+                titleSceneManager.FetchData(result);
+                readString = null;
+            }).AddTo(this);
+        }
+
+        private void StartCamera()
+        {
             // 利用可能なカメラデバイスを取得
             _webCamDeviceList = WebCamTexture.devices;
             _selectingCameraIndex = gameStateManager.GameConfig.CameraIndex;
 
-            // 例外処理
-            if (_webCamDeviceList.Length == 0)
-            {
-                Debug.LogWarning("There are no camera.");
-            }
+            if (_webCamDeviceList.Length == 0) Debug.LogWarning("There are no camera.");
+
             if (!(0 <= _selectingCameraIndex && _selectingCameraIndex < _webCamDeviceList.Length))
             {
                 Debug.Log($"Camera index: {_webCamDeviceList} is invalid. Automatically, set camera index: 0");
@@ -59,57 +79,21 @@ namespace RicoShot.Title
             _webCamTexture.Play();
 
             // Webカメラの映像をRawImageに表示
-            webCameraRawImage.texture = this._webCamTexture;
-
-            Debug.Log($"Camera started index: {_selectingCameraIndex}");
-        
-            CheckReadStringAsync().Forget();
-        }
-
-        private async UniTask CheckReadStringAsync()
-        {
-            while (!destroyCancellationToken.IsCancellationRequested)
-            {
-                await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
-                if (titleSceneManager.TitleState == TitleState.Reading)
-                {
-                    titleSceneManager.FetchData(readString);
-                    Debug.Log(readString);
-                    readString = null;
-                }
-            }
-        }
-
-        private void Update()
-        {
-            // Webカメラがまだセットされている場合
-            if (_webCamTexture != null)
-            {
-                var result = Read(this._webCamTexture);
-
-                if (result != null)
-                {
-                    readString = result;
-                }
-            }
-            else
-            {
-                Debug.Log("WebCamTexture is null");
-            }
+            webCameraRawImage.texture = _webCamTexture;
         }
 
         // QRコードの読み取り処理
         private static string Read(WebCamTexture texture)
         {
             // ZXingのBarcodeReaderクラスを使用してQRコードをデコード
-            BarcodeReader reader = new BarcodeReader();
+            var reader = new BarcodeReader();
 
             // Webカメラの映像をピクセルデータとして取得
-            Color32[] rawRGB = texture.GetPixels32();
+            var rawRGB = texture.GetPixels32();
 
             // Webカメラの映像の幅と高さを取得
-            int width = texture.width;
-            int height = texture.height;
+            var width = texture.width;
+            var height = texture.height;
 
             // ピクセルデータからQRコードをデコード
             var result = reader.Decode(rawRGB, width, height);
@@ -118,25 +102,20 @@ namespace RicoShot.Title
             return result?.Text;
         }
 
-        private void CameraIndexIncrement(InputAction.CallbackContext context)
+        private void CameraIndexIncrement()
         {
             ChangeCamera(1);
-        }
-
-        private void CameraIndexDecrement(InputAction.CallbackContext context)
-        {
-            ChangeCamera(-1);
         }
 
         // カメラの切り替え
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void ChangeCamera(int delta)
         {
-            int cameras = _webCamDeviceList.Length; //カメラの個数
+            var cameras = _webCamDeviceList.Length; //カメラの個数
             if (cameras < 1) return; // カメラが1台もなかったら実行せず終了
 
             // カメラのインデックスをインクリメント
-            _selectingCameraIndex += (delta + cameras);
+            _selectingCameraIndex += delta + cameras;
             _selectingCameraIndex %= cameras;
 
             _webCamTexture.Stop(); // カメラを停止
@@ -150,10 +129,7 @@ namespace RicoShot.Title
         private void OnDestroy()
         {
             gameStateManager.GameConfig.CameraIndex = _selectingCameraIndex;
-            if (_webCamTexture != null)
-            {
-                _webCamTexture.Stop();
-            }
+            if (_webCamTexture != null) _webCamTexture.Stop();
         }
     }
 }
