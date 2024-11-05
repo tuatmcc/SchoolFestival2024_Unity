@@ -18,7 +18,7 @@
                     "name": "SelectRight",
                     "type": "Button",
                     "id": "6eb062dc-2d7b-4221-aeb2-92fd73b8049b",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -27,7 +27,7 @@
                     "name": "Enter",
                     "type": "Button",
                     "id": "56a99a9b-8330-46b7-a7a7-80f1b5a28608",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -36,7 +36,7 @@
                     "name": "Cancel",
                     "type": "Button",
                     "id": "f2943a4d-f322-4a8d-a95a-f4a420d045c2",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -56,30 +56,8 @@
                 },
                 {
                     "name": "",
-                    "id": "8f83f690-ff24-4eff-86cb-959e312b643e",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SelectLeft",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b99d0755-5701-4175-9f2f-637e53dbdf8f",
                     "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "SelectRight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "47c20e89-f74b-427c-bfb4-663980107c57",
-                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -166,8 +144,52 @@
                 },
                 {
                     "name": "",
+                    "id": "bd7a5d21-b9ec-4338-a5d2-e6cef00f1f65",
+                    "path": "<Gamepad>/leftStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectAlpha",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25faae47-894d-4aa0-958f-78dc85380b4e",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectAlpha",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c41e48b1-139b-4346-bb9e-bff840d4fc1c",
                     "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectBravo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "564ac9f7-a43c-4f86-9c47-7144ac668309",
+                    "path": "<Gamepad>/leftStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectBravo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4b796e2-f82c-4bd1-a0bd-9260ebd22cb4",
+                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -188,8 +210,30 @@
                 },
                 {
                     "name": "",
+                    "id": "afded244-404f-4e34-95cc-17b46bc231d7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "27eea679-ac24-4aa8-a8a5-c320ec0aa767",
                     "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97e07642-053d-4593-ae1f-2f3ad57a1875",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
