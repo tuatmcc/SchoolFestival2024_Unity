@@ -1,7 +1,6 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace RicoShot.Matching.UI
