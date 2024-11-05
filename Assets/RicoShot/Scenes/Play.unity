@@ -262,8 +262,30 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4204469036141055894, guid: b4d0f060f2712004a9e0b512ec7db0fd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 906471040}
   m_SourcePrefab: {fileID: 100100000, guid: b4d0f060f2712004a9e0b512ec7db0fd, type: 3}
+--- !u!1 &906471034 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4204469036141055894, guid: b4d0f060f2712004a9e0b512ec7db0fd,
+    type: 3}
+  m_PrefabInstance: {fileID: 906471033}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &906471040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906471034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c1d1f24522c41ac8f9f733d9e9c865, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1094850445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -758,6 +780,7 @@ GameObject:
   - component: {fileID: 2126644869}
   - component: {fileID: 2126644868}
   - component: {fileID: 2126644870}
+  - component: {fileID: 2126644871}
   m_Layer: 0
   m_Name: Vcam_server
   m_TagString: Untagged
@@ -837,6 +860,18 @@ MonoBehaviour:
   m_PositionUnits: 1
   m_Speed: 5
   m_Position: 0
+--- !u!114 &2126644871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126644867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ee45a737ac54e779e50919488037fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1254909664694573218
 PrefabInstance:
   m_ObjectHideFlags: 0
