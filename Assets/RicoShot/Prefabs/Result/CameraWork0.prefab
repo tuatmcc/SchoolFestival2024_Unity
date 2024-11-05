@@ -1060,13 +1060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e0546a120a28f147acf6603fbe24281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartSpeed: 0
-  EndSpeed: 0
-  Alpha: 0
-  EaseType: 0
-  Length: 0
-  Color1: {r: 0.8, g: 0.3, b: 0.3, a: 1}
-  Color2: {r: 0.8, g: 0.5, b: 0.5, a: 1}
+  StopTime: 1.7
 --- !u!1 &8788185239201011461
 GameObject:
   m_ObjectHideFlags: 0
