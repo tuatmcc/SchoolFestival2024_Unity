@@ -6,6 +6,7 @@ namespace RicoShot.Core.Interface
 {
     public interface IGameStateManager
     {
+        event Action<GameState> OnExitGameState;
         event Action<GameState> OnGameStateChanged;
         event Action OnReset;
 
