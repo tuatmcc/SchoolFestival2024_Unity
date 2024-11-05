@@ -19,6 +19,7 @@ namespace RicoShot.Play.Tests
         public DateTime EndTime { get; private set; }
         public bool DataUploadFinished { get; private set; } = false;
 
+        [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly INetworkController networkController;
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
@@ -27,6 +28,7 @@ namespace RicoShot.Play.Tests
         {
             networkController.ScoreManager = this;
             if (playSceneTester.IsTest) return;
+            gameStateManager.OnReset += DestroyThisOnReset;
             DontDestroyOnLoad(gameObject);
         }
 
@@ -50,6 +52,29 @@ namespace RicoShot.Play.Tests
                 if (scoreData.UUID == uuid) return scoreData;
             }
             return null;
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            base.OnNetworkDespawn();
+            if (IsServer)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        private void DestroyThisOnReset()
+        {
+            if (gameStateManager.NetworkMode == NetworkMode.Client)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public override void OnDestroy()
+        {
+            gameStateManager.OnReset -= DestroyThisOnReset;
+            base.OnDestroy();
         }
 
         // 終了後Destroy

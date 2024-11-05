@@ -33,7 +33,7 @@ namespace RicoShot.InputActions
                     ""name"": ""SelectLeft"",
                     ""type"": ""Button"",
                     ""id"": ""26250086-c5e0-448c-ba7f-81766faa8f36"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -42,7 +42,7 @@ namespace RicoShot.InputActions
                     ""name"": ""SelectRight"",
                     ""type"": ""Button"",
                     ""id"": ""6eb062dc-2d7b-4221-aeb2-92fd73b8049b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -51,7 +51,7 @@ namespace RicoShot.InputActions
                     ""name"": ""Enter"",
                     ""type"": ""Button"",
                     ""id"": ""56a99a9b-8330-46b7-a7a7-80f1b5a28608"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -60,7 +60,7 @@ namespace RicoShot.InputActions
                     ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""f2943a4d-f322-4a8d-a95a-f4a420d045c2"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -80,30 +80,8 @@ namespace RicoShot.InputActions
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8f83f690-ff24-4eff-86cb-959e312b643e"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectLeft"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b99d0755-5701-4175-9f2f-637e53dbdf8f"",
                     ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SelectRight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""47c20e89-f74b-427c-bfb4-663980107c57"",
-                    ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -134,6 +112,160 @@ namespace RicoShot.InputActions
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Main"",
+            ""id"": ""4ff4f121-0c81-4509-9813-a0212e7a973a"",
+            ""actions"": [
+                {
+                    ""name"": ""SelectAlpha"",
+                    ""type"": ""Button"",
+                    ""id"": ""1513e627-fc60-4008-b2b5-a694a19d969e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectBravo"",
+                    ""type"": ""Button"",
+                    ""id"": ""346070d1-f8a0-4e51-860b-62a517364028"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""9d5c9d93-6391-4b5e-82df-8fc94b5b4a6e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""aa37fb8a-b663-4e80-ab2f-c7f60b997d8d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""19c505f6-88c8-4c39-b957-7ddc46f6aff5"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAlpha"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd7a5d21-b9ec-4338-a5d2-e6cef00f1f65"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAlpha"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25faae47-894d-4aa0-958f-78dc85380b4e"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectAlpha"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c41e48b1-139b-4346-bb9e-bff840d4fc1c"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectBravo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""564ac9f7-a43c-4f86-9c47-7144ac668309"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectBravo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4b796e2-f82c-4bd1-a0bd-9260ebd22cb4"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectBravo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c911de9-40fb-48a3-8b4a-5e866bea026f"",
+                    ""path"": ""<Keyboard>/backspace"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afded244-404f-4e34-95cc-17b46bc231d7"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27eea679-ac24-4aa8-a8a5-c320ec0aa767"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""97e07642-053d-4593-ae1f-2f3ad57a1875"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -144,11 +276,18 @@ namespace RicoShot.InputActions
             m_Test_SelectRight = m_Test.FindAction("SelectRight", throwIfNotFound: true);
             m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
             m_Test_Cancel = m_Test.FindAction("Cancel", throwIfNotFound: true);
+            // Main
+            m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
+            m_Main_SelectAlpha = m_Main.FindAction("SelectAlpha", throwIfNotFound: true);
+            m_Main_SelectBravo = m_Main.FindAction("SelectBravo", throwIfNotFound: true);
+            m_Main_Cancel = m_Main.FindAction("Cancel", throwIfNotFound: true);
+            m_Main_Confirm = m_Main.FindAction("Confirm", throwIfNotFound: true);
         }
 
         ~@MatchingInputs()
         {
             UnityEngine.Debug.Assert(!m_Test.enabled, "This will cause a leak and performance issues, MatchingInputs.Test.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Main.enabled, "This will cause a leak and performance issues, MatchingInputs.Main.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -276,12 +415,89 @@ namespace RicoShot.InputActions
             }
         }
         public TestActions @Test => new TestActions(this);
+
+        // Main
+        private readonly InputActionMap m_Main;
+        private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
+        private readonly InputAction m_Main_SelectAlpha;
+        private readonly InputAction m_Main_SelectBravo;
+        private readonly InputAction m_Main_Cancel;
+        private readonly InputAction m_Main_Confirm;
+        public struct MainActions
+        {
+            private @MatchingInputs m_Wrapper;
+            public MainActions(@MatchingInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @SelectAlpha => m_Wrapper.m_Main_SelectAlpha;
+            public InputAction @SelectBravo => m_Wrapper.m_Main_SelectBravo;
+            public InputAction @Cancel => m_Wrapper.m_Main_Cancel;
+            public InputAction @Confirm => m_Wrapper.m_Main_Confirm;
+            public InputActionMap Get() { return m_Wrapper.m_Main; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MainActions set) { return set.Get(); }
+            public void AddCallbacks(IMainActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MainActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MainActionsCallbackInterfaces.Add(instance);
+                @SelectAlpha.started += instance.OnSelectAlpha;
+                @SelectAlpha.performed += instance.OnSelectAlpha;
+                @SelectAlpha.canceled += instance.OnSelectAlpha;
+                @SelectBravo.started += instance.OnSelectBravo;
+                @SelectBravo.performed += instance.OnSelectBravo;
+                @SelectBravo.canceled += instance.OnSelectBravo;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+            }
+
+            private void UnregisterCallbacks(IMainActions instance)
+            {
+                @SelectAlpha.started -= instance.OnSelectAlpha;
+                @SelectAlpha.performed -= instance.OnSelectAlpha;
+                @SelectAlpha.canceled -= instance.OnSelectAlpha;
+                @SelectBravo.started -= instance.OnSelectBravo;
+                @SelectBravo.performed -= instance.OnSelectBravo;
+                @SelectBravo.canceled -= instance.OnSelectBravo;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
+                @Confirm.started -= instance.OnConfirm;
+                @Confirm.performed -= instance.OnConfirm;
+                @Confirm.canceled -= instance.OnConfirm;
+            }
+
+            public void RemoveCallbacks(IMainActions instance)
+            {
+                if (m_Wrapper.m_MainActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMainActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MainActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MainActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MainActions @Main => new MainActions(this);
         public interface ITestActions
         {
             void OnSelectLeft(InputAction.CallbackContext context);
             void OnSelectRight(InputAction.CallbackContext context);
             void OnEnter(InputAction.CallbackContext context);
             void OnCancel(InputAction.CallbackContext context);
+        }
+        public interface IMainActions
+        {
+            void OnSelectAlpha(InputAction.CallbackContext context);
+            void OnSelectBravo(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
+            void OnConfirm(InputAction.CallbackContext context);
         }
     }
 }
