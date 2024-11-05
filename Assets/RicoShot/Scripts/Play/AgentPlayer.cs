@@ -16,11 +16,21 @@ namespace RicoShot.Play
 {
     public class AgentPlayer : Agent
     {
+        private const float SpeedMultiplierForAnimation = 2.0f;
+
         [SerializeField] private int coolTime = 1;
         [SerializeField] private NetworkObject bulletPrefab;
         [SerializeField] private float agentSpeed = 10f;
+        [SerializeField] private float maxSpeed = 2f;
+
+        // animator parameters and constants
+        private readonly int _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        private readonly int _animIDSpeed = Animator.StringToHash("Speed");
+        private readonly int _animIDThrow = Animator.StringToHash("Throw");
 
         private Rigidbody rb;
+        private Animator animator;
+        private bool _animateThrow = false;
         private bool onCoolTime = false;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
@@ -29,6 +39,7 @@ namespace RicoShot.Play
         protected override void Awake()
         {
             rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
         }
 
         private void Update()
@@ -41,6 +52,17 @@ namespace RicoShot.Play
                 // 現在の回転から目標の回転へ徐々に回転
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
             }
+        }
+
+        private void LateUpdate()
+        {
+            // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
+            animator.SetFloat(_animIDSpeed, rb.velocity.magnitude * SpeedMultiplierForAnimation);
+            animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
+            animator.SetBool(_animIDThrow, _animateThrow);
+
+            // フラグをリセット
+            _animateThrow = false;
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -109,6 +131,7 @@ namespace RicoShot.Play
             }
 
             rb.AddForce(dirToGo * agentSpeed);
+            rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
         }
 
         private void OnFire()
@@ -117,6 +140,7 @@ namespace RicoShot.Play
             if (!onCoolTime)
             {
                 FireAsync().Forget();
+                _animateThrow = true;
             }
         }
 
