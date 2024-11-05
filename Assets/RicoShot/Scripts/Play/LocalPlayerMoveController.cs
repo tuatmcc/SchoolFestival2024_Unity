@@ -133,13 +133,15 @@ namespace RicoShot.Play
         private async UniTask SetUpTestEvents()
         {
             await UniTask.WaitUntil(() => playSceneTester != null, cancellationToken: destroyCancellationToken);
-            if (playSceneTester.IsTest)
+            if (playSceneTester.IsTest && !playSceneTester.BehaveAsNPC)
             {
-                NetworkObject.SynchronizeTransform = false;
-                rb.isKinematic = false;
                 playSceneManager.PlayInputs.Main.Fire.performed += OnFire;
                 TPSCam = playSceneManager.VCamTransform;
                 setUpFinished = true;
+            }
+            else if (playSceneTester.IsTest && playSceneTester.BehaveAsNPC)
+            {
+                enabled = false;
             }
         }
 
@@ -226,7 +228,7 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
-            if (playSceneTester.IsTest) return;
+            if (playSceneTester == null || playSceneTester.IsTest) return;
             OnCooltime = true;
             ShotBulletRpc();
             await UniTask.WaitForSeconds(CoolTime);
@@ -242,7 +244,7 @@ namespace RicoShot.Play
             var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
-            bulletController.SetShooterUUIDRpc(clientDataHolder.ClientData.UUID);
+            bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
         [Rpc(SendTo.Owner)]

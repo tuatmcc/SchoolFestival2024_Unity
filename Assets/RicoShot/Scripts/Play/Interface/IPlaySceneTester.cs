@@ -8,6 +8,7 @@ namespace RicoShot.Play.Interface
     public interface IPlaySceneTester
     {
         public bool IsTest { get; }
+        public bool BehaveAsNPC { get; }
         public CharacterParams CharacterParams { get; }
     }
 }

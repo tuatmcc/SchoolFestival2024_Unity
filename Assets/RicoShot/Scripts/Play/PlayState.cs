@@ -6,5 +6,6 @@ namespace RicoShot.Play
         Countdown,
         Playing,
         Finish,
+        Despawn,
     }
 }

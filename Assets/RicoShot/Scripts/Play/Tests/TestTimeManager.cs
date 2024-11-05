@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using RicoShot.Core.Interface;
 using RicoShot.Play.Interface;
 using System;
 using System.Collections;
@@ -45,6 +46,7 @@ namespace RicoShot.Play.Tests
         private readonly List<float> _lagList = new();
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
+        [Inject] private readonly IGameStateManager gameStateManager;
 
         void Start()
         {
@@ -63,6 +65,8 @@ namespace RicoShot.Play.Tests
             if (PlayTime <= 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 playSceneManager.PlayState = PlayState.Finish;
+                playSceneManager.PlayState = PlayState.Despawn;
+                gameStateManager.NextScene();
             }
         }
 

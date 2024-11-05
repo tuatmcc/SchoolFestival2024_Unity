@@ -1,5 +1,7 @@
 using RicoShot.Core;
+using RicoShot.Core.Interface;
 using RicoShot.Play.Interface;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
@@ -13,17 +15,19 @@ namespace RicoShot.Play.Tests
     {
         public NetworkClassList<ScoreData> ScoreList { get; } = new();
 
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
+        public bool DataUploadFinished { get; private set; } = false;
+
+        [Inject] private readonly INetworkController networkController;
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
         private void Start()
         {
+            networkController.ScoreManager = this;
             if (playSceneTester.IsTest) return;
-
-            if (NetworkManager.IsServer)
-            {
-                playSceneManager.OnPlayStateChanged += UploadResult;
-            }
+            DontDestroyOnLoad(gameObject);
         }
 
         public void RegistCharacter(FixedString64Bytes uuid, Team team)
@@ -48,7 +52,6 @@ namespace RicoShot.Play.Tests
             return null;
         }
 
-        // (サーバー)ここでSupabaseにデータをアップロードする処理
         // 終了後Destroy
         private void UploadResult(PlayState playState)
         {
