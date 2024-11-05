@@ -33,15 +33,14 @@ namespace RicoShot.Title.Tests
         public CharacterParams FetchedCharacterParams { get; private set; }
 
         private TitleState _titleState;
-        private bool fetching = false;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ISupabaseController supabaseController;
 
-        TestTitleSceneManager()
+        private TestTitleSceneManager()
         {
             TitleState = TitleState.Reading;
-            TitleInputs = new();
+            TitleInputs = new TitleInputs();
             TitleInputs.Enable();
         }
 
@@ -70,9 +69,9 @@ namespace RicoShot.Title.Tests
 
         private async UniTask GetProfileAsync(string uuid)
         {
-            if (fetching && TitleState != TitleState.Reading) return;
-            fetching = true;
+            if (TitleState != TitleState.Reading) return;
             TitleState = TitleState.Fetching;
+
             var (displayName, characterParams) = await supabaseController.FetchPlayerProfile(uuid);
             if (displayName == string.Empty && characterParams == null)
             {
@@ -87,7 +86,6 @@ namespace RicoShot.Title.Tests
                 Debug.Log($"Fetched name: {FetchedDisplayName}, characterParams: {characterParams}");
                 TitleState = TitleState.Confirming;
             }
-            fetching = false;
         }
 
         public void Dispose()
