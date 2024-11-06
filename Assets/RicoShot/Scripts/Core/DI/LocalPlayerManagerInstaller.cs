@@ -7,7 +7,7 @@ namespace RicoShot.Core.DI
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<LocalPlayerManager>().AsSingle();
+            Container.BindInterfacesTo<TestLocalPlayerManager>().AsSingle();
         }
     }
 }

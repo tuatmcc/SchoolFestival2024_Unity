@@ -9,9 +9,13 @@ namespace RicoShot.Core.Tests
 {
     public class TestLocalPlayerManager : ILocalPlayerManager, IInitializable
     {
-        public string LocalPlayerUUID { get; set; } = Guid.NewGuid().ToString();
-        public string LocalPlayerName { get; set; } = "Test Player";
-        public CharacterParams CharacterParams { get; set; } = CharacterParams.GetRandomCharacterParams();
+        public string LocalPlayerUUID { get => localPlayerUUID; set { } }
+        public string LocalPlayerName { get => localPlayerName; set { } }
+        public CharacterParams CharacterParams { get => characterParams; set { } }
+
+        private readonly string localPlayerUUID = Guid.NewGuid().ToString();
+        private readonly string localPlayerName = "Test Player";
+        private readonly CharacterParams characterParams = CharacterParams.GetRandomCharacterParams();
 
         [Inject] private readonly IGameStateManager gameStateManager;
 
