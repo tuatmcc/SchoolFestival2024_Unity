@@ -18,28 +18,31 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
-        private void Awake()
+        [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
+        private void Start()
         {
             if (playSceneTester.IsTest)
             {
-                playSceneManager.VCamTransform = transform;
+                playSceneManager.VCamTransform = virtualCamera.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 return;
             }
 
             if (NetworkManager.Singleton.IsClient)
             {
-                playSceneManager.VCamTransform = transform;
+                playSceneManager.VCamTransform = virtualCamera.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 Debug.Log("Set VCamTransform finished");
             }
+
+            if (NetworkManager.Singleton.IsServer) gameObject.SetActive(false);
         }
 
         private void SetLocalPlayerTransform(GameObject localPlayer)
         {
-            var cvc = GetComponent<CinemachineVirtualCamera>();
-            cvc.Follow = localPlayer.transform;
-            cvc.LookAt = localPlayer.transform;
+            virtualCamera.Follow = localPlayer.transform;
+            virtualCamera.LookAt = localPlayer.transform;
             Debug.Log("VCam setting finished");
         }
     }
