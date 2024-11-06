@@ -52,12 +52,15 @@ namespace RicoShot.Play.Tests
 
         private void SpawnPlayer(ClientData clientData)
         {
-            // index will not exceed the length of the array
             var pos = clientData.Team == Team.Alpha
-                ? alphaSpawnPoints[_alphaSpawnIndex++].position
-                : bravoSpawnPoints[_bravoSpawnIndex++].position;
+                ? alphaSpawnPoints[_alphaSpawnIndex].position
+                : bravoSpawnPoints[_bravoSpawnIndex].position;
+            // 次のプレイヤーのスポーンは次のポイントから。MODを取る必要はない
+            var rotation = clientData.Team == Team.Alpha
+                ? alphaSpawnPoints[_alphaSpawnIndex++].rotation
+                : bravoSpawnPoints[_bravoSpawnIndex++].rotation;
 
-            var player = Instantiate(networkObject, pos, Quaternion.identity);
+            var player = Instantiate(networkObject, pos, rotation);
             PlayerTransforms.Add(player.transform);
 
             TeamAlphaCount += clientData.Team == Team.Alpha ? 1 : 0;
@@ -77,10 +80,13 @@ namespace RicoShot.Play.Tests
         private void SpawnNpc(Team team)
         {
             var pos = team == Team.Alpha
-                ? alphaSpawnPoints[_alphaSpawnIndex++].position
-                : bravoSpawnPoints[_bravoSpawnIndex++].position;
+                ? alphaSpawnPoints[_alphaSpawnIndex].position
+                : bravoSpawnPoints[_bravoSpawnIndex].position;
+            var rotation = team == Team.Alpha
+                ? alphaSpawnPoints[_alphaSpawnIndex++].rotation
+                : bravoSpawnPoints[_bravoSpawnIndex++].rotation;
 
-            var npc = Instantiate(networkObject, pos, Quaternion.identity);
+            var npc = Instantiate(networkObject, pos, rotation);
             PlayerTransforms.Add(npc.transform);
 
             var initializer = npc.GetComponent<CharacterInitializer>();

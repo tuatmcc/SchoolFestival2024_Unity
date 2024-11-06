@@ -137,6 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1108172584907446994}
   - component: {fileID: 4296689509110156190}
+  - component: {fileID: 919715010474676068}
   m_Layer: 0
   m_Name: Player Spawn VCam
   m_TagString: Untagged
@@ -199,6 +200,36 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 3421568068054634509}
+--- !u!114 &919715010474676068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514905316102986033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.1
+  m_Strategy: 2
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0.1
+  m_Damping: 0.1
+  m_DampingWhenOccluded: 0
+  m_OptimalTargetDistance: 0
 --- !u!1 &1412104875736224522
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 2, y: 0, z: 5}
+  m_FollowOffset: {x: 2, y: 0.5, z: 4}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -933,12 +964,12 @@ PrefabInstance:
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.10000012
       objectReference: {fileID: 0}
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
