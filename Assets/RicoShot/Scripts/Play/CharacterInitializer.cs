@@ -42,7 +42,7 @@ namespace RicoShot.Play
         {
             // ここでZenAutoInjectorを付けることでうまくいく
             gameObject.AddComponent<ZenAutoInjecter>();
-            
+
             if (playSceneTester.IsTest)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -57,6 +57,7 @@ namespace RicoShot.Play
                     rayPerceptionSensor.enabled = true;
                     decisionRequester.enabled = true;
                 }
+
                 return;
             }
 
@@ -66,7 +67,8 @@ namespace RicoShot.Play
         // SpawnとInjectが終わるのを待ってからセッティングを開始
         private async UniTask SetUpCharacter()
         {
-            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null,
+                cancellationToken: destroyCancellationToken);
             if (IsClient && IsOwner)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -80,12 +82,10 @@ namespace RicoShot.Play
             }
             else
             {
+            }
 
-            }
-            if (IsServer)
-            {
-                playSceneManager.OnPlayStateChanged += DestroyInServer;
-            }
+            if (IsServer) playSceneManager.OnPlayStateChanged += DestroyInServer;
+
             UniTask.Create(async () =>
             {
                 await UniTask.WaitUntil(() => ClientData != null, cancellationToken: destroyCancellationToken);
@@ -135,10 +135,7 @@ namespace RicoShot.Play
         // (サーバー)リザルトへ移動時に破棄する関数
         private void DestroyInServer(PlayState playState)
         {
-            if (playState == PlayState.Despawn)
-            {
-                Destroy(gameObject);
-            }
+            if (playState == PlayState.Despawn) Destroy(gameObject);
         }
     }
 }
