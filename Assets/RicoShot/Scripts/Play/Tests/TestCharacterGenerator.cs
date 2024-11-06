@@ -9,18 +9,20 @@ using Zenject;
 
 namespace RicoShot.Play.Tests
 {
-    public class TestCharacterGenerator : MonoBehaviour
+    public class TestCharacterGenerator : MonoBehaviour, ICharacterGenerator
     {
         [SerializeField] private NetworkObject networkObject;
 
-        private static int TeamAlphaNum = 5;
-        private static int TeamBravoNum = 5;
+        private static int TeamAlphaNum = 4;
+        private static int TeamBravoNum = 4;
         private int TeamAlphaCount = 0;
         private int TeamBravoCount = 0;
 
         [Inject] private readonly INetworkController networkController;
         [Inject] private readonly INetworkScoreManager scoreManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
+
+        public List<Transform> PlayerTransforms { get; } = new();
 
         // Startでないとクライアント側のInjectがうまくいかない(ライフサイクルの関係だと思われる)
         // (サーバー)クライアントのプレイヤーとNPCを生成
@@ -37,30 +39,22 @@ namespace RicoShot.Play.Tests
             // サーバー側のみの処理
             if (!NetworkManager.Singleton.IsServer) return;
 
-            foreach (var clientData in networkController.ClientDataList)
-            {
-                SpawnPlayer(clientData);
-            }
+            foreach (var clientData in networkController.ClientDataList) SpawnPlayer(clientData);
 
-            while (TeamAlphaCount < TeamAlphaNum)
-            {
-                SpawnNpc(Team.Alpha);
-            }
+            while (TeamAlphaCount < TeamAlphaNum) SpawnNpc(Team.Alpha);
 
-            while (TeamBravoCount < TeamBravoNum)
-            {
-                SpawnNpc(Team.Bravo);
-            }
+            while (TeamBravoCount < TeamBravoNum) SpawnNpc(Team.Bravo);
         }
 
         private void SpawnPlayer(ClientData clientData)
         {
-            var pos = new Vector3 (
+            var pos = new Vector3(
                 (clientData.Team == Team.Alpha ? TeamAlphaCount : TeamBravoCount) * 3,
                 0,
-                (clientData.Team == Team.Alpha ? -2 : 2));
+                clientData.Team == Team.Alpha ? -2 : 2);
 
             var player = Instantiate(networkObject, pos, Quaternion.identity);
+            PlayerTransforms.Add(player.transform);
 
             TeamAlphaCount += clientData.Team == Team.Alpha ? 1 : 0;
             TeamBravoCount += clientData.Team == Team.Bravo ? 1 : 0;
@@ -71,7 +65,7 @@ namespace RicoShot.Play.Tests
             initializer.SetCharacterParams(clientData);
 
             player.SpawnAsPlayerObject(clientData.ClientID);
-            Debug.Log($"Created character: { clientData.ClientID }");
+            Debug.Log($"Created character: {clientData.ClientID}");
 
             scoreManager.RegistCharacter(clientData.UUID, clientData.Team);
         }
@@ -81,9 +75,10 @@ namespace RicoShot.Play.Tests
             var pos = new Vector3(
                 (team == Team.Alpha ? TeamAlphaCount : TeamBravoCount) * 3,
                 0,
-                (team == Team.Alpha ? -2 : 2));
+                team == Team.Alpha ? -2 : 2);
 
             var npc = Instantiate(networkObject, pos, Quaternion.identity);
+            PlayerTransforms.Add(npc.transform);
 
             var initializer = npc.GetComponent<CharacterInitializer>();
             var npcData = ClientData.GetClientDataForNpc(team);
