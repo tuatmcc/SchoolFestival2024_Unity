@@ -12,9 +12,13 @@ namespace RicoShot.Play.Tests
     public class TestCharacterGenerator : MonoBehaviour, ICharacterGenerator
     {
         [SerializeField] private NetworkObject networkObject;
+        [SerializeField] private Transform[] alphaSpawnPoints;
+        [SerializeField] private Transform[] bravoSpawnPoints;
 
         private static int TeamAlphaNum = 4;
         private static int TeamBravoNum = 4;
+        private int _alphaSpawnIndex = 0;
+        private int _bravoSpawnIndex = 0;
         private int TeamAlphaCount = 0;
         private int TeamBravoCount = 0;
 
@@ -48,10 +52,10 @@ namespace RicoShot.Play.Tests
 
         private void SpawnPlayer(ClientData clientData)
         {
-            var pos = new Vector3(
-                (clientData.Team == Team.Alpha ? TeamAlphaCount : TeamBravoCount) * 3,
-                0,
-                clientData.Team == Team.Alpha ? -2 : 2);
+            // index will not exceed the length of the array
+            var pos = clientData.Team == Team.Alpha
+                ? alphaSpawnPoints[_alphaSpawnIndex++].position
+                : bravoSpawnPoints[_bravoSpawnIndex++].position;
 
             var player = Instantiate(networkObject, pos, Quaternion.identity);
             PlayerTransforms.Add(player.transform);
@@ -72,10 +76,9 @@ namespace RicoShot.Play.Tests
 
         private void SpawnNpc(Team team)
         {
-            var pos = new Vector3(
-                (team == Team.Alpha ? TeamAlphaCount : TeamBravoCount) * 3,
-                0,
-                team == Team.Alpha ? -2 : 2);
+            var pos = team == Team.Alpha
+                ? alphaSpawnPoints[_alphaSpawnIndex++].position
+                : bravoSpawnPoints[_bravoSpawnIndex++].position;
 
             var npc = Instantiate(networkObject, pos, Quaternion.identity);
             PlayerTransforms.Add(npc.transform);
