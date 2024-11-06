@@ -24,7 +24,7 @@ namespace RicoShot.Play
                 Debug.Log($"hp changed -> {hp}");
             }
         }
-        
+
         private const int CoolTime = 1;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -164,7 +164,8 @@ namespace RicoShot.Play
             var dir = TPSCam.forward * moveInput.y + TPSCam.right * moveInput.x;
             dir.y = 0;
             dir.Normalize();
-            rb.velocity = dir * _speed;
+            // 上下方向の重力はそのまま反映させる
+            rb.velocity = new Vector3(dir.x * _speed, rb.velocity.y, dir.z * _speed);
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
         }
