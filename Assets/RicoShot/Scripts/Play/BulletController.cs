@@ -34,6 +34,7 @@ namespace RicoShot.Play
 
         private void Awake()
         {
+            gameObject.AddComponent<ZenAutoInjecter>();
             rb = GetComponent<Rigidbody>();
             _renderer = GetComponent<Renderer>();
             _renderer.enabled = false;
@@ -41,7 +42,6 @@ namespace RicoShot.Play
 
         private void Start()
         {
-            gameObject.AddComponent<ZenAutoInjecter>();
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
@@ -168,7 +168,10 @@ namespace RicoShot.Play
 
         public override void OnDestroy()
         {
-            playSceneManager.OnPlayStateChanged -= DestroyInServer;
+            if (playSceneManager != null)
+            {
+                playSceneManager.OnPlayStateChanged -= DestroyInServer;
+            }
             base.OnDestroy();
         }
     }
