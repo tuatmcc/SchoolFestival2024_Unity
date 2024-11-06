@@ -9,6 +9,14 @@ using UnityEngine;
 
 namespace RicoShot.Core
 {
+    public class CharacterPreset
+    {
+        public int character { get; set; }
+        public string hair { get; set; }
+        public int costume { get; set; }
+        public int accessory { get; set; }
+    }
+
     [Table("profiles")]
     public class ProfileContainer : BaseModel
     {
@@ -18,7 +26,7 @@ namespace RicoShot.Core
         /*
          * キャラクターの設定情報を格納したJSONを格納するためのコンテナ
          */
-        [Column("character_setting")] public CharacterParams CharacterSetting { get; set; }
+        [Column("character_setting")] public CharacterPreset CharacterPreset { get; set; }
     }
 
     [Table("matching_results")]

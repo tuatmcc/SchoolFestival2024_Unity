@@ -4,6 +4,7 @@ using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Title.Interface;
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -33,9 +34,12 @@ namespace RicoShot.Title.Tests
         public CharacterParams FetchedCharacterParams { get; private set; }
 
         private TitleState _titleState;
+        private bool fetching = false;
+        private string uuid;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ISupabaseController supabaseController;
+        [Inject] private readonly ILocalPlayerManager localPlayerManager;
 
         private TestTitleSceneManager()
         {
@@ -70,8 +74,8 @@ namespace RicoShot.Title.Tests
         private async UniTask GetProfileAsync(string uuid)
         {
             if (TitleState != TitleState.Reading) return;
+            fetching = true;
             TitleState = TitleState.Fetching;
-
             var (displayName, characterParams) = await supabaseController.FetchPlayerProfile(uuid);
             if (displayName == string.Empty && characterParams == null)
             {
@@ -83,13 +87,18 @@ namespace RicoShot.Title.Tests
             {
                 FetchedDisplayName = displayName;
                 FetchedCharacterParams = characterParams;
+                this.uuid = uuid;
                 Debug.Log($"Fetched name: {FetchedDisplayName}, characterParams: {characterParams}");
                 TitleState = TitleState.Confirming;
             }
+            fetching = false;
         }
 
         public void Dispose()
         {
+            localPlayerManager.LocalPlayerUUID = uuid;
+            localPlayerManager.CharacterParams = FetchedCharacterParams;
+            localPlayerManager.LocalPlayerName = FetchedDisplayName;
             TitleInputs.Disable();
         }
     }
