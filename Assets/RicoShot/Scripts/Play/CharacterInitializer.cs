@@ -2,6 +2,8 @@ using Chibi;
 using Cysharp.Threading.Tasks;
 using RicoShot.Core;
 using RicoShot.Play.Interface;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using Unity.MLAgents.Sensors;
@@ -20,8 +22,6 @@ namespace RicoShot.Play
         private AgentPlayer agentPlayer;
         private RayPerceptionSensorComponent3D rayPerceptionSensor;
         private DecisionRequester decisionRequester;
-
-        [SerializeField] private PlayerTeamColorIndicator playerTeamColorIndicator;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
@@ -105,7 +105,7 @@ namespace RicoShot.Play
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
         private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
         {
-            ReflectCharacterParams(clientData);
+            ReflectCharacterParams(clientData.CharacterParams);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
             SendCharaterParamsRpc(clientData);
         }
@@ -115,22 +115,21 @@ namespace RicoShot.Play
         private void SendCharaterParamsRpc(ClientData clientData)
         {
             ClientData = clientData;
-            ReflectCharacterParams(clientData);
+            ReflectCharacterParams(clientData.CharacterParams);
         }
 
-        private void ReflectCharacterParams(ClientData clientData)
+        private void ReflectCharacterParams(CharacterParams characterParams)
         {
             var characterSettingController = GetComponent<CharacterSettingsController>();
-            characterSettingController.activeChibiIndex = clientData.CharacterParams.ChibiIndex;
-            characterSettingController.hairColor = clientData.CharacterParams.HairColor.ToString();
-            characterSettingController.costumeVariant = clientData.CharacterParams.CostumeVariant;
-            characterSettingController.accessory = clientData.CharacterParams.Accessory;
-            playerTeamColorIndicator.SetTeamColor(clientData.Team);
+            characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
+            characterSettingController.hairColor = characterParams.HairColor.ToString();
+            characterSettingController.costumeVariant = characterParams.CostumeVariant;
+            characterSettingController.accessory = characterParams.Accessory;
         }
 
         private void OnCharacterParamsChanged()
         {
-            ReflectCharacterParams(ClientData);
+            ReflectCharacterParams(ClientData.CharacterParams);
         }
 
         // (サーバー)リザルトへ移動時に破棄する関数
