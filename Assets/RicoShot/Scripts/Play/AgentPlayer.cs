@@ -146,6 +146,7 @@ namespace RicoShot.Play
 
         private async UniTask FireAsync()
         {
+            if (playSceneManager.PlayState != PlayState.Playing) return;
             onCoolTime = true;
             var bullet = Instantiate(bulletPrefab,
                 transform.position + Vector3.up * 0.5f + transform.forward,

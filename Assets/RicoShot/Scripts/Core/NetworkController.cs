@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using RicoShot.Play;
 using RicoShot.Play.Interface;
+using System.Threading;
 
 namespace RicoShot.Core
 {
@@ -26,6 +27,7 @@ namespace RicoShot.Core
         [SerializeField] private int maxClientCount = 4;
         private bool callbackRegisted = false;
         private bool resetInProgress = false;
+        private CancellationTokenSource cts;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ILocalPlayerManager localPlayerManager;
@@ -84,6 +86,8 @@ namespace RicoShot.Core
                 NetworkManager.Singleton.StartClient();
                 Debug.Log("[Client] Client started");
             }
+
+            cts = new();
         }
 
         // (サーバー)接続チェック
@@ -166,7 +170,7 @@ namespace RicoShot.Core
                         }
                     }
                     // クライアントが全て切断するとMatchingに戻る
-                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == 0, cancellationToken: destroyCancellationToken);
+                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == 0, cancellationToken: cts.Token);
                     gameStateManager.NextScene();
                 });
             }
@@ -266,6 +270,7 @@ namespace RicoShot.Core
             }
             else if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
+                cts.Cancel();
                 DisconnectClientRpc();
                 UniTask.Create(async () =>
                 {
