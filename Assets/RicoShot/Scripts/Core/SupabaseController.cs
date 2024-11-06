@@ -50,7 +50,14 @@ namespace RicoShot.Core
             // 存在しない場合
             if (container == null) { return (string.Empty, null); }
             // 存在する場合(Jsonのパースは勝手にやってくれる)
-            return (container.DisplayName, container.CharacterSetting);
+            var characterParams = new CharacterParams()
+            {
+                ChibiIndex = container.CharacterPreset.character,
+                CostumeVariant = container.CharacterPreset.costume,
+                HairColor = container.CharacterPreset.hair,
+                Accessory = container.CharacterPreset.accessory,
+            };
+            return (container.DisplayName, characterParams);
         }
 
         public async UniTask UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
