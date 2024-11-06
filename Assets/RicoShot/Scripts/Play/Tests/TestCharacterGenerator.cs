@@ -73,7 +73,7 @@ namespace RicoShot.Play.Tests
             player.SpawnAsPlayerObject(clientData.ClientID);
             Debug.Log($"Created character: { clientData.ClientID }");
 
-            scoreManager.RegistCharacter(clientData.UUID, clientData.Team);
+            scoreManager.RegistCharacter(clientData.UUID, clientData.Team, false);
         }
 
         private void SpawnNpc(Team team)
@@ -91,7 +91,7 @@ namespace RicoShot.Play.Tests
 
             npc.Spawn();
 
-            scoreManager.RegistCharacter(npcData.UUID, npcData.Team);
+            scoreManager.RegistCharacter(npcData.UUID, npcData.Team, true);
 
             TeamAlphaCount += team == Team.Alpha ? 1 : 0;
             TeamBravoCount += team == Team.Bravo ? 1 : 0;

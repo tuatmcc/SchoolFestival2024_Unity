@@ -60,32 +60,31 @@ namespace RicoShot.Core
             return (container.DisplayName, characterParams);
         }
 
-        public async UniTask UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
+        public async UniTask UpsertTeam(Team team, string teamID, string matchingID, bool isWin)
         {
             TeamContainer container = new TeamContainer();
-            container.id = teamID.ToString();
+            container.id = teamID;
             container.is_win = isWin;
-            container.matching_result_id = matchingID.ToString();
+            container.matching_result_id = matchingID;
             await _supabaseClient.From<TeamContainer>().Upsert(container);
         }
 
-        public async UniTask UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)
+        public async UniTask UpsertMatching(string matchingID, DateTime startTime, DateTime endTime)
         {
             MatchingResultContainer container = new MatchingResultContainer();
-            container.id = matchingID.ToString();
+            container.id = matchingID;
             container.start_at = startTime;
             container.end_at = endTime;
             await _supabaseClient.From<MatchingResultContainer>().Upsert(container);
         }
 
-        public async UniTask UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID,
-            FixedString32Bytes matchingID)
+        public async UniTask UpsertPlayerResult(string userID, int score, string teamID, string matchingID)
         {
             PlayerContainer container = new PlayerContainer();
             container.id = Guid.NewGuid().ToString();
-            container.user_id = userID.ToString();
-            container.matching_result_id = matchingID.ToString();
-            container.team_id = teamID.ToString();
+            container.user_id = userID;
+            container.matching_result_id = matchingID;
+            container.team_id = teamID;
             container.score = score;
             await _supabaseClient.From<PlayerContainer>().Upsert(container);
         }

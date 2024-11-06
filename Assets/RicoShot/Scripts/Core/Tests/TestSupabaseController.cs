@@ -22,18 +22,18 @@ public class TestSupabaseController : ISupabaseController
         return ("Test Character", CharacterParams.GetRandomCharacterParams());
     }
 
-    public async UniTask UpsertMatching(FixedString32Bytes matchingID, DateTime startTime, DateTime endTime)
+    public async UniTask UpsertMatching(string matchingID, DateTime startTime, DateTime endTime)
     {
-        throw new NotImplementedException();
+        await UniTask.WaitForSeconds(0.1f);
     }
 
-    public async UniTask UpsertPlayerResult(FixedString32Bytes userID, int score, FixedString32Bytes teamID, FixedString32Bytes matchingID)
+    public async UniTask UpsertPlayerResult(string userID, int score, string teamID, string matchingID)
     {
-        throw new NotImplementedException();
+        await UniTask.WaitForSeconds(0.1f);
     }
 
-    public async UniTask UpsertTeam(Team team, FixedString32Bytes teamID, FixedString32Bytes matchingID, bool isWin)
+    public async UniTask UpsertTeam(Team team, string teamID, string matchingID, bool isWin)
     {
-        throw new NotImplementedException();
+        await UniTask.WaitForSeconds(0.1f);
     }
 }
