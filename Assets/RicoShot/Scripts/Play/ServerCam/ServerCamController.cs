@@ -57,6 +57,7 @@ namespace RicoShot.Play
 
         private void SetPlayerCameras()
         {
+            if (gameStateManager.NetworkMode == NetworkMode.Client) return;
             _serverCameras.Add(fieldCamera);
             if (_characterGenerator.PlayerTransforms.Count != playerCameras.Length)
             {

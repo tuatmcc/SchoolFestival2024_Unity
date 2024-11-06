@@ -66,7 +66,11 @@ namespace RicoShot.Play.Tests
             {
                 playSceneManager.PlayState = PlayState.Finish;
                 playSceneManager.PlayState = PlayState.Despawn;
-                gameStateManager.NextScene();
+                UniTask.Create(async () =>
+                {
+                    await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
+                    gameStateManager.NextScene();
+                });
             }
         }
 

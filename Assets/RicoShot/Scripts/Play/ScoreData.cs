@@ -59,7 +59,7 @@ namespace RicoShot.Play
 
         public override string ToString()
         {
-            return $"ScoreData: UUID={UUID}, Team={Team}, IsNpc={IsNpc}";
+            return $"ScoreData: UUID={UUID}, Team={Team}, Score={Score}, IsNpc={IsNpc}";
         }
     }
 }

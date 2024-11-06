@@ -8,7 +8,6 @@ using Unity.MLAgents;
 using Unity.MLAgents.Policies;
 using Unity.MLAgents.Sensors;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -18,8 +17,6 @@ namespace RicoShot.Play
     public class CharacterInitializer : NetworkBehaviour, IClientDataHolder
     {
         public ClientData ClientData { get; private set; }
-
-        [SerializeField] private PlayerTeamColorIndicator teamColorIndicator;
 
         private BehaviorParameters behaviorParameters;
         private AgentPlayer agentPlayer;
@@ -45,7 +42,7 @@ namespace RicoShot.Play
         {
             // ここでZenAutoInjectorを付けることでうまくいく
             gameObject.AddComponent<ZenAutoInjecter>();
-
+            
             if (playSceneTester.IsTest)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -60,7 +57,6 @@ namespace RicoShot.Play
                     rayPerceptionSensor.enabled = true;
                     decisionRequester.enabled = true;
                 }
-
                 return;
             }
 
@@ -70,8 +66,7 @@ namespace RicoShot.Play
         // SpawnとInjectが終わるのを待ってからセッティングを開始
         private async UniTask SetUpCharacter()
         {
-            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null,
-                cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
             if (IsClient && IsOwner)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -85,9 +80,17 @@ namespace RicoShot.Play
             }
             else
             {
-            }
 
-            if (IsServer) playSceneManager.OnPlayStateChanged += DestroyInServer;
+            }
+            if (IsServer)
+            {
+                playSceneManager.OnPlayStateChanged += DestroyInServer;
+            }
+            UniTask.Create(async () =>
+            {
+                await UniTask.WaitUntil(() => ClientData != null, cancellationToken: destroyCancellationToken);
+                behaviorParameters.TeamId = ClientData.Team == Team.Alpha ? 0 : 1;
+            }).Forget();
             Debug.Log("Initialized character");
         }
 
@@ -102,7 +105,7 @@ namespace RicoShot.Play
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
         private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
         {
-            ReflectCharacterParams(clientData);
+            ReflectCharacterParams(clientData.CharacterParams);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
             SendCharaterParamsRpc(clientData);
         }
@@ -112,28 +115,30 @@ namespace RicoShot.Play
         private void SendCharaterParamsRpc(ClientData clientData)
         {
             ClientData = clientData;
-            ReflectCharacterParams(clientData);
+            ReflectCharacterParams(clientData.CharacterParams);
         }
 
-        private void ReflectCharacterParams(ClientData clientData)
+        private void ReflectCharacterParams(CharacterParams characterParams)
         {
             var characterSettingController = GetComponent<CharacterSettingsController>();
-            characterSettingController.activeChibiIndex = clientData.CharacterParams.ChibiIndex;
-            characterSettingController.hairColor = clientData.CharacterParams.HairColor.ToString();
-            characterSettingController.costumeVariant = clientData.CharacterParams.CostumeVariant;
-            characterSettingController.accessory = clientData.CharacterParams.Accessory;
-            teamColorIndicator.SetTeamColor(clientData.Team);
+            characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
+            characterSettingController.hairColor = characterParams.HairColor.ToString();
+            characterSettingController.costumeVariant = characterParams.CostumeVariant;
+            characterSettingController.accessory = characterParams.Accessory;
         }
 
         private void OnCharacterParamsChanged()
         {
-            ReflectCharacterParams(ClientData);
+            ReflectCharacterParams(ClientData.CharacterParams);
         }
 
         // (サーバー)リザルトへ移動時に破棄する関数
         private void DestroyInServer(PlayState playState)
         {
-            if (playState == PlayState.Despawn) Destroy(gameObject);
+            if (playState == PlayState.Despawn)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
