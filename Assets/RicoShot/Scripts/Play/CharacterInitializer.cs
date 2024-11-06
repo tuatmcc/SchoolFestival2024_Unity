@@ -86,6 +86,11 @@ namespace RicoShot.Play
             {
                 playSceneManager.OnPlayStateChanged += DestroyInServer;
             }
+            UniTask.Create(async () =>
+            {
+                await UniTask.WaitUntil(() => ClientData != null, cancellationToken: destroyCancellationToken);
+                behaviorParameters.TeamId = ClientData.Team == Team.Alpha ? 0 : 1;
+            }).Forget();
             Debug.Log("Initialized character");
         }
 
