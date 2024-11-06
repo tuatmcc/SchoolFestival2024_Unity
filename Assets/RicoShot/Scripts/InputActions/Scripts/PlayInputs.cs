@@ -200,6 +200,34 @@ namespace RicoShot.InputActions
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Test"",
+            ""id"": ""66fcd7f3-b2cb-41c4-945e-b153396247de"",
+            ""actions"": [
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""03c3d832-8c18-4377-a566-266e0f550ed9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""3f94d9ad-b632-49a4-b8ab-d104989d2075"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -210,11 +238,15 @@ namespace RicoShot.InputActions
             m_Main_Fire = m_Main.FindAction("Fire", throwIfNotFound: true);
             m_Main_DrawRay = m_Main.FindAction("DrawRay", throwIfNotFound: true);
             m_Main_Camera = m_Main.FindAction("Camera", throwIfNotFound: true);
+            // Test
+            m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
+            m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
         }
 
         ~@PlayInputs()
         {
             UnityEngine.Debug.Assert(!m_Main.enabled, "This will cause a leak and performance issues, PlayInputs.Main.Disable() has not been called.");
+            UnityEngine.Debug.Assert(!m_Test.enabled, "This will cause a leak and performance issues, PlayInputs.Test.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -342,12 +374,62 @@ namespace RicoShot.InputActions
             }
         }
         public MainActions @Main => new MainActions(this);
+
+        // Test
+        private readonly InputActionMap m_Test;
+        private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
+        private readonly InputAction m_Test_Enter;
+        public struct TestActions
+        {
+            private @PlayInputs m_Wrapper;
+            public TestActions(@PlayInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Enter => m_Wrapper.m_Test_Enter;
+            public InputActionMap Get() { return m_Wrapper.m_Test; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TestActions set) { return set.Get(); }
+            public void AddCallbacks(ITestActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TestActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TestActionsCallbackInterfaces.Add(instance);
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
+            }
+
+            private void UnregisterCallbacks(ITestActions instance)
+            {
+                @Enter.started -= instance.OnEnter;
+                @Enter.performed -= instance.OnEnter;
+                @Enter.canceled -= instance.OnEnter;
+            }
+
+            public void RemoveCallbacks(ITestActions instance)
+            {
+                if (m_Wrapper.m_TestActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITestActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TestActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TestActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TestActions @Test => new TestActions(this);
         public interface IMainActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnDrawRay(InputAction.CallbackContext context);
             void OnCamera(InputAction.CallbackContext context);
+        }
+        public interface ITestActions
+        {
+            void OnEnter(InputAction.CallbackContext context);
         }
     }
 }

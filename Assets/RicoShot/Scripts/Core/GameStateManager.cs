@@ -15,6 +15,7 @@ namespace RicoShot.Core
 {
     public class GameStateManager : IGameStateManager, IInitializable, IDisposable
     {
+        public event Action<GameState> OnExitGameState;
         public event Action<GameState> OnGameStateChanged;
         public event Action OnReset;
 
@@ -28,6 +29,7 @@ namespace RicoShot.Core
             get { return gameState; } 
             set
             {
+                OnExitGameState?.Invoke(gameState);
                 gameState = value;
                 OnGameStateChanged?.Invoke(gameState);
                 Debug.Log($"GameState changed to {value}");

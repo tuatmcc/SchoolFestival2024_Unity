@@ -1,5 +1,6 @@
 using RicoShot.Core;
 using RicoShot.Core.Interface;
+using RicoShot.Play.Interface;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,10 @@ namespace RicoShot.Play.Tests
 
         public NetworkVariable<bool> AllClientsReady => throw new NotImplementedException();
 
+        public INetworkScoreManager ScoreManager { get => throw new NotImplementedException(); set { } }
+
         public event Action<bool> OnAllClientsReadyChanged;
+        public event Action OnServerConnectionCompleted;
 
         public void StartPlayRpc()
         {

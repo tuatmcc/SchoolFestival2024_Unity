@@ -33,7 +33,7 @@ namespace RicoShot.InputActions
                     ""name"": ""Left"",
                     ""type"": ""Button"",
                     ""id"": ""f895be85-0d61-4876-ba39-4def7477aa4f"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -42,7 +42,25 @@ namespace RicoShot.InputActions
                     ""name"": ""Right"",
                     ""type"": ""Button"",
                     ""id"": ""d858251b-add4-4cd4-b532-f2dd2f824004"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""69c52149-8d3f-4c96-82d6-fa761fce9b97"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""a2d6d46e-d04b-48c0-bfd1-4804cb276b4d"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -62,12 +80,100 @@ namespace RicoShot.InputActions
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ca801f33-3e77-4669-9f47-9129307b4cbf"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""232d66fc-e8e2-4b7d-926a-0cf50ed8a01e"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""75f423d4-0aed-45e3-bfa1-48e5d8d8f87a"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f5847e4-68e0-4e6b-a55d-d7e64030f80a"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1d5e211-66a6-405a-8aa6-542daeedfe4b"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ef97122-9a97-4d4e-8d09-b0dc348df7bd"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6c79a133-20f4-4b5e-9a63-4b5ec0a15135"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94099235-bd46-40e3-8b02-41f0267c585d"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64ba8ebd-71d6-4548-90de-a001c2569230"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -81,7 +187,7 @@ namespace RicoShot.InputActions
                     ""name"": ""Enter"",
                     ""type"": ""Button"",
                     ""id"": ""fcf48afb-aa34-48a9-beee-ea894ddec103"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -91,7 +197,7 @@ namespace RicoShot.InputActions
                 {
                     ""name"": """",
                     ""id"": ""9949be1c-1b0c-4477-b22f-e55e664b190b"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -108,6 +214,8 @@ namespace RicoShot.InputActions
             m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
             m_Main_Left = m_Main.FindAction("Left", throwIfNotFound: true);
             m_Main_Right = m_Main.FindAction("Right", throwIfNotFound: true);
+            m_Main_Confirm = m_Main.FindAction("Confirm", throwIfNotFound: true);
+            m_Main_Select = m_Main.FindAction("Select", throwIfNotFound: true);
             // Test
             m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
             m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
@@ -180,12 +288,16 @@ namespace RicoShot.InputActions
         private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
         private readonly InputAction m_Main_Left;
         private readonly InputAction m_Main_Right;
+        private readonly InputAction m_Main_Confirm;
+        private readonly InputAction m_Main_Select;
         public struct MainActions
         {
             private @TitleInputs m_Wrapper;
             public MainActions(@TitleInputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Left => m_Wrapper.m_Main_Left;
             public InputAction @Right => m_Wrapper.m_Main_Right;
+            public InputAction @Confirm => m_Wrapper.m_Main_Confirm;
+            public InputAction @Select => m_Wrapper.m_Main_Select;
             public InputActionMap Get() { return m_Wrapper.m_Main; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -201,6 +313,12 @@ namespace RicoShot.InputActions
                 @Right.started += instance.OnRight;
                 @Right.performed += instance.OnRight;
                 @Right.canceled += instance.OnRight;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+                @Select.started += instance.OnSelect;
+                @Select.performed += instance.OnSelect;
+                @Select.canceled += instance.OnSelect;
             }
 
             private void UnregisterCallbacks(IMainActions instance)
@@ -211,6 +329,12 @@ namespace RicoShot.InputActions
                 @Right.started -= instance.OnRight;
                 @Right.performed -= instance.OnRight;
                 @Right.canceled -= instance.OnRight;
+                @Confirm.started -= instance.OnConfirm;
+                @Confirm.performed -= instance.OnConfirm;
+                @Confirm.canceled -= instance.OnConfirm;
+                @Select.started -= instance.OnSelect;
+                @Select.performed -= instance.OnSelect;
+                @Select.canceled -= instance.OnSelect;
             }
 
             public void RemoveCallbacks(IMainActions instance)
@@ -278,6 +402,8 @@ namespace RicoShot.InputActions
         {
             void OnLeft(InputAction.CallbackContext context);
             void OnRight(InputAction.CallbackContext context);
+            void OnConfirm(InputAction.CallbackContext context);
+            void OnSelect(InputAction.CallbackContext context);
         }
         public interface ITestActions
         {
