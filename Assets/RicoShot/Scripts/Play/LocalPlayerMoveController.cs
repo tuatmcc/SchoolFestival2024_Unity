@@ -34,7 +34,7 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
-        [SerializeField] private int maxHp = 50;
+        public const int MaxHp = 50;
         [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
 
         [SerializeField] private float moveSpeedConst = 1.0f;
@@ -77,7 +77,7 @@ namespace RicoShot.Play
 
         private void Start()
         {
-            hp = maxHp;
+            hp = MaxHp;
             rb = GetComponent<Rigidbody>();
             networkTransform = GetComponent<NetworkTransform>();
             clientDataHolder = GetComponent<IClientDataHolder>();
@@ -136,10 +136,8 @@ namespace RicoShot.Play
             {
                 enabled = false;
             }
-            if (IsOwner)
-            {
-                OnHpChanged += Respawn;
-            }
+
+            if (IsOwner) OnHpChanged += Respawn;
         }
 
         // playSceneTesterのInjectを待って入力イベントを登録
@@ -276,7 +274,7 @@ namespace RicoShot.Play
                 transform.SetPositionAndRotation(clientDataHolder.SpawnPosition, clientDataHolder.SpawnRotation);
                 _spawnAnimationController.Spawn();
                 ChangeInterpolateRpc(true);
-                Hp = maxHp;
+                Hp = MaxHp;
             }
         }
 
