@@ -18,6 +18,7 @@ namespace RicoShot.Play
         [SerializeField] private int max_reflect_num = 3;
         [SerializeField] private int bulletForce = 20;
         [SerializeField] private int damage = 10;
+        [SerializeField] private float bullet_lifetime = 20;
         private Vector3 velocity;
         private Rigidbody rb;
         private Renderer _renderer;
@@ -45,6 +46,7 @@ namespace RicoShot.Play
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
+            Invoke("DestroyThisRpc",bullet_lifetime);
         }
 
         // Spawnを待ってBulletをセット
