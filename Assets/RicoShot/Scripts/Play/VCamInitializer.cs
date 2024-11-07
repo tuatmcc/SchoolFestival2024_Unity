@@ -1,13 +1,8 @@
 using Cinemachine;
 using RicoShot.Play.Interface;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using R3;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace RicoShot.Play
@@ -21,6 +16,7 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
+        [SerializeField] private Camera mainCamera;
         [SerializeField] private CinemachineVirtualCamera playVCam;
         [SerializeField] private CinemachineVirtualCamera spawnVCam;
 
@@ -28,6 +24,7 @@ namespace RicoShot.Play
         {
             if (playSceneTester.IsTest)
             {
+                playSceneManager.MainCameraTransform = mainCamera.transform;
                 playSceneManager.VCamTransform = playVCam.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 return;
@@ -35,6 +32,7 @@ namespace RicoShot.Play
 
             if (NetworkManager.Singleton.IsClient)
             {
+                playSceneManager.MainCameraTransform = mainCamera.transform;
                 playSceneManager.VCamTransform = playVCam.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 Debug.Log("Set VCamTransform finished");

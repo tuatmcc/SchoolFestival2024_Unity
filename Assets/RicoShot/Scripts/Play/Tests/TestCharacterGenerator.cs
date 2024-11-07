@@ -36,7 +36,7 @@ namespace RicoShot.Play.Tests
             {
                 var player = Instantiate(networkObject, Vector3.zero, Quaternion.identity);
                 var initializer = player.GetComponent<CharacterInitializer>();
-                initializer.SetCharacterParams(new ClientData(playSceneTester.CharacterParams));
+                initializer.SetCharacterParams(new ClientData(playSceneTester.CharacterParams), Vector3.zero, Quaternion.identity);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace RicoShot.Play.Tests
             player.DontDestroyWithOwner = true;
 
             var initializer = player.GetComponent<CharacterInitializer>();
-            initializer.SetCharacterParams(clientData);
+            initializer.SetCharacterParams(clientData, pos, rotation);
 
             player.SpawnAsPlayerObject(clientData.ClientID);
             Debug.Log($"Created character: {clientData.ClientID}");
@@ -91,7 +91,7 @@ namespace RicoShot.Play.Tests
 
             var initializer = npc.GetComponent<CharacterInitializer>();
             var npcData = ClientData.GetClientDataForNpc(team);
-            initializer.SetCharacterParams(npcData);
+            initializer.SetCharacterParams(npcData, pos, rotation);
 
             npc.Spawn();
 

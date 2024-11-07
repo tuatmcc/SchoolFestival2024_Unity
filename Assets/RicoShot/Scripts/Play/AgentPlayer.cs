@@ -30,6 +30,7 @@ namespace RicoShot.Play
 
         private Rigidbody rb;
         private Animator animator;
+        private SpawnAnimationController _spawnAnimationController; 
         private bool _animateThrow = false;
         private bool onCoolTime = false;
 
@@ -40,17 +41,24 @@ namespace RicoShot.Play
         {
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
+            _spawnAnimationController = GetComponent<SpawnAnimationController>();
         }
 
         private void Update()
         {
-            if (rb.velocity.magnitude != 0)
+            if (_spawnAnimationController.isSpawning) return;
+            if (rb.velocity.magnitude != 0 && playSceneManager.PlayState == PlayState.Playing)
             {
+                var holizontal = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
                 // 移動方向に向かせる回転を計算
-                Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
+                Quaternion targetRotation = Quaternion.LookRotation(holizontal);
 
                 // 現在の回転から目標の回転へ徐々に回転
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+                
+                // 速度制限
+                rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
             }
         }
 
@@ -75,6 +83,8 @@ namespace RicoShot.Play
         public override void OnActionReceived(ActionBuffers actionsBuffer)
         {
             if (playSceneManager.PlayState != PlayState.Playing && !playSceneTester.IsTest) return;
+            if (_spawnAnimationController.isSpawning) return;
+
             //Debug.Log("called");
             ActionSegment<int> act = actionsBuffer.DiscreteActions;
             //前進 or　後退
@@ -130,8 +140,7 @@ namespace RicoShot.Play
                     break;
             }
 
-            rb.AddForce(dirToGo * agentSpeed);
-            rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
+            rb.AddForce(dirToGo * agentSpeed, ForceMode.VelocityChange);
         }
 
         private void OnFire()

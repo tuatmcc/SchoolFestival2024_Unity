@@ -37,15 +37,16 @@ namespace RicoShot.Play
         }
 
         public Transform VCamTransform { get; set; }
+        public Transform MainCameraTransform { get; set; }
 
         private PlayState playState;
         private GameObject localPlayer;
 
         [Inject] private readonly IGameStateManager gameStateManager;
 
-        PlaySceneManager()
+        private PlaySceneManager()
         {
-            PlayInputs = new();
+            PlayInputs = new PlayInputs();
             PlayInputs.Enable();
         }
 

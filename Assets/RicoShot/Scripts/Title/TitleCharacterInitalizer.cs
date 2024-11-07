@@ -1,4 +1,4 @@
-﻿using Chibi;
+using Chibi;
 using R3;
 using RicoShot.Core.Interface;
 using RicoShot.Title.Interface;
@@ -11,7 +11,6 @@ namespace RicoShot.Title
     public class TitleCharacterInitalizer : MonoBehaviour
     {
         [Inject] private readonly ITitleSceneManager _titleSceneManager;
-        [Inject] private readonly ILocalPlayerManager _localPlayerManager;
 
         private CharacterSettingsController _characterSettingsController;
 
@@ -27,7 +26,7 @@ namespace RicoShot.Title
 
         private void ReflectCharacterParams()
         {
-            var characterParams = _localPlayerManager.CharacterParams;
+            var characterParams = _titleSceneManager.FetchedCharacterParams;
             _characterSettingsController.activeChibiIndex = characterParams.ChibiIndex;
             _characterSettingsController.hairColor = characterParams.HairColor.ToString();
             _characterSettingsController.costumeVariant = characterParams.CostumeVariant;
