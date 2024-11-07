@@ -44,7 +44,7 @@ namespace RicoShot.Play
 
         private void Update()
         {
-            if (rb.velocity.magnitude != 0)
+            if (rb.velocity.magnitude != 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 // 移動方向に向かせる回転を計算
                 Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
