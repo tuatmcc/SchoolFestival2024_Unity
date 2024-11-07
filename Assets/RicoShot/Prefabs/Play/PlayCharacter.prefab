@@ -173,6 +173,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4277840505665562029, guid: 4608f49b422168748928e24c5968af77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070809572472285450, guid: 4608f49b422168748928e24c5968af77,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -184,6 +194,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2891427164937457532}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8560921242137491953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6840661263365731981, guid: 4608f49b422168748928e24c5968af77,
+    type: 3}
+  m_PrefabInstance: {fileID: 2891427164937457532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5815bcd9c8da80b4fb0ae5e5f084694a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4807615010434140253
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -530,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60aa18514d4a9374ba903d8bfe509772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTeamColorIndicator: {fileID: 8560921242137491953}
 --- !u!120 &8188827570405850942
 LineRenderer:
   serializedVersion: 2

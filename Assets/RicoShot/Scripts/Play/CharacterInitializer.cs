@@ -18,6 +18,8 @@ namespace RicoShot.Play
     {
         public ClientData ClientData { get; private set; }
 
+        [SerializeField] private PlayerTeamColorIndicator playerTeamColorIndicator;
+
         private BehaviorParameters behaviorParameters;
         private AgentPlayer agentPlayer;
         private RayPerceptionSensorComponent3D rayPerceptionSensor;
@@ -105,7 +107,7 @@ namespace RicoShot.Play
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
         private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
         {
-            ReflectCharacterParams(clientData.CharacterParams);
+            ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
             SendCharaterParamsRpc(clientData);
         }
@@ -115,21 +117,22 @@ namespace RicoShot.Play
         private void SendCharaterParamsRpc(ClientData clientData)
         {
             ClientData = clientData;
-            ReflectCharacterParams(clientData.CharacterParams);
+            ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
         }
 
-        private void ReflectCharacterParams(CharacterParams characterParams)
+        private void ReflectCharacterParams(CharacterParams characterParams, Team team)
         {
             var characterSettingController = GetComponent<CharacterSettingsController>();
             characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
             characterSettingController.hairColor = characterParams.HairColor.ToString();
             characterSettingController.costumeVariant = characterParams.CostumeVariant;
             characterSettingController.accessory = characterParams.Accessory;
+            playerTeamColorIndicator.SetTeamColor(team);
         }
 
         private void OnCharacterParamsChanged()
         {
-            ReflectCharacterParams(ClientData.CharacterParams);
+            ReflectCharacterParams(ClientData.CharacterParams, Team.Alpha);
         }
 
         // (サーバー)リザルトへ移動時に破棄する関数
