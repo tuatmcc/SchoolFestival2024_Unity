@@ -20,6 +20,7 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager _playSceneManager;
         [Inject] private readonly IPlaySceneTester _playSceneTester;
         [Inject] private readonly ICharacterGenerator _characterGenerator;
+        [SerializeField] private Camera mainCamera;
         [SerializeField] private CinemachineVirtualCamera fieldCamera;
         [SerializeField] private CinemachineVirtualCamera[] playerCameras;
 
@@ -32,10 +33,14 @@ namespace RicoShot.Play
             if (gameStateManager.NetworkMode == NetworkMode.Client) gameObject.SetActive(false);
             if (_playSceneTester.IsTest) gameObject.SetActive(false);
 
-            Observable.FromEvent<PlayState>
-                (h => _playSceneManager.OnPlayStateChanged += h,
-                    h => _playSceneManager.OnPlayStateChanged -= h).Where(x => x == PlayState.Playing)
-                .Subscribe(_ => SetPlayerCameras()).AddTo(this);
+            if (gameStateManager.NetworkMode == NetworkMode.Server)
+            {
+                _playSceneManager.MainCameraTransform = mainCamera.transform;
+                Observable.FromEvent<PlayState>
+                    (h => _playSceneManager.OnPlayStateChanged += h,
+                        h => _playSceneManager.OnPlayStateChanged -= h).Where(x => x == PlayState.Playing)
+                    .Subscribe(_ => SetPlayerCameras()).AddTo(this);
+            }
         }
 
         // Update is called once per frame
