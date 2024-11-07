@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using R3;
 using RicoShot.Play.Interface;
 using TMPro;
@@ -7,24 +8,43 @@ using Zenject;
 
 namespace RicoShot.Play.UI
 {
-    [RequireComponent(typeof(TMP_Text))]
+    [RequireComponent(typeof(RectTransform))]
     public class TimeLimitPresenter : MonoBehaviour
     {
         [Inject] private readonly ITimeManager _timeManager;
-        private TMP_Text _timeLimitText;
+        [SerializeField] private TMP_Text timeLimitText;
+
+        private RectTransform _rectTransform;
 
         private void Start()
         {
-            _timeLimitText = GetComponent<TMP_Text>();
-            Observable.FromEvent<long>(h => _timeManager.OnPlayTimeChanged += h,
-                    h => _timeManager.OnPlayTimeChanged -= h)
-                .Subscribe(OnPlayTimeChanged).AddTo(this);
+            timeLimitText = GetComponent<TMP_Text>();
+            _rectTransform = GetComponent<RectTransform>();
+
+            // hide to the left
+            _rectTransform.anchoredPosition = new Vector2(-_rectTransform.rect.width, 352);
+
+            // show this presenter during countdown
+            Observable.FromEvent<int>(h => _timeManager.OnCountChanged += h,
+                    h => _timeManager.OnCountChanged -= h)
+                .Where(count => count == 4).Subscribe(_ => ShowTimeLimitPresenter()).AddTo(this);
+
+            // update time limit
+            // TODO: this is not working
+            // Observable.FromEvent<long>(h => _timeManager.OnPlayTimeChanged += h,
+            //         h => _timeManager.OnPlayTimeChanged -= h)
+            //     .Subscribe(OnPlayTimeChanged).AddTo(this);
         }
 
         private void OnPlayTimeChanged(long playTime)
         {
             var time = TimeSpan.FromTicks(playTime);
-            _timeLimitText.text = $"{time.Minutes:0}:{time.Seconds:00}";
+            timeLimitText.text = $"{time.Minutes:00}:{time.Seconds:00}";
+        }
+
+        private void ShowTimeLimitPresenter()
+        {
+            _rectTransform.DOAnchorPosX(0, 0.3f).SetEase(Ease.OutBack);
         }
     }
 }
