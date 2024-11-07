@@ -116,13 +116,13 @@ namespace RicoShot.Play
         private void DrawRayLine(Vector3 start, RaycastHit[] hits)
         {
             //LineRendererコンポーネントの取得
-            linerend.startWidth = 3;
-            linerend.endWidth = 3;
+            linerend.startWidth = 1;
+            linerend.endWidth = 1;
             linerend.positionCount = 5;
 
             //線の太さを設定
-            linerend.startWidth = 0.1f;
-            linerend.endWidth = 0.1f;
+            linerend.startWidth = 0.01f;
+            linerend.endWidth = 0.01f;
 
             //始点, 終点を設定し, 描画
             linerend.SetPosition(0, start);
