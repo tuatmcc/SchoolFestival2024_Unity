@@ -16,10 +16,10 @@ public class TestSupabaseController : ISupabaseController
         await UniTask.WaitForSeconds(0.1f);
     }
 
-    public async UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID)
+    public async UniTask<(string displayName, CharacterParams characterParams, int playCount, int highScore)> FetchPlayerProfile(string userID)
     {
         await UniTask.WaitForSeconds(0.1f);
-        return ("Test Character", CharacterParams.GetRandomCharacterParams());
+        return ("Test Character", CharacterParams.GetRandomCharacterParams(), 10, 100);
     }
 
     public async UniTask UpsertMatching(string matchingID, DateTime startTime, DateTime endTime)
