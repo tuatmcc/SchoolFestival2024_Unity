@@ -85,6 +85,7 @@ namespace RicoShot.Title.UI
         {
             displayName.text = _titleSceneManager.FetchedDisplayName;
             displayNameShadow.text = _titleSceneManager.FetchedDisplayName;
+            playerProfile.text = $"プレイ回数: {_titleSceneManager.FetchedPlayCount}\nハイスコア: {_titleSceneManager.FetchedHighScore}";
             popup.DOAnchorPos(new Vector2(0, endY), duration).SetEase(Ease.InOutBack);
         }
 
