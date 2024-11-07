@@ -35,8 +35,10 @@ namespace RicoShot.Title
 
         private TitleState _titleState;
         private bool fetching = false;
+        private string uuid;
 
         [Inject] private readonly ISupabaseController supabaseController;
+        [Inject] private readonly ILocalPlayerManager localPlayerManager;
 
         TitleSceneManager()
         {
@@ -73,6 +75,7 @@ namespace RicoShot.Title
             {
                 FetchedDisplayName = displayName;
                 FetchedCharacterParams = characterParams;
+                this.uuid = uuid;
                 Debug.Log($"Fetched name: {FetchedDisplayName}");
                 TitleState = TitleState.Confirming;
             }
@@ -81,6 +84,9 @@ namespace RicoShot.Title
 
         public void Dispose()
         {
+            localPlayerManager.LocalPlayerUUID = uuid;
+            localPlayerManager.CharacterParams = FetchedCharacterParams;
+            localPlayerManager.LocalPlayerName = FetchedDisplayName;
             TitleInputs.Disable();
         }
     }

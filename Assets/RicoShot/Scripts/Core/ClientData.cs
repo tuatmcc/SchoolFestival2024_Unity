@@ -64,10 +64,11 @@ namespace RicoShot.Core
         }
 
         // プレイヤーのクライアントデータ
-        public ClientData(FixedString64Bytes UUID, ulong ClientID, CharacterParams CharacterParams)
+        public ClientData(FixedString64Bytes UUID, ulong ClientID, FixedString64Bytes Name, CharacterParams CharacterParams)
         {
             this.UUID = UUID;
             this.ClientID = ClientID;
+            this.Name = Name;
             this.CharacterParams = CharacterParams;
             this.IsNpc = false;
         }

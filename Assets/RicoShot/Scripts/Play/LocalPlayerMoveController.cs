@@ -12,7 +12,19 @@ namespace RicoShot.Play
     public class LocalPlayerMoveController : NetworkBehaviour, IHpHolder
     {
         public event Action OnFireEvent;
-        
+        public event Action<int> OnHpChanged;
+
+        public int Hp
+        {
+            get => hp;
+            set
+            {
+                hp = value;
+                OnHpChanged?.Invoke(hp);
+                Debug.Log($"hp changed -> {hp}");
+            }
+        }
+
         private const int CoolTime = 1;
         private const float RotationSmoothTime = 0.1f;
         private const float Acceleration = 10f;
@@ -57,6 +69,8 @@ namespace RicoShot.Play
 
         private Transform TPSCam;
 
+        private bool Playable => playSceneManager.PlayState == PlayState.Playing || playSceneTester.IsTest;
+
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -70,6 +84,7 @@ namespace RicoShot.Play
         private void Update()
         {
             if (!setUpFinished) return;
+            if (!Playable) return;
             if (_spawnAnimationController.isSpawning) return;
 
             Move();
@@ -87,19 +102,6 @@ namespace RicoShot.Play
 
             // フラグをリセット
             _animateThrow = false;
-        }
-
-        public event Action<int> OnHpChanged;
-
-        public int Hp
-        {
-            get => hp;
-            set
-            {
-                hp = value;
-                OnHpChanged?.Invoke(hp);
-                Debug.Log($"hp changed -> {hp}");
-            }
         }
 
         public void DecreaseHp(int damage)
@@ -162,7 +164,8 @@ namespace RicoShot.Play
             var dir = TPSCam.forward * moveInput.y + TPSCam.right * moveInput.x;
             dir.y = 0;
             dir.Normalize();
-            rb.velocity = dir * _speed;
+            // 上下方向の重力はそのまま反映させる
+            rb.velocity = new Vector3(dir.x * _speed, rb.velocity.y, dir.z * _speed);
 
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
         }
@@ -197,7 +200,7 @@ namespace RicoShot.Play
 
         private void OnFire(InputAction.CallbackContext context)
         {
-            if (!OnCooltime)
+            if (!OnCooltime && Playable)
             {
                 OnFireEvent?.Invoke();
                 //Gamepad.current.SetMotorSpeeds(1f, 1f);

@@ -15,6 +15,7 @@ namespace RicoShot.Play
 
         public FixedString64Bytes UUID { get => uuid; private set => uuid = value; }
         public Team Team { get => team; private set => team = value; }
+        public bool IsNpc { get => isNpc; private set => isNpc = value; }
         public int Score
         {
             get => score;
@@ -27,6 +28,7 @@ namespace RicoShot.Play
 
         private FixedString64Bytes uuid;
         private Team team;
+        private bool isNpc;
         private int score;
         
         public ScoreData()
@@ -34,10 +36,11 @@ namespace RicoShot.Play
 
         }
 
-        public ScoreData(FixedString64Bytes UUID, Team Team)
+        public ScoreData(FixedString64Bytes UUID, Team Team, bool IsNpc)
         {
             this.UUID = UUID;
             this.Team = Team;
+            this.IsNpc = IsNpc;
             this.Score = 0;
         }
 
@@ -45,12 +48,18 @@ namespace RicoShot.Play
         {
             serializer.SerializeValue(ref uuid);
             serializer.SerializeValue(ref team);
+            serializer.SerializeValue(ref isNpc);
             serializer.SerializeValue(ref score);
         }
 
         public bool Equals(ScoreData other)
         {
             return this.UUID == other.UUID;
+        }
+
+        public override string ToString()
+        {
+            return $"ScoreData: UUID={UUID}, Team={Team}, Score={Score}, IsNpc={IsNpc}";
         }
     }
 }
