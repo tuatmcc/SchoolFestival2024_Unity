@@ -43,12 +43,25 @@ namespace RicoShot.Core
             return response;
         }
         
+        private async UniTask<StatsContainer> GetStats(string userId)
+        {
+            try
+            {
+                var rseponse = await _supabaseClient.From<StatsContainer>().Where(x => x.UserId == userId).Single();
+                return rseponse;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         // UUIDから表示名とキャラクターのパラメーターを取得する関数
-        public async UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID)
+        public async UniTask<(string displayName, CharacterParams characterParams, int playCount, int highScore)> FetchPlayerProfile(string userID)
         {
             var container = await GetProfile(userID);
             // 存在しない場合
-            if (container == null) { return (string.Empty, null); }
+            if (container == null) { return (string.Empty, null, 0, 0); }
             // 存在する場合(Jsonのパースは勝手にやってくれる)
             var characterParams = new CharacterParams()
             {
@@ -57,7 +70,12 @@ namespace RicoShot.Core
                 HairColor = container.CharacterPreset.hair,
                 Accessory = container.CharacterPreset.accessory,
             };
-            return (container.DisplayName, characterParams);
+            var stats = await GetStats(userID);
+            if (stats == null)
+            {
+                return (container.DisplayName, characterParams, 0, 0);
+            }
+            return (container.DisplayName, characterParams, stats.PlayCount, stats.HighScore);
         }
 
         public async UniTask UpsertTeam(Team team, string teamID, string matchingID, bool isWin)
