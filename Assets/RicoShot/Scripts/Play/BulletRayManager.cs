@@ -131,7 +131,7 @@ namespace RicoShot.Play
             linerend.SetPosition(3, hits[2].point);
             linerend.SetPosition(4, hits[3].point);
             var mesh = new Mesh();
-            linerend.BakeMesh(mesh, true);
+            linerend.BakeMesh(mesh);
             _onDrawRaySubject.OnNext(mesh);
         }
 
