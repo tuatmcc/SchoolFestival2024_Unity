@@ -98,8 +98,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: cake_violet_1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 72604af46375d0b44880e4355fcfec0b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Border
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 72604af46375d0b44880e4355fcfec0b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3216413516543614769}
   m_SourcePrefab: {fileID: 100100000, guid: 72604af46375d0b44880e4355fcfec0b, type: 3}
+--- !u!1 &1952545725481619742 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 72604af46375d0b44880e4355fcfec0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1718611646676937807}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3216413516543614769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952545725481619742}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.17, y: 1, z: 0.17}
+  m_Center: {x: 0, y: 0, z: 0}
