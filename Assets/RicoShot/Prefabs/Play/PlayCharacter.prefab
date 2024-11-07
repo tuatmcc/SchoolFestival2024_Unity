@@ -677,7 +677,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2235609919811693726}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a4de8ab4b8f8fc940908b61da783c982, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -757,7 +757,7 @@ MonoBehaviour:
   coolTime: 1
   bulletPrefab: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48,
     type: 3}
-  agentSpeed: 10
+  agentSpeed: 5
   maxSpeed: 3
 --- !u!114 &7611585664718904774
 MonoBehaviour:
