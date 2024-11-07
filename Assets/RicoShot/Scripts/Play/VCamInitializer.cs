@@ -22,6 +22,8 @@ namespace RicoShot.Play
 
         private void Start()
         {
+            playSceneManager.OnLocalPlayerSpawned += x => ChangeCamera(x).Forget();
+
             if (playSceneTester.IsTest)
             {
                 playSceneManager.MainCameraTransform = mainCamera.transform;
@@ -39,8 +41,6 @@ namespace RicoShot.Play
             }
 
             if (NetworkManager.Singleton.IsServer) gameObject.SetActive(false);
-
-            playSceneManager.OnLocalPlayerSpawned += x => ChangeCamera(x).Forget();
         }
 
         private void SetLocalPlayerTransform(GameObject localPlayer)
