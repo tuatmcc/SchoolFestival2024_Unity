@@ -259,7 +259,7 @@ namespace RicoShot.Play
             bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
-        [Rpc(SendTo.Owner)]
+        [Rpc(SendTo.Everyone)]
         private void DecreaseHpRpc(int damage)
         {
             Hp -= damage;
@@ -274,8 +274,8 @@ namespace RicoShot.Play
                 ChangeInterpolateRpc(false);
                 transform.SetPositionAndRotation(clientDataHolder.SpawnPosition, clientDataHolder.SpawnRotation);
                 _spawnAnimationController.Spawn();
+                ResetHpRpc();
                 ChangeInterpolateRpc(true);
-                Hp = MaxHp;
             }
         }
 
@@ -283,6 +283,12 @@ namespace RicoShot.Play
         private void ChangeInterpolateRpc(bool interpolate)
         {
             networkTransform.Interpolate = interpolate;
+        }
+
+        [Rpc(SendTo.Everyone)]
+        private void ResetHpRpc()
+        {
+            Hp = MaxHp;
         }
     }
 }
