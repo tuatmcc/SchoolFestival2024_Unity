@@ -369,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09be95192531c84e9184d1533529eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 9138554872177700963}
   playVCam: {fileID: 5897787138519526805}
   spawnVCam: {fileID: 4296689509110156190}
 --- !u!1 &3214055581673930989
@@ -964,12 +965,12 @@ PrefabInstance:
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.95
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.10000012
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
         type: 3}
@@ -1019,6 +1020,12 @@ PrefabInstance:
 --- !u!4 &2809174722203248257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8386160374372838550, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
+    type: 3}
+  m_PrefabInstance: {fileID: 5953074721143474711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &9138554872177700963 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 3192835360208747124, guid: 4ee8ba73c5ecf034bbcbab998a5ab894,
     type: 3}
   m_PrefabInstance: {fileID: 5953074721143474711}
   m_PrefabAsset: {fileID: 0}
