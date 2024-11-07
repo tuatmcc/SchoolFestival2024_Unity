@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using RicoShot.Play;
 using RicoShot.Play.Interface;
+using System.Threading;
 
 namespace RicoShot.Core
 {
@@ -18,6 +19,7 @@ namespace RicoShot.Core
     {
         // 説明はインターフェース(INetworkManager)を参照
         public event Action<bool> OnAllClientsReadyChanged;
+        public event Action OnServerConnectionCompleted;
         public NetworkClassList<ClientData> ClientDataList { get; private set; } = new();
         public NetworkVariable<bool> AllClientsReady { get; } = new NetworkVariable<bool>(false);
         public INetworkScoreManager ScoreManager { get; set; }
@@ -25,10 +27,12 @@ namespace RicoShot.Core
         [SerializeField] private int maxClientCount = 4;
         private bool callbackRegisted = false;
         private bool resetInProgress = false;
+        private CancellationTokenSource cts;
 
         [Inject] private readonly IGameStateManager gameStateManager;
         [Inject] private readonly ILocalPlayerManager localPlayerManager;
-
+        [Inject] private readonly ISupabaseController supabaseController;
+    
         private void Awake()
         {
             // 開始時にDontDestroyOnLoadへ
@@ -82,6 +86,8 @@ namespace RicoShot.Core
                 NetworkManager.Singleton.StartClient();
                 Debug.Log("[Client] Client started");
             }
+
+            cts = new();
         }
 
         // (サーバー)接続チェック
@@ -144,8 +150,27 @@ namespace RicoShot.Core
                 {
                     Debug.Log("Upload data to Supabase");
                     // ここでSupabaseにデータを送信する処理
+                    var resultId = Guid.NewGuid().ToString();
+                    var alphaTeamId = Guid.NewGuid().ToString();
+                    var bravoTeamId = Guid.NewGuid().ToString();
+                    await supabaseController.UpsertMatching(resultId, ScoreManager.StartTime, ScoreManager.EndTime);
+                    await supabaseController.UpsertTeam(Team.Alpha, alphaTeamId, resultId, ScoreManager.IsWin(Team.Alpha));
+                    await supabaseController.UpsertTeam(Team.Bravo, bravoTeamId, resultId, ScoreManager.IsWin(Team.Bravo));
+                    foreach (var scoreData in ScoreManager.ScoreList)
+                    {
+                        Debug.Log(scoreData);
+                        if (!scoreData.IsNpc)
+                        {
+                            await supabaseController.UpsertPlayerResult(
+                                scoreData.UUID.ToString(),
+                                scoreData.Score,
+                                scoreData.Team == Team.Alpha ? alphaTeamId : bravoTeamId,
+                                resultId
+                                );
+                        }
+                    }
                     // クライアントが全て切断するとMatchingに戻る
-                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == 0, cancellationToken: destroyCancellationToken);
+                    await UniTask.WaitUntil(() => NetworkManager.Singleton.ConnectedClients.Count == 0, cancellationToken: cts.Token);
                     gameStateManager.NextScene();
                 });
             }
@@ -156,7 +181,8 @@ namespace RicoShot.Core
         {
             Debug.Log($"[Client] Connected server as ID:{clientId}");
             // 自身のデータを登録
-            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId, localPlayerManager.CharacterParams));
+            AddClientDataRpc(new ClientData(localPlayerManager.LocalPlayerUUID, clientId, localPlayerManager.LocalPlayerName, localPlayerManager.CharacterParams));
+            OnServerConnectionCompleted?.Invoke();
         }
 
          // (クライアント)接続解除時の挙動
@@ -244,6 +270,7 @@ namespace RicoShot.Core
             }
             else if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
+                cts.Cancel();
                 DisconnectClientRpc();
                 UniTask.Create(async () =>
                 {

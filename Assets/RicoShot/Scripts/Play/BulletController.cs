@@ -34,14 +34,14 @@ namespace RicoShot.Play
 
         private void Awake()
         {
+            gameObject.AddComponent<ZenAutoInjecter>();
+            rb = GetComponent<Rigidbody>();
             _renderer = GetComponent<Renderer>();
             _renderer.enabled = false;
         }
 
         private void Start()
         {
-            gameObject.AddComponent<ZenAutoInjecter>();
-            rb = this.GetComponent<Rigidbody>();
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
@@ -57,12 +57,18 @@ namespace RicoShot.Play
                 transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 1f;
                 rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
                 _renderer.enabled = true;
-                EnableRendererRpc();
+                if (playSceneManager.PlayState == PlayState.Playing)
+                {
+                    EnableRendererRpc();
+                }
                 //Debug.Log("Shot");
             }
             else if (!IsServer)
             {
-                EnableInterpolateRpc();
+                if (playSceneManager.PlayState == PlayState.Playing)
+                {
+                    EnableInterpolateRpc();
+                }
             }
             if (IsServer)
             {
@@ -91,7 +97,7 @@ namespace RicoShot.Play
 
         private void OnCollisionEnter(Collision other)
         {
-            if (IsOwner & !destroying & IsSpawned)
+            if (IsOwner && !destroying && IsSpawned)
             {
                 //Debug.Log("衝突");
                 if (other.gameObject.CompareTag("Border"))
@@ -123,9 +129,12 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
-                        scoreManager.AddScoreRpc(shooterData.UUID, score);
-                        DestroyThisRpc();
-                        destroying = true;
+                        if (playSceneManager.PlayState == PlayState.Playing)
+                        {
+                            scoreManager.AddScoreRpc(shooterData.UUID, score);
+                            DestroyThisRpc();
+                            destroying = true;
+                        }
                     }
                 }
                 if (reflect_count >= max_reflect_num + 1)
@@ -133,8 +142,11 @@ namespace RicoShot.Play
                     rb.velocity = new Vector3(0, 0, 0);
                     this.transform.position = new Vector3(0, -0.4f, 0);
                     reflect_count = 0;
-                    DestroyThisRpc();
-                    destroying = true;
+                    if (playSceneManager.PlayState == PlayState.Playing)
+                    {
+                        DestroyThisRpc();
+                        destroying = true;
+                    }
                 }
             }
         }
@@ -167,7 +179,10 @@ namespace RicoShot.Play
 
         public override void OnDestroy()
         {
-            playSceneManager.OnPlayStateChanged -= DestroyInServer;
+            if (playSceneManager != null)
+            {
+                playSceneManager.OnPlayStateChanged -= DestroyInServer;
+            }
             base.OnDestroy();
         }
     }

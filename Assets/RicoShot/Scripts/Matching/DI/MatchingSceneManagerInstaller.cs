@@ -7,7 +7,7 @@ namespace RicoShot.Matching.DI
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesTo<TestMatchingSceneManager>().AsSingle();
+            Container.BindInterfacesTo<MatchingSceneManager>().AsSingle();
         }
     }
 }
