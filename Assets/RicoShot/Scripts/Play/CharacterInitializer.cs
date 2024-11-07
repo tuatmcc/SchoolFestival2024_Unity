@@ -124,6 +124,7 @@ namespace RicoShot.Play
         {
             ClientData = clientData;
             SpawnPosition = spawnPosition;
+            SpawnRotation = spawnRotation;
             ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
         }
 
