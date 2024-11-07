@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using R3;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,9 +18,14 @@ namespace RicoShot.Play
         private LineRenderer linerend;
         private float BULLET_RADIUS = 0.15f;
         private bool drawRay = false;
+        private Subject<Mesh> _onDrawRaySubject;
+        private Subject<Unit> _onCancelDrawRaySubject;
 
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
+        
+        public Observable<Mesh> OnDrawRayAsObservable => _onDrawRaySubject;
+        public Observable<Unit> OnCancelDrawRayAsObservable => _onCancelDrawRaySubject;
 
         private void Start()
         {
@@ -27,6 +33,8 @@ namespace RicoShot.Play
             linerend.positionCount = 0;
             SetUpBulletRay().Forget();
             SetUpBulletRayTest().Forget();
+            _onDrawRaySubject = new Subject<Mesh>();
+            _onCancelDrawRaySubject = new Subject<Unit>();
         }
 
         private async UniTask SetUpBulletRay()
@@ -76,6 +84,7 @@ namespace RicoShot.Play
         private void OnCancelDrawRay(InputAction.CallbackContext context)
         {
             drawRay = false;
+            _onCancelDrawRaySubject.OnNext(Unit.Default);
         }
 
         private void DrawBulletShot()
@@ -107,13 +116,13 @@ namespace RicoShot.Play
         private void DrawRayLine(Vector3 start, RaycastHit[] hits)
         {
             //LineRendererコンポーネントの取得
-            linerend.startWidth = 3;
-            linerend.endWidth = 3;
+            linerend.startWidth = 1;
+            linerend.endWidth = 1;
             linerend.positionCount = 5;
 
             //線の太さを設定
-            linerend.startWidth = 0.1f;
-            linerend.endWidth = 0.1f;
+            linerend.startWidth = 0.01f;
+            linerend.endWidth = 0.01f;
 
             //始点, 終点を設定し, 描画
             linerend.SetPosition(0, start);
@@ -121,6 +130,9 @@ namespace RicoShot.Play
             linerend.SetPosition(2, hits[1].point);
             linerend.SetPosition(3, hits[2].point);
             linerend.SetPosition(4, hits[3].point);
+            var mesh = new Mesh();
+            linerend.BakeMesh(mesh);
+            _onDrawRaySubject.OnNext(mesh);
         }
 
         private void DeleteBulletShot()

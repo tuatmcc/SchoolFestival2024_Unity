@@ -1,7 +1,9 @@
 using System;
 using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Play.Interface;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -33,7 +35,7 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
-        [SerializeField] private int hp = 50;
+        public const int MaxHp = 50;
         [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
 
         [SerializeField] private float moveSpeedConst = 1.0f;
@@ -61,8 +63,11 @@ namespace RicoShot.Play
         private int bullet_fire_count = 0;
         private Vector2 moveInput;
         private bool OnCooltime;
+        private int hp;
 
         private Rigidbody rb;
+        private NetworkTransform networkTransform;
+        private IClientDataHolder clientDataHolder;
         private float rotationSpeed;
         private bool setUpFinished;
 
@@ -73,7 +78,10 @@ namespace RicoShot.Play
 
         private void Start()
         {
+            hp = MaxHp;
             rb = GetComponent<Rigidbody>();
+            networkTransform = GetComponent<NetworkTransform>();
+            clientDataHolder = GetComponent<IClientDataHolder>();
             _animator = GetComponent<Animator>();
             _spawnAnimationController = GetComponent<SpawnAnimationController>();
 
@@ -129,6 +137,8 @@ namespace RicoShot.Play
             {
                 enabled = false;
             }
+
+            if (IsOwner) OnHpChanged += Respawn;
         }
 
         // playSceneTesterのInjectを待って入力イベントを登録
@@ -244,7 +254,6 @@ namespace RicoShot.Play
             var bullet = Instantiate(Bullet,
                 transform.position + Vector3.up * 0.5f + transform.forward,
                 Quaternion.identity);
-            var clientDataHolder = GetComponent<IClientDataHolder>();
             bullet.SpawnAsPlayerObject(clientDataHolder.ClientData.ClientID);
             var bulletController = bullet.GetComponent<BulletController>();
             bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
@@ -254,6 +263,26 @@ namespace RicoShot.Play
         private void DecreaseHpRpc(int damage)
         {
             Hp -= damage;
+        }
+
+        private void Respawn(int hp)
+        {
+            if (IsOwner && hp == 0)
+            {
+                rb.velocity = Vector3.zero;
+                _animationBlend = 0;
+                ChangeInterpolateRpc(false);
+                transform.SetPositionAndRotation(clientDataHolder.SpawnPosition, clientDataHolder.SpawnRotation);
+                _spawnAnimationController.Spawn();
+                ChangeInterpolateRpc(true);
+                Hp = MaxHp;
+            }
+        }
+
+        [Rpc(SendTo.Server)]
+        private void ChangeInterpolateRpc(bool interpolate)
+        {
+            networkTransform.Interpolate = interpolate;
         }
     }
 }
