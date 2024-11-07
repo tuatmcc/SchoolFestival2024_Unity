@@ -92,6 +92,8 @@ namespace RicoShot.Play
             {
                 await UniTask.WaitUntil(() => ClientData != null, cancellationToken: destroyCancellationToken);
                 behaviorParameters.TeamId = ClientData.Team == Team.Alpha ? 0 : 1;
+                //rayPerceptionSensor.DetectableTags[0] = $"{ClientData.Team}Character";
+                //rayPerceptionSensor.DetectableTags[1] = $"{(ClientData.Team == Team.Alpha ? Team.Bravo : Team.Alpha)}Character";
             }).Forget();
             Debug.Log("Initialized character");
         }
