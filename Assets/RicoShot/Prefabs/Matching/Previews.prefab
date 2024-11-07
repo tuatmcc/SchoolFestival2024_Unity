@@ -55,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -111,6 +111,12 @@ PrefabInstance:
       addedObject: {fileID: 801560516869504475}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 148fd473f7dd11c588f699199847f3a6, type: 3}
+--- !u!4 &528490581523511259 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 924292678064209131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8998123166557563436 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
@@ -125,6 +131,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7942523217341565386}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 1563823234046399549}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -180,11 +191,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 10.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: d05cb366c61e7094a872e2fe6934a0e8, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 1271
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -204,6 +235,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1645629183371662917}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 7880210003328175026}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -259,11 +295,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.3999996
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: d0404a49b5142ef4b82a918a2b9990ad, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 16631
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -283,6 +339,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4319794216647671067}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 4645656294045999340}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -338,11 +399,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: fa4b58462e6247a4a8f0a90e7b5f92ec, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 759
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -370,7 +451,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -426,6 +507,12 @@ PrefabInstance:
       addedObject: {fileID: 3844410895072011686}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 148fd473f7dd11c588f699199847f3a6, type: 3}
+--- !u!4 &1563823234046399549 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2176924013749427981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7942523217341565386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
@@ -500,11 +587,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: d1f00164ad88b0744b4c2ab23e132fd0, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 503
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -524,6 +631,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8998123166557563436}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 528490581523511259}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -579,11 +691,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.3999996
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: dedad982035c37e46a5a644dc3fb65af, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4343
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -603,6 +735,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 134908619095529941}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 8814978879638373410}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -658,11 +795,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.4
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: 62f54deaa0167b041ae18a790268e09a, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -690,7 +847,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -752,6 +909,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4655670370339315030}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5411760642157254246 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 4655670370339315030}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5475959196257135580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -768,7 +931,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -827,6 +990,12 @@ PrefabInstance:
 --- !u!4 &4319794216647671067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5475959196257135580}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4645656294045999340 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
     type: 3}
   m_PrefabInstance: {fileID: 5475959196257135580}
   m_PrefabAsset: {fileID: 0}
@@ -930,7 +1099,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -992,6 +1161,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7411250526433624194}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &7880210003328175026 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7411250526433624194}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8201957342341844754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1008,7 +1183,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -1070,6 +1245,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8201957342341844754}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &8814978879638373410 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8201957342341844754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8908762422992155254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1086,7 +1267,7 @@ PrefabInstance:
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8073966854779082439, guid: 148fd473f7dd11c588f699199847f3a6,
         type: 3}
@@ -1148,6 +1329,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8908762422992155254}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &8080693653180283206 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 830399737686117168, guid: 148fd473f7dd11c588f699199847f3a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8908762422992155254}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9014083467929742805
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1156,6 +1343,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3499364647805406097}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 5411760642157254246}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1211,11 +1403,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.3999996
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: d200c69d640c9c44cacd0266a0b83176, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 8439
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1235,6 +1447,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 841669737496257713}
     m_Modifications:
+    - target: {fileID: 1687075698338492915, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LookAt
+      value: 
+      objectReference: {fileID: 8080693653180283206}
     - target: {fileID: 4157212022267291882, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1290,11 +1507,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: Matching Preview Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 5882224923023786307, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7400460547869317429, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8653080461998220518, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.39999962
+      objectReference: {fileID: 0}
     - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
         type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: 5607988b9abeaa14daed1c5888fd3ec6, type: 2}
+    - target: {fileID: 9154459395052388042, guid: 801b546674291394e84fc45aa495b1f3,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 33015
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
