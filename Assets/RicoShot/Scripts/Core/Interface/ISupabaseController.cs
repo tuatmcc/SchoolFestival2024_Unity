@@ -18,7 +18,7 @@ namespace RicoShot.Core.Interface
          * DBの "public.profiles" テーブルからプレイヤーのキャラ情報等のデータを取得し、パース結果を返す
          * (userIDはQRコードで渡されることを想定)
          */
-        public UniTask<(string displayName, CharacterParams characterParams)> FetchPlayerProfile(string userID);
+        public UniTask<(string displayName, CharacterParams characterParams, int playCount, int highScore)> FetchPlayerProfile(string userID);
 
         public UniTask UpsertTeam(Team team, string teamID, string matchingID, bool isWin);
         

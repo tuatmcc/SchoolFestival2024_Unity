@@ -54,4 +54,13 @@ namespace RicoShot.Core
         [Column("matching_result_id")] public string matching_result_id { get; set; }
         [Column("score")] public int score { get; set; }
     }
+
+    [Table("profiles_with_stats")]
+    public class StatsContainer : BaseModel
+    {
+        [Column("id")] public string Id { get; set; }
+        [Column("user_id")] public string UserId { get; set; }
+        [Column("high_score")] public int HighScore { get; set; }
+        [Column("play_count")] public int PlayCount { get; set; }
+    }
 }

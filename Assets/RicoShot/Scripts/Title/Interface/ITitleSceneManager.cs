@@ -14,6 +14,8 @@ namespace RicoShot.Title.Interface
         public TitleState TitleState { get; set; }
         public string FetchedDisplayName { get;}
         public CharacterParams FetchedCharacterParams { get; }
+        public int FetchedPlayCount { get; }
+        public int FetchedHighScore { get; }
 
         public void FetchData(string uuid);
     }
