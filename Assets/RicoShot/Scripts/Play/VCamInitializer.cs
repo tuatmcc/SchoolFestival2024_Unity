@@ -2,9 +2,12 @@ using Cinemachine;
 using RicoShot.Play.Interface;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using R3;
 using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace RicoShot.Play
@@ -18,29 +21,43 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IPlaySceneTester playSceneTester;
 
-        private void Awake()
+        [SerializeField] private CinemachineVirtualCamera playVCam;
+        [SerializeField] private CinemachineVirtualCamera spawnVCam;
+
+        private void Start()
         {
             if (playSceneTester.IsTest)
             {
-                playSceneManager.VCamTransform = transform;
+                playSceneManager.VCamTransform = playVCam.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 return;
             }
 
             if (NetworkManager.Singleton.IsClient)
             {
-                playSceneManager.VCamTransform = transform;
+                playSceneManager.VCamTransform = playVCam.transform;
                 playSceneManager.OnLocalPlayerSpawned += SetLocalPlayerTransform;
                 Debug.Log("Set VCamTransform finished");
             }
+
+            if (NetworkManager.Singleton.IsServer) gameObject.SetActive(false);
+
+            playSceneManager.OnLocalPlayerSpawned += x => ChangeCamera(x).Forget();
         }
 
         private void SetLocalPlayerTransform(GameObject localPlayer)
         {
-            var cvc = GetComponent<CinemachineVirtualCamera>();
-            cvc.Follow = localPlayer.transform;
-            cvc.LookAt = localPlayer.transform;
+            playVCam.Follow = localPlayer.transform;
+            playVCam.LookAt = localPlayer.transform;
+            spawnVCam.Follow = localPlayer.transform;
+            spawnVCam.LookAt = localPlayer.transform;
             Debug.Log("VCam setting finished");
+        }
+
+        private async UniTaskVoid ChangeCamera(GameObject localPlayer)
+        {
+            await UniTask.Delay(3000);
+            spawnVCam.gameObject.SetActive(false);
         }
     }
 }

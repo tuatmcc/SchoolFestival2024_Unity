@@ -29,12 +29,28 @@ namespace RicoShot.Play.Tests
             networkController.ScoreManager = this;
             if (playSceneTester.IsTest) return;
             gameStateManager.OnReset += DestroyThisOnReset;
+            playSceneManager.OnPlayStateChanged += SetTimeData;
             DontDestroyOnLoad(gameObject);
         }
 
-        public void RegistCharacter(FixedString64Bytes uuid, Team team)
+        private void SetTimeData(PlayState playState)
         {
-            ScoreList.Add(new ScoreData(uuid, team));
+            switch (playState)
+            {
+                case PlayState.Playing:
+                    StartTime = DateTime.Now;
+                    break;
+                case PlayState.Finish:
+                    EndTime = DateTime.Now;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void RegistCharacter(FixedString64Bytes uuid, Team team, bool isNpc)
+        {
+            ScoreList.Add(new ScoreData(uuid, team, isNpc));
         }
 
         // (キャラクター→サーバー) 各キャラクターのスコアを加算する関数
@@ -43,6 +59,23 @@ namespace RicoShot.Play.Tests
         {
             var scoreData = GetScoreDataFromUUID(uuid);
             scoreData.Score += score;
+        }
+
+        public bool IsWin(Team team)
+        {
+            int alphaScore = 0, bravoScore = 0;
+            foreach (var scoreData in ScoreList)
+            {
+                if (scoreData.Team == Team.Alpha)
+                {
+                    alphaScore += scoreData.Score;
+                }
+                else
+                {
+                    bravoScore += scoreData.Score;
+                }
+            }
+            return (team == Team.Alpha && alphaScore >= bravoScore) || (team == Team.Bravo && bravoScore >= alphaScore);
         }
 
         private ScoreData GetScoreDataFromUUID(FixedString64Bytes uuid)
