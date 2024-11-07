@@ -51,6 +51,7 @@ namespace RicoShot.Matching.UI
                 {
                     teamPlayerFrames[i].SetReady(!players[i].IsNpc);
                     teamPlayerFrames[i].SetPlayer(players[i].Name.ToString());
+                    teamPlayerFrames[i].ApplyCharacterParams(players[i].CharacterParams);
                 }
                 else
                 {
