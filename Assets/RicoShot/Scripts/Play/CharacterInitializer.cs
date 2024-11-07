@@ -17,6 +17,8 @@ namespace RicoShot.Play
     public class CharacterInitializer : NetworkBehaviour, IClientDataHolder
     {
         public ClientData ClientData { get; private set; }
+        public Vector3 SpawnPosition { get; private set; }
+        public Quaternion SpawnRotation { get; private set; }
 
         [SerializeField] private PlayerTeamColorIndicator playerTeamColorIndicator;
 
@@ -99,26 +101,29 @@ namespace RicoShot.Play
         }
 
         // (サーバー)クライアントのデータをセットする関数
-        public void SetCharacterParams(ClientData clientData)
+        public void SetCharacterParams(ClientData clientData, Vector3 spawnPosition, Quaternion spawnRotation)
         {
             ClientData = clientData;
+            SpawnPosition = spawnPosition;
+            SpawnRotation = spawnRotation;
             tag = $"{ClientData.Team}Character";
-            ReflectCharacterParamsAsync(clientData).Forget();
+            ReflectCharacterParamsAsync(clientData, spawnPosition, spawnRotation).Forget();
         }
 
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
-        private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
+        private async UniTask ReflectCharacterParamsAsync(ClientData clientData, Vector3 spawnPosition, Quaternion spawnRotation)
         {
             ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
-            SendCharaterParamsRpc(clientData);
+            SendCharaterParamsRpc(clientData, spawnPosition, spawnRotation);
         }
 
         // (サーバー→クライアント)サーバーからクライアントにCharacterParamsを送信して反映する関数
         [Rpc(SendTo.NotServer)]
-        private void SendCharaterParamsRpc(ClientData clientData)
+        private void SendCharaterParamsRpc(ClientData clientData, Vector3 spawnPosition, Quaternion spawnRotation)
         {
             ClientData = clientData;
+            SpawnPosition = spawnPosition;
             ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
         }
 

@@ -30,6 +30,7 @@ namespace RicoShot.Play
 
         private Rigidbody rb;
         private Animator animator;
+        private SpawnAnimationController _spawnAnimationController; 
         private bool _animateThrow = false;
         private bool onCoolTime = false;
 
@@ -40,10 +41,12 @@ namespace RicoShot.Play
         {
             rb = GetComponent<Rigidbody>();
             animator = GetComponent<Animator>();
+            _spawnAnimationController = GetComponent<SpawnAnimationController>();
         }
 
         private void Update()
         {
+            if (_spawnAnimationController.isSpawning) return;
             if (rb.velocity.magnitude != 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 var holizontal = new Vector3(rb.velocity.x, 0, rb.velocity.z);
@@ -80,6 +83,8 @@ namespace RicoShot.Play
         public override void OnActionReceived(ActionBuffers actionsBuffer)
         {
             if (playSceneManager.PlayState != PlayState.Playing && !playSceneTester.IsTest) return;
+            if (_spawnAnimationController.isSpawning) return;
+
             //Debug.Log("called");
             ActionSegment<int> act = actionsBuffer.DiscreteActions;
             //前進 or　後退
