@@ -19,10 +19,13 @@ namespace RicoShot.Play
         [SerializeField] private Camera mainCamera;
         [SerializeField] private CinemachineVirtualCamera playVCam;
         [SerializeField] private CinemachineVirtualCamera spawnVCam;
+        [SerializeField] private CinemachineVirtualCamera fieldVCam;
+        [SerializeField] private CinemachineTargetGroup targetGroup;
 
         private void Start()
         {
-            playSceneManager.OnLocalPlayerSpawned += x => ChangeCamera(x).Forget();
+            playSceneManager.OnLocalPlayerSpawned += x => StartSpawnCameraAsync(x).Forget();
+            playSceneManager.OnLocalPlayerSpawned += _ => StartFieldCameraAsync().Forget();
 
             if (playSceneTester.IsTest)
             {
@@ -45,17 +48,25 @@ namespace RicoShot.Play
 
         private void SetLocalPlayerTransform(GameObject localPlayer)
         {
-            playVCam.Follow = localPlayer.transform;
-            playVCam.LookAt = localPlayer.transform;
+            playVCam.transform.position = localPlayer.transform.position;
+            playVCam.m_Follow = localPlayer.transform;
+            playVCam.m_LookAt = localPlayer.transform;
             spawnVCam.Follow = localPlayer.transform;
             spawnVCam.LookAt = localPlayer.transform;
             Debug.Log("VCam setting finished");
         }
 
-        private async UniTaskVoid ChangeCamera(GameObject localPlayer)
+        private async UniTaskVoid StartSpawnCameraAsync(GameObject localPlayer)
         {
-            await UniTask.Delay(3000);
+            await UniTask.Delay(2500, cancellationToken: this.GetCancellationTokenOnDestroy());
             spawnVCam.gameObject.SetActive(false);
+        }
+
+        private async UniTaskVoid StartFieldCameraAsync()
+        {
+            targetGroup.m_Targets[0].target = playSceneManager.LocalPlayer.transform;
+            await UniTask.Delay(5000, cancellationToken: this.GetCancellationTokenOnDestroy());
+            fieldVCam.gameObject.SetActive(false);
         }
     }
 }
