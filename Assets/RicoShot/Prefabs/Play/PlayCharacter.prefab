@@ -500,7 +500,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -757,7 +757,7 @@ MonoBehaviour:
   coolTime: 1
   bulletPrefab: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48,
     type: 3}
-  agentSpeed: 20
+  agentSpeed: 10
   maxSpeed: 3
 --- !u!114 &7611585664718904774
 MonoBehaviour:

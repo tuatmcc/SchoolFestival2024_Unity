@@ -51,6 +51,9 @@ namespace RicoShot.Play
 
                 // 現在の回転から目標の回転へ徐々に回転
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+                
+                // 速度制限
+                rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
             }
         }
 
@@ -130,8 +133,7 @@ namespace RicoShot.Play
                     break;
             }
 
-            rb.AddForce(dirToGo * agentSpeed);
-            rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
+            rb.AddForce(dirToGo * agentSpeed, ForceMode.VelocityChange);
         }
 
         private void OnFire()
