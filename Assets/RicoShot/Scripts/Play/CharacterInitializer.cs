@@ -18,6 +18,8 @@ namespace RicoShot.Play
     {
         public ClientData ClientData { get; private set; }
 
+        [SerializeField] private PlayerTeamColorIndicator playerTeamColorIndicator;
+
         private BehaviorParameters behaviorParameters;
         private AgentPlayer agentPlayer;
         private RayPerceptionSensorComponent3D rayPerceptionSensor;
@@ -42,7 +44,7 @@ namespace RicoShot.Play
         {
             // ここでZenAutoInjectorを付けることでうまくいく
             gameObject.AddComponent<ZenAutoInjecter>();
-            
+
             if (playSceneTester.IsTest)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -57,6 +59,7 @@ namespace RicoShot.Play
                     rayPerceptionSensor.enabled = true;
                     decisionRequester.enabled = true;
                 }
+
                 return;
             }
 
@@ -66,7 +69,8 @@ namespace RicoShot.Play
         // SpawnとInjectが終わるのを待ってからセッティングを開始
         private async UniTask SetUpCharacter()
         {
-            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null, cancellationToken: destroyCancellationToken);
+            await UniTask.WaitUntil(() => IsSpawned && playSceneManager != null,
+                cancellationToken: destroyCancellationToken);
             if (IsClient && IsOwner)
             {
                 playSceneManager.LocalPlayer = gameObject;
@@ -80,12 +84,15 @@ namespace RicoShot.Play
             }
             else
             {
+            }
 
-            }
-            if (IsServer)
+            if (IsServer) playSceneManager.OnPlayStateChanged += DestroyInServer;
+
+            UniTask.Create(async () =>
             {
-                playSceneManager.OnPlayStateChanged += DestroyInServer;
-            }
+                await UniTask.WaitUntil(() => ClientData != null, cancellationToken: destroyCancellationToken);
+                behaviorParameters.TeamId = ClientData.Team == Team.Alpha ? 0 : 1;
+            }).Forget();
             Debug.Log("Initialized character");
         }
 
@@ -100,7 +107,7 @@ namespace RicoShot.Play
         // 自身の見た目を反映させたうえで、クライアントにも反映させる関数
         private async UniTask ReflectCharacterParamsAsync(ClientData clientData)
         {
-            ReflectCharacterParams(clientData.CharacterParams);
+            ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
             await UniTask.WaitUntil(() => IsSpawned, cancellationToken: destroyCancellationToken);
             SendCharaterParamsRpc(clientData);
         }
@@ -110,30 +117,28 @@ namespace RicoShot.Play
         private void SendCharaterParamsRpc(ClientData clientData)
         {
             ClientData = clientData;
-            ReflectCharacterParams(clientData.CharacterParams);
+            ReflectCharacterParams(clientData.CharacterParams, clientData.Team);
         }
 
-        private void ReflectCharacterParams(CharacterParams characterParams)
+        private void ReflectCharacterParams(CharacterParams characterParams, Team team)
         {
             var characterSettingController = GetComponent<CharacterSettingsController>();
             characterSettingController.activeChibiIndex = characterParams.ChibiIndex;
             characterSettingController.hairColor = characterParams.HairColor.ToString();
             characterSettingController.costumeVariant = characterParams.CostumeVariant;
             characterSettingController.accessory = characterParams.Accessory;
+            playerTeamColorIndicator.SetTeamColor(team);
         }
 
         private void OnCharacterParamsChanged()
         {
-            ReflectCharacterParams(ClientData.CharacterParams);
+            ReflectCharacterParams(ClientData.CharacterParams, Team.Alpha);
         }
 
         // (サーバー)リザルトへ移動時に破棄する関数
         private void DestroyInServer(PlayState playState)
         {
-            if (playState == PlayState.Despawn)
-            {
-                Destroy(gameObject);
-            }
+            if (playState == PlayState.Despawn) Destroy(gameObject);
         }
     }
 }

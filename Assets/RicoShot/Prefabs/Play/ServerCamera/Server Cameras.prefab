@@ -1063,7 +1063,7 @@ GameObject:
   - component: {fileID: 4639423860816310482}
   - component: {fileID: 6551946613744477082}
   m_Layer: 0
-  m_Name: Client Main Camera
+  m_Name: Server Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1166,7 +1166,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
