@@ -55,6 +55,7 @@ namespace RicoShot.Play
         private readonly int recentplayedIndex = -1;
         private bool _animateThrow;
         private float _animationBlend;
+        private float _motionSpeedMultiplier = 1;
         private Animator _animator;
         private float _rotationVelocity = 20;
 
@@ -105,7 +106,7 @@ namespace RicoShot.Play
 
             // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
             _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
-            _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
+            _animator.SetFloat(_animIDMotionSpeed, _motionSpeedMultiplier); // 基本1, 動き止めたいときは0
             _animator.SetBool(_animIDThrow, _animateThrow);
 
             // フラグをリセット
@@ -177,7 +178,7 @@ namespace RicoShot.Play
             // 上下方向の重力はそのまま反映させる
             rb.velocity = new Vector3(dir.x * _speed, rb.velocity.y, dir.z * _speed);
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
+            _animationBlend = _speed;
         }
 
         private void Rotate()
@@ -213,7 +214,7 @@ namespace RicoShot.Play
             if (!OnCooltime && Playable)
             {
                 OnFireEvent?.Invoke();
-                //Gamepad.current.SetMotorSpeeds(1f, 1f);
+                // Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 // GameObject currentBullet = Bullets[bullet_fire_count % 5];
@@ -270,7 +271,6 @@ namespace RicoShot.Play
             if (IsOwner && hp == 0)
             {
                 rb.velocity = Vector3.zero;
-                _animationBlend = 0;
                 ChangeInterpolateRpc(false);
                 transform.SetPositionAndRotation(clientDataHolder.SpawnPosition, clientDataHolder.SpawnRotation);
                 _spawnAnimationController.Spawn();
