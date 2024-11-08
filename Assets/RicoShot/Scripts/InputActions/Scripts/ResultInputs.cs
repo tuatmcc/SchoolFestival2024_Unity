@@ -24,13 +24,46 @@ namespace RicoShot.InputActions
         {
             asset = InputActionAsset.FromJson(@"{
     ""name"": ""Result"",
-    ""maps"": [],
+    ""maps"": [
+        {
+            ""name"": ""Main"",
+            ""id"": ""c832d7ec-8e3e-442d-905d-eb648b472133"",
+            ""actions"": [
+                {
+                    ""name"": ""Next"",
+                    ""type"": ""Button"",
+                    ""id"": ""0ed788f1-7be4-45b6-b05c-b44de5b537a9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2ffa97d1-3f48-4f2f-907f-5132b0a89283"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        }
+    ],
     ""controlSchemes"": []
 }");
+            // Main
+            m_Main = asset.FindActionMap("Main", throwIfNotFound: true);
+            m_Main_Next = m_Main.FindAction("Next", throwIfNotFound: true);
         }
 
         ~@ResultInputs()
         {
+            UnityEngine.Debug.Assert(!m_Main.enabled, "This will cause a leak and performance issues, ResultInputs.Main.Disable() has not been called.");
         }
 
         public void Dispose()
@@ -87,6 +120,56 @@ namespace RicoShot.InputActions
         public int FindBinding(InputBinding bindingMask, out InputAction action)
         {
             return asset.FindBinding(bindingMask, out action);
+        }
+
+        // Main
+        private readonly InputActionMap m_Main;
+        private List<IMainActions> m_MainActionsCallbackInterfaces = new List<IMainActions>();
+        private readonly InputAction m_Main_Next;
+        public struct MainActions
+        {
+            private @ResultInputs m_Wrapper;
+            public MainActions(@ResultInputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Next => m_Wrapper.m_Main_Next;
+            public InputActionMap Get() { return m_Wrapper.m_Main; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(MainActions set) { return set.Get(); }
+            public void AddCallbacks(IMainActions instance)
+            {
+                if (instance == null || m_Wrapper.m_MainActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_MainActionsCallbackInterfaces.Add(instance);
+                @Next.started += instance.OnNext;
+                @Next.performed += instance.OnNext;
+                @Next.canceled += instance.OnNext;
+            }
+
+            private void UnregisterCallbacks(IMainActions instance)
+            {
+                @Next.started -= instance.OnNext;
+                @Next.performed -= instance.OnNext;
+                @Next.canceled -= instance.OnNext;
+            }
+
+            public void RemoveCallbacks(IMainActions instance)
+            {
+                if (m_Wrapper.m_MainActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IMainActions instance)
+            {
+                foreach (var item in m_Wrapper.m_MainActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_MainActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public MainActions @Main => new MainActions(this);
+        public interface IMainActions
+        {
+            void OnNext(InputAction.CallbackContext context);
         }
     }
 }
