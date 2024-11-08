@@ -1,5 +1,34 @@
 {
     "name": "Result",
-    "maps": [],
+    "maps": [
+        {
+            "name": "Main",
+            "id": "c832d7ec-8e3e-442d-905d-eb648b472133",
+            "actions": [
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "0ed788f1-7be4-45b6-b05c-b44de5b537a9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2ffa97d1-3f48-4f2f-907f-5132b0a89283",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
     "controlSchemes": []
 }

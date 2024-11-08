@@ -158,6 +158,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5754668108396928852}
     m_Modifications:
+    - target: {fileID: 576118999716012455, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 576118999716012455, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.860835
+      objectReference: {fileID: 0}
+    - target: {fileID: 576118999716012455, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 576118999716012455, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.76792455
+      objectReference: {fileID: 0}
     - target: {fileID: 673223921846223842, guid: c9f7e7a1b5fa53e40a484c1dba0548db,
         type: 3}
       propertyPath: m_Name
@@ -354,6 +374,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraWork3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785999473160961711, guid: 6319fad2eefa892418b58aaf6619c808,
+        type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785999473160961711, guid: 6319fad2eefa892418b58aaf6619c808,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.98269653
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785999473160961711, guid: 6319fad2eefa892418b58aaf6619c808,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7785999473160961711, guid: 6319fad2eefa892418b58aaf6619c808,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.83584905
       objectReference: {fileID: 0}
     - target: {fileID: 8189510519052241191, guid: 6319fad2eefa892418b58aaf6619c808,
         type: 3}
