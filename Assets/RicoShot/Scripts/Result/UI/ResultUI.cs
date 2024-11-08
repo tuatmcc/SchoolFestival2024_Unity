@@ -26,7 +26,7 @@ namespace RicoShot.Result.UI
             List<ClientData> clients = new();
             foreach (var client in _networkController.ClientDataList) clients.Add(client);
 
-            scores.Sort((a, b) => a.Score - b.Score);
+            scores.Sort((a, b) => -a.Score + b.Score);
             for (var i = 0; i < scores.Count; ++i)
                 if (scores[i].IsNpc)
                 {
