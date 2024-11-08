@@ -3,7 +3,22 @@ guid: f391e7c4d4f582a4b9d7138980623e22
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CreamMat
+    second: {fileID: 2100000, guid: 43c41a5743662bb4085b3fe833d62bec, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpongeMat
+    second: {fileID: 2100000, guid: 77fba00e10b63c048b335243f42985c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StrawberryMat
+    second: {fileID: 2100000, guid: 60e7c866064d4004280528398985734e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
