@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: "\u30DE\u30C6\u30EA\u30A2\u30EB.036 Variant"
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: -7374901651821346928, guid: 72604af46375d0b44880e4355fcfec0b,
+  m_Parent: {fileID: -8657442495611329697, guid: 72604af46375d0b44880e4355fcfec0b,
     type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -41,5 +41,5 @@ Material:
     m_Ints: []
     m_Floats: []
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.9011799, g: 0.9259578, b: 0.97641, a: 1}
   m_BuildTextureStacks: []
