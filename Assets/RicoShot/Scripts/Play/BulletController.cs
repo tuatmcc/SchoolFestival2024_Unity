@@ -47,7 +47,7 @@ namespace RicoShot.Play
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
-            Invoke("DestroyThisRpc", 10);
+            Invoke(nameof(DestroyThisRpc), 10);
         }
 
         // Spawnを待ってBulletをセット
@@ -59,6 +59,7 @@ namespace RicoShot.Play
                 // この実装の場合ラグを基に微調整したほうがいいかも
                 transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 1f;
                 rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
+                transform.rotation = Quaternion.LookRotation(shooterForward);
                 _renderer.enabled = true;
                 if (playSceneManager.PlayState == PlayState.Playing)
                 {

@@ -84,15 +84,15 @@ MonoBehaviour:
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
-  PositionThreshold: 0.001
+  PositionThreshold: 0.01
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   UseQuaternionSynchronization: 0
   UseQuaternionCompression: 0
   UseHalfFloatPrecision: 1
   InLocalSpace: 0
-  Interpolate: 1
-  SlerpPosition: 0
+  Interpolate: 0
+  SlerpPosition: 1
 --- !u!54 &7269958256610308602
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &5435406524631183161
 MonoBehaviour:
   m_ObjectHideFlags: 0
