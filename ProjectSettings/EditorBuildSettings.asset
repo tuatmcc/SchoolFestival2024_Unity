@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/RicoShot/Scenes/Matching.unity
     guid: 13b31129f9143a34a9b8849d626bdc67
   - enabled: 1
-    path: Assets/RicoShot/Scenes/Play.unity
+    path: Assets/RicoShot/Resources/Scenes/Play.unity
     guid: f2454f6784182764db0ec09b3e5718a6
   - enabled: 1
     path: Assets/RicoShot/Scenes/Result.unity
