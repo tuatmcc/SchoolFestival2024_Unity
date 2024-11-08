@@ -422,7 +422,7 @@ PrefabInstance:
     - target: {fileID: 7304021644437879626, guid: 13e28032f8fd08d4cb7436d3f87a24ac,
         type: 3}
       propertyPath: testPlayScene
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -616,7 +616,7 @@ PrefabInstance:
     - target: {fileID: 4749591918138563838, guid: 989df6295be787345a374b512be3b54c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.95
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 4749591918138563838, guid: 989df6295be787345a374b512be3b54c,
         type: 3}
@@ -973,7 +973,7 @@ PrefabInstance:
     - target: {fileID: 2809174722203248257, guid: 0d199486624e32d439a021fba49f7aed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.95
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 2809174722203248257, guid: 0d199486624e32d439a021fba49f7aed,
         type: 3}
@@ -1054,6 +1054,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638111923612819646, guid: 0d199486624e32d439a021fba49f7aed,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9320445
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638111923612819646, guid: 0d199486624e32d439a021fba49f7aed,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.16006242
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638111923612819646, guid: 0d199486624e32d439a021fba49f7aed,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.32038394
+      objectReference: {fileID: 0}
+    - target: {fileID: 5638111923612819646, guid: 0d199486624e32d439a021fba49f7aed,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.055020362
       objectReference: {fileID: 0}
     - target: {fileID: 9138554872177700963, guid: 0d199486624e32d439a021fba49f7aed,
         type: 3}
