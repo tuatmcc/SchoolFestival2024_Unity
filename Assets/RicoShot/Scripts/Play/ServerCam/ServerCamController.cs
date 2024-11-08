@@ -20,6 +20,7 @@ namespace RicoShot.Play
         [Inject] private readonly IPlaySceneManager _playSceneManager;
         [Inject] private readonly IPlaySceneTester _playSceneTester;
         [Inject] private readonly ICharacterGenerator _characterGenerator;
+        [SerializeField] private Camera mainCamera;
         [SerializeField] private CinemachineVirtualCamera fieldCamera;
         [SerializeField] private CinemachineVirtualCamera[] playerCameras;
 
@@ -32,10 +33,14 @@ namespace RicoShot.Play
             if (gameStateManager.NetworkMode == NetworkMode.Client) gameObject.SetActive(false);
             if (_playSceneTester.IsTest) gameObject.SetActive(false);
 
-            Observable.FromEvent<PlayState>
-                (h => _playSceneManager.OnPlayStateChanged += h,
-                    h => _playSceneManager.OnPlayStateChanged -= h).Where(x => x == PlayState.Playing)
-                .Subscribe(_ => SetPlayerCameras()).AddTo(this);
+            if (gameStateManager.NetworkMode == NetworkMode.Server)
+            {
+                _playSceneManager.MainCameraTransform = mainCamera.transform;
+                Observable.FromEvent<PlayState>
+                    (h => _playSceneManager.OnPlayStateChanged += h,
+                        h => _playSceneManager.OnPlayStateChanged -= h).Where(x => x == PlayState.Playing)
+                    .Subscribe(_ => SetPlayerCameras()).AddTo(this);
+            }
         }
 
         // Update is called once per frame
@@ -45,14 +50,9 @@ namespace RicoShot.Play
             //Debug.Log(Time.time);
             //Debug.Log(virtualCamera.Priority);
             if (DateTime.Now.Second % ChangeInterval == 0 && !isEdited)
-            {
-                _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
+                // _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
                 isEdited = true;
-            }
-            else if (DateTime.Now.Second % ChangeInterval != 0)
-            {
-                isEdited = false;
-            }
+            else if (DateTime.Now.Second % ChangeInterval != 0) isEdited = false;
         }
 
         private void SetPlayerCameras()

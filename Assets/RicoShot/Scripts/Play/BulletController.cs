@@ -22,6 +22,7 @@ namespace RicoShot.Play
         private Vector3 velocity;
         private Rigidbody rb;
         private Renderer _renderer;
+        private BulletSwitcher _bulletSwitcher;
         private NetworkTransform networkTransform;
         private Vector3 normal;
         private int reflect_count = 0;
@@ -38,6 +39,7 @@ namespace RicoShot.Play
             gameObject.AddComponent<ZenAutoInjecter>();
             rb = GetComponent<Rigidbody>();
             _renderer = GetComponent<Renderer>();
+            _bulletSwitcher = GetComponent<BulletSwitcher>();
             _renderer.enabled = false;
         }
 
@@ -161,6 +163,7 @@ namespace RicoShot.Play
             this.shooterForward = shooterForward;
             this.shooterData = shooterData;
             tag = $"{shooterData.Team}Bullet";
+            _renderer = _bulletSwitcher.ApplyBulletColor(shooterData.Team);
         }
 
         // (クライアント→サーバー)このBulletの削除をする関数

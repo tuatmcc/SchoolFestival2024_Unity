@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Core.Interface;
 using RicoShot.Play.Interface;
 using UnityEngine;
@@ -16,9 +17,16 @@ namespace RicoShot.Play.UI
         [Inject] private readonly IPlaySceneManager _playSceneManager;
         [Inject] private readonly ILocalPlayerManager _localPlayerManager;
 
-        private void Update()
+        private void Start()
         {
-            transform.LookAt(_playSceneManager.MainCameraTransform);
+            Observable.FromEvent<int>(h => playerMoveController.OnHpChanged += h,
+                    h => playerMoveController.OnHpChanged -= h)
+                .Subscribe(x => slider.value = (float)x / LocalPlayerMoveController.MaxHp).AddTo(this);
+        }
+
+        private void LateUpdate()
+        {
+            transform.forward = _playSceneManager.MainCameraTransform.forward;
         }
     }
 }

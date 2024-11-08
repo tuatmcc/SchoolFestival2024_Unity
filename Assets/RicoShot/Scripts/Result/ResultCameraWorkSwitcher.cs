@@ -4,7 +4,6 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-
 namespace RicoShot.Result
 {
     // 定義されているメソッドはまだすべて仮
@@ -55,9 +54,7 @@ namespace RicoShot.Result
         private void OnValidate()
         {
             if (CameraWorkMaxIndex != cameraWorks.Length - 1)
-            {
                 Debug.LogError("CameraWorkMaxIndexとcameraWorksの要素数が一致しません");
-            }
         }
     }
 }

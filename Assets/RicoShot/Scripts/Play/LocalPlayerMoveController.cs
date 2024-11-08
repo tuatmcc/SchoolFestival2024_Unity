@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Play.Interface;
 using Unity.Netcode;
 using Unity.Netcode.Components;
@@ -34,7 +35,7 @@ namespace RicoShot.Play
         [SerializeField] private NetworkObject Bullet;
         [SerializeField] private Transform ShootPoint;
         [SerializeField] private float BulletForce = 20;
-        [SerializeField] private int maxHp = 50;
+        public const int MaxHp = 50;
         [SerializeField] private AudioClip[] footStepAudio = new AudioClip[5];
 
         [SerializeField] private float moveSpeedConst = 1.0f;
@@ -54,6 +55,7 @@ namespace RicoShot.Play
         private readonly int recentplayedIndex = -1;
         private bool _animateThrow;
         private float _animationBlend;
+        private float _motionSpeedMultiplier = 1;
         private Animator _animator;
         private float _rotationVelocity = 20;
 
@@ -77,7 +79,7 @@ namespace RicoShot.Play
 
         private void Start()
         {
-            hp = maxHp;
+            hp = MaxHp;
             rb = GetComponent<Rigidbody>();
             networkTransform = GetComponent<NetworkTransform>();
             clientDataHolder = GetComponent<IClientDataHolder>();
@@ -104,7 +106,7 @@ namespace RicoShot.Play
 
             // AnimatorControllerのパラメータを更新. サイズが小さいので実際の速度とアニメーションの差を調整
             _animator.SetFloat(_animIDSpeed, _animationBlend * SpeedMultiplierForAnimation);
-            _animator.SetFloat(_animIDMotionSpeed, 1); // input.magnitudeだと遅すぎたため固定値
+            _animator.SetFloat(_animIDMotionSpeed, _motionSpeedMultiplier); // 基本1, 動き止めたいときは0
             _animator.SetBool(_animIDThrow, _animateThrow);
 
             // フラグをリセット
@@ -136,10 +138,8 @@ namespace RicoShot.Play
             {
                 enabled = false;
             }
-            if (IsOwner)
-            {
-                OnHpChanged += Respawn;
-            }
+
+            if (IsOwner) OnHpChanged += Respawn;
         }
 
         // playSceneTesterのInjectを待って入力イベントを登録
@@ -178,7 +178,7 @@ namespace RicoShot.Play
             // 上下方向の重力はそのまま反映させる
             rb.velocity = new Vector3(dir.x * _speed, rb.velocity.y, dir.z * _speed);
 
-            _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * Acceleration);
+            _animationBlend = _speed;
         }
 
         private void Rotate()
@@ -214,7 +214,7 @@ namespace RicoShot.Play
             if (!OnCooltime && Playable)
             {
                 OnFireEvent?.Invoke();
-                //Gamepad.current.SetMotorSpeeds(1f, 1f);
+                // Gamepad.current.SetMotorSpeeds(1f, 1f);
                 //await UniTask.Delay(TimeSpan.FromSeconds(0.2f));
                 //Gamepad.current.SetMotorSpeeds(0f, 0f);
                 // GameObject currentBullet = Bullets[bullet_fire_count % 5];
@@ -260,7 +260,7 @@ namespace RicoShot.Play
             bulletController.SetShooterDataRpc(transform.position, transform.forward, clientDataHolder.ClientData);
         }
 
-        [Rpc(SendTo.Owner)]
+        [Rpc(SendTo.Everyone)]
         private void DecreaseHpRpc(int damage)
         {
             Hp -= damage;
@@ -271,12 +271,11 @@ namespace RicoShot.Play
             if (IsOwner && hp == 0)
             {
                 rb.velocity = Vector3.zero;
-                _animationBlend = 0;
                 ChangeInterpolateRpc(false);
                 transform.SetPositionAndRotation(clientDataHolder.SpawnPosition, clientDataHolder.SpawnRotation);
                 _spawnAnimationController.Spawn();
+                ResetHpRpc();
                 ChangeInterpolateRpc(true);
-                Hp = maxHp;
             }
         }
 
@@ -284,6 +283,12 @@ namespace RicoShot.Play
         private void ChangeInterpolateRpc(bool interpolate)
         {
             networkTransform.Interpolate = interpolate;
+        }
+
+        [Rpc(SendTo.Everyone)]
+        private void ResetHpRpc()
+        {
+            Hp = MaxHp;
         }
     }
 }
