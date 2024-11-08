@@ -32,6 +32,8 @@ namespace RicoShot.Title.Tests
 
         public string FetchedDisplayName { get; private set; }
         public CharacterParams FetchedCharacterParams { get; private set; }
+        public int FetchedPlayCount { get; private set; }
+        public int FetchedHighScore { get; private set; }
 
         private TitleState _titleState;
         private bool fetching = false;
@@ -76,7 +78,7 @@ namespace RicoShot.Title.Tests
             if (TitleState != TitleState.Reading) return;
             fetching = true;
             TitleState = TitleState.Fetching;
-            var (displayName, characterParams) = await supabaseController.FetchPlayerProfile(uuid);
+            var (displayName, characterParams, playCount, highScore) = await supabaseController.FetchPlayerProfile(uuid);
             if (displayName == string.Empty && characterParams == null)
             {
                 OnReadUUIDNotExist?.Invoke();
@@ -87,6 +89,8 @@ namespace RicoShot.Title.Tests
             {
                 FetchedDisplayName = displayName;
                 FetchedCharacterParams = characterParams;
+                FetchedPlayCount = playCount;
+                FetchedHighScore = highScore;
                 this.uuid = uuid;
                 Debug.Log($"Fetched name: {FetchedDisplayName}, characterParams: {characterParams}");
                 TitleState = TitleState.Confirming;

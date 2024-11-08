@@ -796,10 +796,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dea2188c08c8046229aa2b64ae1355ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48, type: 3}
+  Bullet: {fileID: 2180692630171678119, guid: 6f63c4f9c0d8fd14298a736548ac1f38, type: 3}
   ShootPoint: {fileID: 487235101643156239}
   BulletForce: 20
-  maxHp: 50
   footStepAudio:
   - {fileID: 8300000, guid: 6d98138ac1356204f98e019bd96a6d99, type: 3}
   - {fileID: 8300000, guid: 3bc85902bfe0a8e4884afd223ebadea7, type: 3}
@@ -841,7 +840,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 379bf1dc8e9ad40e09a24b497705578c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1022,7 +1021,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   coolTime: 1
-  bulletPrefab: {fileID: 3682556446799045628, guid: 3f583ee8693541e42a4ca523b96b4e48,
+  bulletPrefab: {fileID: 2180692630171678119, guid: 6f63c4f9c0d8fd14298a736548ac1f38,
     type: 3}
   agentSpeed: 5
   maxSpeed: 3

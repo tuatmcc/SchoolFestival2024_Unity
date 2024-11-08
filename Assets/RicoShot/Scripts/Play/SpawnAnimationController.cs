@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -37,7 +38,6 @@ namespace RicoShot.Play
             _animator.SetBool(_animIDSpawn, _spawn);
             _animator.SetInteger(_animIDSpawnClipIndex, _spawnClipIndex);
             balloon.SetInteger(_animIDSpawnClipIndex, _spawnClipIndex);
-            _spawn = false;
         }
 
         public void Spawn()
@@ -53,6 +53,12 @@ namespace RicoShot.Play
             // 0 or 1, but 0 should be more likely
             _spawnClipIndex = Random.value > 0.2f ? 0 : 1;
             balloon.gameObject.SetActive(true);
+            // 強引だが、1フレームの間にアニメーションをトリガーするのに失敗することがあったっぽいので、、、
+            UniTask.Create(async () =>
+            {
+                await UniTask.DelayFrame(10, cancellationToken: destroyCancellationToken);
+                _spawn = false;
+            }).Forget();
             await UniTask.Delay(SpawnAnimationClipTime, cancellationToken: destroyCancellationToken);
             isSpawning = false;
             balloon.gameObject.SetActive(false);

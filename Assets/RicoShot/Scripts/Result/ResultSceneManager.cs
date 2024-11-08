@@ -16,6 +16,8 @@ namespace RicoShot.Result
 
         private GameObject _localPlayer;
 
+        [Inject] private readonly ILocalPlayerManager _localPlayerManager;
+
         public GameObject LocalPlayer
         {
             get => _localPlayer;
@@ -34,6 +36,7 @@ namespace RicoShot.Result
         public void Initialize()
         {
             ResultInputs.Enable();
+            CharacterParams = _localPlayerManager.CharacterParams;
         }
 
         public void Dispose()
