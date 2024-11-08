@@ -16,7 +16,7 @@ namespace RicoShot.Play
     {
         [SerializeField] private int score = 10;
         [SerializeField] private int max_reflect_num = 3;
-        [SerializeField] private int bulletForce = 20;
+        [SerializeField] private float bulletForce = 20;
         [SerializeField] private int damage = 10;
         private Vector3 velocity;
         private Rigidbody rb;
