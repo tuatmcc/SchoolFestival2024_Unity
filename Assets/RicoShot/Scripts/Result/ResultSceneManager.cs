@@ -1,9 +1,12 @@
 using System;
+using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Core;
 using RicoShot.Core.Interface;
 using RicoShot.Result.Interface;
 using RicoShot.InputActions;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace RicoShot.Result
@@ -17,6 +20,7 @@ namespace RicoShot.Result
         private GameObject _localPlayer;
 
         [Inject] private readonly ILocalPlayerManager _localPlayerManager;
+        [Inject] private readonly IGameStateManager _gameStateManager;
 
         public GameObject LocalPlayer
         {
@@ -30,13 +34,18 @@ namespace RicoShot.Result
 
         private ResultSceneManager()
         {
-            ResultInputs = new();
+            ResultInputs = new ResultInputs();
         }
 
         public void Initialize()
         {
             ResultInputs.Enable();
             CharacterParams = _localPlayerManager.CharacterParams;
+
+            Observable.FromEvent<InputAction.CallbackContext>(h => ResultInputs.Main.Next.performed += h,
+                h => ResultInputs.Main.Next.performed -= h).Subscribe(
+                _ => _gameStateManager.NextScene()
+            );
         }
 
         public void Dispose()
