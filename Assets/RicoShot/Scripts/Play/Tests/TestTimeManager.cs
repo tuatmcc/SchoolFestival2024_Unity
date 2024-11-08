@@ -58,7 +58,7 @@ namespace RicoShot.Play.Tests
         private void Update()
         {
             if (playSceneManager.PlayState == PlayState.Playing && PlayTime > 0)
-                PlayTime = TimeSpan.FromMinutes(3).Ticks - (DateTime.Now.Ticks - _startTime);
+                PlayTime = TimeSpan.FromMinutes(2).Ticks - (DateTime.Now.Ticks - _startTime);
             if (PlayTime <= 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 playSceneManager.PlayState = PlayState.Finish;
