@@ -18,7 +18,6 @@ namespace RicoShot.Play.UI
 
         private void Start()
         {
-            timeLimitText = GetComponent<TMP_Text>();
             _rectTransform = GetComponent<RectTransform>();
 
             // hide to the left
@@ -30,16 +29,15 @@ namespace RicoShot.Play.UI
                 .Where(count => count == 4).Subscribe(_ => ShowTimeLimitPresenter()).AddTo(this);
 
             // update time limit
-            // TODO: this is not working
-            // Observable.FromEvent<long>(h => _timeManager.OnPlayTimeChanged += h,
-            //         h => _timeManager.OnPlayTimeChanged -= h)
-            //     .Subscribe(OnPlayTimeChanged).AddTo(this);
+            Observable.FromEvent<long>(h => _timeManager.OnPlayTimeChanged += h,
+                    h => _timeManager.OnPlayTimeChanged -= h)
+                .Subscribe(OnPlayTimeChanged).AddTo(this);
         }
 
         private void OnPlayTimeChanged(long playTime)
         {
             var time = TimeSpan.FromTicks(playTime);
-            timeLimitText.text = $"{time.Minutes:00}:{time.Seconds:00}";
+            timeLimitText.text = $"{time.Minutes:0}:{time.Seconds:00}";
         }
 
         private void ShowTimeLimitPresenter()
