@@ -13,6 +13,7 @@ namespace RicoShot.Play.UI
     public class DisplayMessagePresenter : MonoBehaviour
     {
         [Inject] private readonly ITimeManager _timeManager;
+        [Inject] private readonly IPlaySceneManager _playSceneManager;
         [SerializeField] private Image readyImage;
         [SerializeField] private Image goImage;
 
@@ -20,6 +21,8 @@ namespace RicoShot.Play.UI
         [SerializeField] private float goStartY = -1080f;
         [SerializeField] private float readyEndY = 1080f;
         [SerializeField] private float goEndY = 1080f;
+
+        [SerializeField] private Image finish;
 
         [SerializeField] private Image[] countDownImages;
         private int _countDownImageIndex = 0;
@@ -32,9 +35,15 @@ namespace RicoShot.Play.UI
             // count down
             countdownObservable.Subscribe(CountDown).AddTo(this);
 
-            // readyImage.rectTransform.anchoredPosition = new Vector2(0, -readyStartY);
-            // goImage.rectTransform.anchoredPosition = new Vector2(0, -goStartY);
+            // initialize position
             foreach (var image in countDownImages) image.rectTransform.anchoredPosition = new Vector2(0, -1080f);
+            finish.rectTransform.localScale = Vector3.zero;
+
+
+            Observable.FromEvent<PlayState>(h => _playSceneManager.OnPlayStateChanged += h,
+                    h => _playSceneManager.OnPlayStateChanged -= h)
+                .Where(state => state == PlayState.Finish)
+                .Subscribe(_ => ShowFinish());
         }
 
         private void ShowReady()
@@ -65,6 +74,11 @@ namespace RicoShot.Play.UI
                     countDownImages[_countDownImageIndex++].rectTransform.DOAnchorPos(new Vector2(0, 1080), 0.2f)
                         .SetEase(Ease.InBack);
                 });
+        }
+
+        private void ShowFinish()
+        {
+            finish.rectTransform.DOScale(new Vector3(1, 1, 1), 1f).SetEase(Ease.OutElastic);
         }
     }
 }
