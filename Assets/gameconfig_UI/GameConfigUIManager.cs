@@ -51,15 +51,7 @@ namespace RicoShot {
 
         public void Check_ServeIPAddr()
         {
-            if(System.Net.IPAddress.TryParse(InputField_ServerIPAddress.text,out System.Net.IPAddress address))
-            {
-                gameStateManager.GameConfig.ServerIPAddress = address.ToString();
-            }
-            else
-            {
-                Debug.Log("Invalid Value: " + InputField_ServerIPAddress.text);
-                InputField_ServerIPAddress.text = "";
-            }
+            gameStateManager.GameConfig.ServerIPAddress = InputField_ServerIPAddress.text;
         }
 
         public void Check_Port()
