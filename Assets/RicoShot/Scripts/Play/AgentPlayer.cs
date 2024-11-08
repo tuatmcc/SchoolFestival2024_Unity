@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using ModestTree;
 using RicoShot.Play;
 using RicoShot.Play.Interface;
 using Supabase.Storage;
@@ -59,6 +60,11 @@ namespace RicoShot.Play
                 
                 // 速度制限
                 rb.velocity = rb.velocity.normalized * Mathf.Min(rb.velocity.magnitude, maxSpeed);
+
+                if (transform.position.y >= 1)
+                {
+                    rb.AddForce(-rb.position.normalized * 1f, ForceMode.VelocityChange);
+                }
             }
         }
 
