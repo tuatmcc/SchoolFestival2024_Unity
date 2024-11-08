@@ -48,20 +48,17 @@ namespace RicoShot.Play.Tests
         [Inject] private readonly IPlaySceneManager playSceneManager;
         [Inject] private readonly IGameStateManager gameStateManager;
 
-        void Start()
+        private void Start()
         {
             if (IsClient)
-            {
-                SendLagRpc(NetworkManager.Singleton.LocalTime.TimeAsFloat - NetworkManager.Singleton.ServerTime.TimeAsFloat);
-            }
+                SendLagRpc(NetworkManager.Singleton.LocalTime.TimeAsFloat -
+                           NetworkManager.Singleton.ServerTime.TimeAsFloat);
         }
 
         private void Update()
         {
             if (playSceneManager.PlayState == PlayState.Playing && PlayTime > 0)
-            {
-                PlayTime = TimeSpan.FromMinutes(3).Ticks - (DateTime.Now.Ticks - _startTime);
-            }
+                PlayTime = TimeSpan.FromMinutes(0.1).Ticks - (DateTime.Now.Ticks - _startTime);
             if (PlayTime <= 0 && playSceneManager.PlayState == PlayState.Playing)
             {
                 playSceneManager.PlayState = PlayState.Finish;
@@ -80,10 +77,8 @@ namespace RicoShot.Play.Tests
         {
             _lagList.Add(lag);
             if (_lagList.Count == NetworkManager.Singleton.ConnectedClients.Count)
-            {
                 // 最も大きいラグ + 1秒後に始まるように設定して全体に通知
                 SendStartTimeRpc(_lagList.Max() + 1.0f + NetworkManager.Singleton.ServerTime.TimeAsFloat);
-            }
         }
 
         // (サーバー→全体)カウントダウン開始時間をServerTime基準で送信する関数
@@ -99,11 +94,12 @@ namespace RicoShot.Play.Tests
             await UniTask.WaitUntil(() => startTime >= NetworkManager.Singleton.ServerTime.TimeAsFloat);
             playSceneManager.PlayState = PlayState.Countdown;
             Count = countDownLength;
-            while(Count > 0)
+            while (Count > 0)
             {
                 await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                 Count--;
             }
+
             playSceneManager.PlayState = PlayState.Playing;
             _startTime = DateTime.Now.Ticks;
         }
