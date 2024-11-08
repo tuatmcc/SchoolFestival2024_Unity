@@ -50,14 +50,9 @@ namespace RicoShot.Play
             //Debug.Log(Time.time);
             //Debug.Log(virtualCamera.Priority);
             if (DateTime.Now.Second % ChangeInterval == 0 && !isEdited)
-            {
-                _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
+                // _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
                 isEdited = true;
-            }
-            else if (DateTime.Now.Second % ChangeInterval != 0)
-            {
-                isEdited = false;
-            }
+            else if (DateTime.Now.Second % ChangeInterval != 0) isEdited = false;
         }
 
         private void SetPlayerCameras()
