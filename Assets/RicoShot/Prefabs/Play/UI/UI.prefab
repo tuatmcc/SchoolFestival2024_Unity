@@ -1371,6 +1371,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Time Limit
       objectReference: {fileID: 0}
+    - target: {fileID: 9202977157604126546, guid: 9b1f6c7fefc379f4182e54cbf2038725,
+        type: 3}
+      propertyPath: m_text
+      value: 2:00
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
