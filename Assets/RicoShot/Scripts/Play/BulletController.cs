@@ -47,6 +47,7 @@ namespace RicoShot.Play
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
+            Invoke("DestroyThisRpc", 10);
         }
 
         // Spawnを待ってBulletをセット
