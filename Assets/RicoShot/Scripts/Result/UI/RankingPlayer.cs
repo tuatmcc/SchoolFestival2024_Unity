@@ -19,7 +19,7 @@ namespace RicoShot.Result.UI
 
         public void SetPlayerData(string displayName, Team team, int score, bool isLocalPlayer, int rank)
         {
-            cursor.gameObject.SetActive(isLocalPlayer);
+            cursor.enabled = isLocalPlayer;
             displayNameArea.text = displayName;
             scoreTextArea.text = score.ToString();
             background.sprite = team == Team.Alpha ? alphaBackground : bravoBackground;

@@ -24,15 +24,11 @@ namespace RicoShot.Result.UI
         {
             List<ScoreData> scores = new();
             foreach (var score in _networkController.ScoreManager.ScoreList) scores.Add(score);
-            foreach (var score in _networkController.ScoreManager.ScoreList)
-                Debug.LogError($"{score.Team}: {score.IsNpc}");
 
             List<ClientData> clients = new();
             foreach (var client in _networkController.ClientDataList) clients.Add(client);
 
             scores.Sort((a, b) => -a.Score + b.Score);
-            foreach (var score in _networkController.ScoreManager.ScoreList)
-                Debug.LogError($"{score.Team}: {score.IsNpc}");
             for (var i = 0; i < scores.Count; ++i)
                 if (scores[i].IsNpc)
                 {
