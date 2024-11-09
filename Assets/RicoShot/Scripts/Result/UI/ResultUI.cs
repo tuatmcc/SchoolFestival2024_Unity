@@ -24,17 +24,23 @@ namespace RicoShot.Result.UI
         {
             List<ScoreData> scores = new();
             foreach (var score in _networkController.ScoreManager.ScoreList) scores.Add(score);
+            foreach (var score in _networkController.ScoreManager.ScoreList)
+                Debug.LogError($"{score.Team}: {score.IsNpc}");
 
             List<ClientData> clients = new();
             foreach (var client in _networkController.ClientDataList) clients.Add(client);
 
             scores.Sort((a, b) => -a.Score + b.Score);
+            foreach (var score in _networkController.ScoreManager.ScoreList)
+                Debug.LogError($"{score.Team}: {score.IsNpc}");
             for (var i = 0; i < scores.Count; ++i)
-            {
-                var index = clients.FindIndex(x => x.UUID.ToString() == scores[i].UUID.ToString());
-                if (scores[i].IsNpc || index == -1)
-                    rankingPlayers[i].SetPlayerData("NPC", clients[i].Team, scores[i].Score, false, i + 1);
+                if (scores[i].IsNpc)
+                {
+                    rankingPlayers[i].SetPlayerData("NPC", scores[i].Team, scores[i].Score, false, i + 1);
+                }
                 else
+                {
+                    var index = clients.FindIndex(x => x.UUID.ToString() == scores[i].UUID.ToString());
                     rankingPlayers[i].SetPlayerData(
                         clients[index].Name.ToString(),
                         clients[index].Team,
@@ -42,7 +48,7 @@ namespace RicoShot.Result.UI
                         _gameStateManager.NetworkMode == NetworkMode.Client && clients[index].UUID.ToString() ==
                         _localPlayerManager.LocalPlayerUUID,
                         i + 1);
-            }
+                }
         }
     }
 }
