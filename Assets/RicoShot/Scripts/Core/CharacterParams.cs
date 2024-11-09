@@ -75,8 +75,8 @@ namespace RicoShot.Core
             var characterParams = new CharacterParams
             {
                 ChibiIndex = UnityEngine.Random.Range(0, CharacterSettingsController.MAX_CHIBI_INDEX + 1),
-                HairColor = "#000000",
                 CostumeVariant = UnityEngine.Random.Range(0, ChibiCostumeColorSettings.MAX_COSTUME_VARIANT_INDEX + 1),
+                HairColor = HairColorPresets[UnityEngine.Random.Range(0, HairColorPresets.Length)],
                 Accessory = UnityEngine.Random.Range(0, ChibiAccessorySettings.MAX_ACCESSORY_INDEX + 1)
             };
             return characterParams;
@@ -86,6 +86,20 @@ namespace RicoShot.Core
         [SerializeField] private FixedString32Bytes hairColor = "#000000";
         [SerializeField] private int costumeVariant = 0;
         [SerializeField] private int accessory = 0;
+
+        private static readonly string[] HairColorPresets = new string[] {
+            "#333333",
+            "#ededed",
+            "#582a22",
+            "#d53b10",
+            "#c56a20",
+            "#a1d6f8",
+            "#f5cd3d",
+            "#257901",
+            "#f485bb",
+            // "#57a06d",
+            "#345e95",
+        };
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
