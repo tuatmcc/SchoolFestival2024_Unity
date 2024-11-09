@@ -12,11 +12,13 @@ namespace RicoShot.Result.UI
     public class ResultUI : MonoBehaviour
     {
         [SerializeField] private TMP_Text scoreText;
-        [SerializeField] private TMP_Text[] rankingPlayers;
+        // [SerializeField] private TMP_Text[] rankingPlayers;
 
         [Inject] private readonly IGameStateManager _gameStateManager;
         [Inject] private readonly INetworkController _networkController;
         [Inject] private readonly ILocalPlayerManager _localPlayerManager;
+
+        [SerializeField] private RankingPlayer[] rankingPlayers;
 
         private void Start()
         {
@@ -30,15 +32,18 @@ namespace RicoShot.Result.UI
             for (var i = 0; i < scores.Count; ++i)
                 if (scores[i].IsNpc)
                 {
-                    rankingPlayers[i].text += $"{i + 1}. NPC";
+                    rankingPlayers[i].SetPlayerData("NPC", scores[i].Team, scores[i].Score, false, i + 1);
                 }
                 else
                 {
                     var index = clients.FindIndex(x => x.UUID.ToString() == scores[i].UUID.ToString());
-                    rankingPlayers[i].text += $"{i + 1}. {clients[index].Name}";
-
-                    if (clients[index].UUID.ToString() == _localPlayerManager.LocalPlayerUUID.ToString())
-                        rankingPlayers[i].color = Color.yellow;
+                    rankingPlayers[i].SetPlayerData(
+                        clients[index].Name.ToString(),
+                        clients[index].Team,
+                        scores[i].Score,
+                        _gameStateManager.NetworkMode == NetworkMode.Client && clients[index].UUID.ToString() ==
+                        _localPlayerManager.LocalPlayerUUID,
+                        i + 1);
                 }
         }
     }
