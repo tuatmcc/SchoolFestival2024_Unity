@@ -37,6 +37,7 @@ namespace RicoShot.Title.Tests
 
         private TitleState _titleState;
         private bool fetching = false;
+        private bool transiting = false;
         private string uuid;
 
         [Inject] private readonly IGameStateManager gameStateManager;
@@ -57,7 +58,9 @@ namespace RicoShot.Title.Tests
 
         private void OnEnter(InputAction.CallbackContext context)
         {
-            // gameStateManager.NextScene();
+            if (transiting) return;
+            transiting = true;
+            gameStateManager.NextScene();
         }
 
         public void FetchData(string uuid)
