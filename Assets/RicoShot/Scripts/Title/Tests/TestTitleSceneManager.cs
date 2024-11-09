@@ -57,7 +57,7 @@ namespace RicoShot.Title.Tests
 
         private void OnEnter(InputAction.CallbackContext context)
         {
-            gameStateManager.NextScene();
+            // gameStateManager.NextScene();
         }
 
         public void FetchData(string uuid)
