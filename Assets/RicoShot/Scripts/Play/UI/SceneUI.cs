@@ -14,13 +14,14 @@ namespace RicoShot.Play.UI
         [SerializeField] private TMP_Text displayName;
         [SerializeField] private Slider slider;
         [SerializeField] private LocalPlayerMoveController playerMoveController;
+        [SerializeField] private CharacterInitializer characterInitializer;
 
         [Inject] private readonly IPlaySceneManager _playSceneManager;
         [Inject] private readonly ILocalPlayerManager _localPlayerManager;
 
         private void Start()
         {
-            displayName.text = _localPlayerManager.LocalPlayerName;
+            displayName.text = characterInitializer.ClientData.Name.ToString();
 
             Observable.FromEvent<int>(h => playerMoveController.OnHpChanged += h,
                     h => playerMoveController.OnHpChanged -= h)
