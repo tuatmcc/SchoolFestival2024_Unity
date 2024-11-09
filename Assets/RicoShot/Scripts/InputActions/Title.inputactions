@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Skip",
+                    "type": "Button",
+                    "id": "37541134-914b-438a-95d3-1c6dbd762920",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -150,6 +159,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80ffc2f2-6f7d-4b1c-a6f4-f6654055599d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Skip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
