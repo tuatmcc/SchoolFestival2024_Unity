@@ -69,6 +69,7 @@ namespace RicoShot.Title.Tests
 
         private void StartAsGuest(InputAction.CallbackContext context)
         {
+            if (TitleState != TitleState.Reading) return;
             uuid = GuestUUID;
             FetchedCharacterParams = CharacterParams.GetRandomCharacterParams();
             FetchedDisplayName = GuestName;
