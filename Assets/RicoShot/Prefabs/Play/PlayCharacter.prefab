@@ -946,6 +946,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3852521454713844161, guid: b36ae4363d45f154190e11e574c61a3a,
         type: 3}
+      propertyPath: characterInitializer
+      value: 
+      objectReference: {fileID: 4660115133365371352}
+    - target: {fileID: 3852521454713844161, guid: b36ae4363d45f154190e11e574c61a3a,
+        type: 3}
       propertyPath: playerMoveController
       value: 
       objectReference: {fileID: 3912059461089499495}
