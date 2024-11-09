@@ -1,11 +1,14 @@
+using RicoShot.Play.Interface;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace RicoShot.Play
 {
-    public class HitDetector : MonoBehaviour
+    public class HitDetector : NetworkBehaviour
     {
         // Animatorコンポーネントの参照
         private Animator _animator;
+        private IClientDataHolder _clientDataHolder;
 
         bool isHit = false;
 
@@ -15,14 +18,11 @@ namespace RicoShot.Play
             _animator = GetComponent<Animator>();
         }
 
+        [Rpc(SendTo.Everyone)]
         // 衝突時に呼び出されるメソッド
-        private void OnCollisionEnter(Collision collision)
+        public void SetAnimationFlagRpc()
         {
-            // 当たった場合にアニメーションを再生
-            if (collision.gameObject.CompareTag("AlphaBullet") || collision.gameObject.CompareTag("BravoBullet"))
-            {
-                isHit = true;
-            }
+           isHit = true;
         }
 
         void LateUpdate()

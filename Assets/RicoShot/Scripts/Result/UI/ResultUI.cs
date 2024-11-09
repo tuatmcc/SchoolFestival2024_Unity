@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using RicoShot.Core;
 using RicoShot.Core.Interface;
@@ -30,9 +30,11 @@ namespace RicoShot.Result.UI
 
             scores.Sort((a, b) => -a.Score + b.Score);
             for (var i = 0; i < scores.Count; ++i)
+            {
+                var rank = scores.Count(x => x.Score > scores[i].Score) + 1;
                 if (scores[i].IsNpc)
                 {
-                    rankingPlayers[i].SetPlayerData("NPC", scores[i].Team, scores[i].Score, false, i + 1);
+                    rankingPlayers[i].SetPlayerData("NPC", scores[i].Team, scores[i].Score, false, rank);
                 }
                 else
                 {
@@ -43,8 +45,9 @@ namespace RicoShot.Result.UI
                         scores[i].Score,
                         _gameStateManager.NetworkMode == NetworkMode.Client && clients[index].UUID.ToString() ==
                         _localPlayerManager.LocalPlayerUUID,
-                        i + 1);
+                        rank);
                 }
+            }
         }
     }
 }
