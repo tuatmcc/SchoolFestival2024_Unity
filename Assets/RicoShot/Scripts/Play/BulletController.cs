@@ -133,6 +133,8 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
+                        var hitDetecter = other.gameObject.GetComponent<HitDetector>();
+                        hitDetecter.SetAnimationFlagRpc();
                         if (playSceneManager.PlayState == PlayState.Playing)
                         {
                             scoreManager.AddScoreRpc(shooterData.UUID, score);
