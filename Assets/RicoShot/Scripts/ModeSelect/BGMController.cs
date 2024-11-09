@@ -11,14 +11,14 @@ public class BGMController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-        source = GetComponent<AudioSource>();
+        DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += SceneLoaded;
     }
 
     // Update is called once per frame
     void SceneLoaded(Scene nextScene, LoadSceneMode mode)
     {
+        source = GetComponent<AudioSource>();
         if (nextScene.name == "Play")
         {
             source.clip = BGM_Play;
