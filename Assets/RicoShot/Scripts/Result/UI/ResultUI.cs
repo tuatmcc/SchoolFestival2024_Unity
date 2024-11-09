@@ -31,14 +31,10 @@ namespace RicoShot.Result.UI
             scores.Sort((a, b) => -a.Score + b.Score);
             for (var i = 0; i < scores.Count; ++i)
             {
-                Debug.LogError(i);
-                if (scores[i].IsNpc)
-                {
+                var index = clients.FindIndex(x => x.UUID.ToString() == scores[i].UUID.ToString());
+                if (scores[i].IsNpc || index == -1)
                     rankingPlayers[i].SetPlayerData("NPC", clients[i].Team, scores[i].Score, false, i + 1);
-                }
                 else
-                {
-                    var index = clients.FindIndex(x => x.UUID.ToString() == scores[i].UUID.ToString());
                     rankingPlayers[i].SetPlayerData(
                         clients[index].Name.ToString(),
                         clients[index].Team,
@@ -46,7 +42,6 @@ namespace RicoShot.Result.UI
                         _gameStateManager.NetworkMode == NetworkMode.Client && clients[index].UUID.ToString() ==
                         _localPlayerManager.LocalPlayerUUID,
                         i + 1);
-                }
             }
         }
     }
