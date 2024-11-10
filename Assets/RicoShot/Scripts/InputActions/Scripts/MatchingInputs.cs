@@ -235,7 +235,7 @@ namespace RicoShot.InputActions
                 {
                     ""name"": """",
                     ""id"": ""afded244-404f-4e34-95cc-17b46bc231d7"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -257,7 +257,7 @@ namespace RicoShot.InputActions
                 {
                     ""name"": """",
                     ""id"": ""97e07642-053d-4593-ae1f-2f3ad57a1875"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
