@@ -16,13 +16,23 @@
 - サーバーにするマシンの7777番ポートが解放されていること
 - 通信量が多いため、有線接続が望ましい
 
-## 使用したライブラリ
+## 技術スタック
+
+- マルチプレイ: NetCode for GameObject
+- DI: Zenject(Extenject)
+- データベース: Supabase (supabase-csharp)
+- 非同期処理: UniTask
+- Rx: R3
 
 ## 使用したアセット
 
 - BGM
+  - 
 - SE
-- 
+  - [効果音ラボ](https://soundeffect-lab.info/)
+- フォント
+  - [Dela Gothic One](https://fonts.google.com/specimen/Dela+Gothic+One?query=dela+gothic)
 
 ## その他
+
 個々でテスト用に開発する際は、Assetsフォルダの下にファルダを作って作業してください
