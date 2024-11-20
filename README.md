@@ -9,29 +9,31 @@
 
 ## 動作方法
 
-ゲーム起動直後にサーバーモードとクライアントモードを選択できる。クライアントのみではプレイできない。
+`release` ブランチをビルドする。ゲーム起動直後にサーバーモードとクライアントモードを選択できる。クライアントのみではプレイできない。
 
-複数デバイスでマルチプレイする場合の注意
-- 同一LANに接続する
+**複数デバイスでマルチプレイする場合の注意**
+- 同一LANに接続すること
 - サーバーにするマシンの7777番ポートが解放されていること
 - 通信量が多いため、有線接続が望ましい
 
-## 技術スタック
+## 主な技術スタック
 
-- マルチプレイ: NetCode for GameObject
-- DI: Zenject(Extenject)
-- データベース: Supabase (supabase-csharp)
-- 非同期処理: UniTask
-- Rx: R3
-
-## 使用したアセット
+- マルチプレイ: [NetCode for GameObjects](https://docs-multiplayer.unity3d.com/netcode/current/about/)
+- DI: [Zenject(Extenject)](https://github.com/Mathijs-Bakker/Extenject)
+- データベース: [Supabase](https://supabase.com/) ([supabase-csharp](https://github.com/supabase-community/supabase-csharp))
+- 非同期処理: [UniTask](https://github.com/Cysharp/UniTask)
+- Rx: [R3](https://github.com/Cysharp/R3)
+- 
+## 使用したアセット等
 
 - BGM
-  - 
-- SE
-  - [効果音ラボ](https://soundeffect-lab.info/)
+- SE: [効果音ラボ](https://soundeffect-lab.info/)
 - フォント
   - [Dela Gothic One](https://fonts.google.com/specimen/Dela+Gothic+One?query=dela+gothic)
+  - [AB-countryroad](https://fonts.adobe.com/fonts/ab-countryroad#about-section)
+- シェーダー: [lilToon](https://lilxyzw.github.io/lilToon/)
+- フィールド, 背景オブジェクト, キャラモデル, モーション, Skybox, エフェクトなど
+  - 開発メンバーによるお手製(Blender, Illustrator, iBisPaint, etc...)
 
 ## その他
 
