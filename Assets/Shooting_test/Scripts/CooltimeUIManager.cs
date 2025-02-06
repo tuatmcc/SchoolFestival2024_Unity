@@ -24,15 +24,15 @@ namespace Shooting_test
         {
         }
 
-        // async public void Begin_Cooltime(InputAction.CallbackContext context)
-        // {
-        //     if (context.performed && !OnCooltime)
-        //     {
-        //         OnCooltime = true;
-        //         this.GetComponent<Image>().fillAmount = 1f;
-        //         await this.GetComponent<Image>().DOFillAmount(0f, COOLTIME).SetEase(Ease.Linear);
-        //         OnCooltime = false;
-        //     }
-        // }
+        async public void Begin_Cooltime(InputAction.CallbackContext context)
+        {
+            if (context.performed && !OnCooltime)
+            {
+                OnCooltime = true;
+                this.GetComponent<Image>().fillAmount = 1f;
+                await this.GetComponent<Image>().DOFillAmount(0f, COOLTIME).SetEase(Ease.Linear);
+                OnCooltime = false;
+            }
+        }
     }
 }
