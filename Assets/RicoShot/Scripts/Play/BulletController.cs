@@ -16,7 +16,7 @@ namespace RicoShot.Play
     {
         [SerializeField] private int score = 10;
         [SerializeField] private int max_reflect_num = 3;
-        [SerializeField] private int bulletForce = 20;
+        [SerializeField] private float bulletForce = 20;
         [SerializeField] private int damage = 10;
         private Vector3 velocity;
         private Rigidbody rb;
@@ -47,6 +47,7 @@ namespace RicoShot.Play
             networkTransform = GetComponent<NetworkTransform>();
             networkTransform.Interpolate = false;
             SpawnBullet().Forget();
+            Invoke(nameof(DestroyThisRpc), 10);
         }
 
         // Spawnを待ってBulletをセット
@@ -58,6 +59,7 @@ namespace RicoShot.Play
                 // この実装の場合ラグを基に微調整したほうがいいかも
                 transform.position = shooterPosition + Vector3.up * 0.5f + shooterForward * 1f;
                 rb.AddForce(shooterForward * bulletForce, ForceMode.Impulse);
+                transform.rotation = Quaternion.LookRotation(shooterForward);
                 _renderer.enabled = true;
                 if (playSceneManager.PlayState == PlayState.Playing)
                 {
@@ -131,6 +133,8 @@ namespace RicoShot.Play
                         reflect_count = 0;
                         var hpHolder = other.gameObject.GetComponent<IHpHolder>();
                         hpHolder.DecreaseHp(damage);
+                        var hitDetecter = other.gameObject.GetComponent<HitDetector>();
+                        hitDetecter.SetAnimationFlagRpc();
                         if (playSceneManager.PlayState == PlayState.Playing)
                         {
                             scoreManager.AddScoreRpc(shooterData.UUID, score);

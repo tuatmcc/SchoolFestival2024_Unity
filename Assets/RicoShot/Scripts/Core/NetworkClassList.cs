@@ -130,5 +130,22 @@ namespace RicoShot.Core
         {
             return GetEnumerator();
         }
+
+        public int FindIndex(Predicate<T> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentNullException(nameof(match));
+            }
+
+            for (int i = 0; i < SomeDataToSynchronize.Count; i++)
+            {
+                if (match(SomeDataToSynchronize[i]))
+                {
+                    return i;
+                }
+            }
+            return -1; // 条件に一致する要素が見つからない場合
+        }
     }
 }

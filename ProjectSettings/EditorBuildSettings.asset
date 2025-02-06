@@ -13,7 +13,7 @@ EditorBuildSettings:
     guid: 13b31129f9143a34a9b8849d626bdc67
   - enabled: 1
     path: Assets/RicoShot/Scenes/Play.unity
-    guid: f2454f6784182764db0ec09b3e5718a6
+    guid: 10997495e626a3341bfc95cad9dad951
   - enabled: 1
     path: Assets/RicoShot/Scenes/Result.unity
     guid: 9ac102e44ef5dbe42855573f71c7a58c

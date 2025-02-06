@@ -10,19 +10,18 @@ namespace Shooting_test
 {
     public class CooltimeUIManager : MonoBehaviour
     {
-
         private bool OnCooltime = false;
-        private int COOLTIME = 2;
-        // Start is called before the first frame update
-        void Start()
-        {
 
+        private int COOLTIME = 2;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         async public void Begin_Cooltime(InputAction.CallbackContext context)

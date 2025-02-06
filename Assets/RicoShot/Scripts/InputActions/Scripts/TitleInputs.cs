@@ -64,6 +64,15 @@ namespace RicoShot.InputActions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""37541134-914b-438a-95d3-1c6dbd762920"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -147,7 +156,7 @@ namespace RicoShot.InputActions
                 {
                     ""name"": """",
                     ""id"": ""6c79a133-20f4-4b5e-9a63-4b5ec0a15135"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -174,6 +183,28 @@ namespace RicoShot.InputActions
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80ffc2f2-6f7d-4b1c-a6f4-f6654055599d"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""008fb16e-fedf-46a2-9e8e-b1b347b110e7"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -216,6 +247,7 @@ namespace RicoShot.InputActions
             m_Main_Right = m_Main.FindAction("Right", throwIfNotFound: true);
             m_Main_Confirm = m_Main.FindAction("Confirm", throwIfNotFound: true);
             m_Main_Select = m_Main.FindAction("Select", throwIfNotFound: true);
+            m_Main_Skip = m_Main.FindAction("Skip", throwIfNotFound: true);
             // Test
             m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
             m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
@@ -290,6 +322,7 @@ namespace RicoShot.InputActions
         private readonly InputAction m_Main_Right;
         private readonly InputAction m_Main_Confirm;
         private readonly InputAction m_Main_Select;
+        private readonly InputAction m_Main_Skip;
         public struct MainActions
         {
             private @TitleInputs m_Wrapper;
@@ -298,6 +331,7 @@ namespace RicoShot.InputActions
             public InputAction @Right => m_Wrapper.m_Main_Right;
             public InputAction @Confirm => m_Wrapper.m_Main_Confirm;
             public InputAction @Select => m_Wrapper.m_Main_Select;
+            public InputAction @Skip => m_Wrapper.m_Main_Skip;
             public InputActionMap Get() { return m_Wrapper.m_Main; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -319,6 +353,9 @@ namespace RicoShot.InputActions
                 @Select.started += instance.OnSelect;
                 @Select.performed += instance.OnSelect;
                 @Select.canceled += instance.OnSelect;
+                @Skip.started += instance.OnSkip;
+                @Skip.performed += instance.OnSkip;
+                @Skip.canceled += instance.OnSkip;
             }
 
             private void UnregisterCallbacks(IMainActions instance)
@@ -335,6 +372,9 @@ namespace RicoShot.InputActions
                 @Select.started -= instance.OnSelect;
                 @Select.performed -= instance.OnSelect;
                 @Select.canceled -= instance.OnSelect;
+                @Skip.started -= instance.OnSkip;
+                @Skip.performed -= instance.OnSkip;
+                @Skip.canceled -= instance.OnSkip;
             }
 
             public void RemoveCallbacks(IMainActions instance)
@@ -404,6 +444,7 @@ namespace RicoShot.InputActions
             void OnRight(InputAction.CallbackContext context);
             void OnConfirm(InputAction.CallbackContext context);
             void OnSelect(InputAction.CallbackContext context);
+            void OnSkip(InputAction.CallbackContext context);
         }
         public interface ITestActions
         {

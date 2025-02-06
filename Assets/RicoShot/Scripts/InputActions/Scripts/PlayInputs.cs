@@ -135,6 +135,17 @@ namespace RicoShot.InputActions
                 },
                 {
                     ""name"": """",
+                    ""id"": ""c72c4ab8-e9e8-450f-b90d-223e0eaa7505"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""d16d1f28-8511-4b3b-a899-8d3b93115aba"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": ""PreventMash(minInputDuration=1.1)"",
@@ -152,6 +163,17 @@ namespace RicoShot.InputActions
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d558ee7b-1ef3-43ea-8bc2-68f1a8276919"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DrawRay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },

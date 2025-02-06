@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using R3;
 using RicoShot.Play.Interface;
-using RicoShot.Play.Tests;
 
 namespace RicoShot.Play
 {
@@ -26,7 +25,7 @@ namespace RicoShot.Play
 
         private Transform[] _players;
 
-        private List<CinemachineVirtualCamera> _serverCameras = new();
+        private readonly List<CinemachineVirtualCamera> _serverCameras = new();
 
         private void Start()
         {
@@ -36,34 +35,25 @@ namespace RicoShot.Play
             if (gameStateManager.NetworkMode == NetworkMode.Server)
             {
                 _playSceneManager.MainCameraTransform = mainCamera.transform;
+
                 Observable.FromEvent<PlayState>
                     (h => _playSceneManager.OnPlayStateChanged += h,
                         h => _playSceneManager.OnPlayStateChanged -= h).Where(x => x == PlayState.Playing)
-                    .Subscribe(_ => SetPlayerCameras()).AddTo(this);
+                    .Subscribe(_ => SetupCameraList()).AddTo(this);
+
+                Observable.Interval(TimeSpan.FromSeconds(10f)).Subscribe(_ =>
+                {
+                    _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
+                }).AddTo(this);
             }
         }
 
-        // Update is called once per frame
-        private void Update()
+        private void SetupCameraList()
         {
-            if (gameStateManager.NetworkMode == NetworkMode.Client) return;
-            //Debug.Log(Time.time);
-            //Debug.Log(virtualCamera.Priority);
-            if (DateTime.Now.Second % ChangeInterval == 0 && !isEdited)
-            {
-                _serverCameras.ForEach(x => x.Priority = UnityEngine.Random.Range(0, 11));
-                isEdited = true;
-            }
-            else if (DateTime.Now.Second % ChangeInterval != 0)
-            {
-                isEdited = false;
-            }
-        }
-
-        private void SetPlayerCameras()
-        {
-            if (gameStateManager.NetworkMode == NetworkMode.Client) return;
+            // Why do I have to do this here? Can't I do this at the Inspector?
+            fieldCamera.m_LookAt = transform;
             _serverCameras.Add(fieldCamera);
+
             if (_characterGenerator.PlayerTransforms.Count != playerCameras.Length)
             {
                 Debug.LogError("PlayerTransforms.Length != playerCameras.Length: " +
@@ -73,7 +63,6 @@ namespace RicoShot.Play
 
             for (var i = 0; i < playerCameras.Length; i++)
             {
-                playerCameras[i].m_Follow = _characterGenerator.PlayerTransforms[i];
                 playerCameras[i].m_LookAt = _characterGenerator.PlayerTransforms[i];
                 _serverCameras.Add(playerCameras[i]);
             }

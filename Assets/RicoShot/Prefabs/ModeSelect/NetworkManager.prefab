@@ -53,7 +53,7 @@ MonoBehaviour:
     Prefabs:
       NetworkPrefabsLists:
       - {fileID: 11400000, guid: ae5e2e9da6a08cd4ea15f5303d785e72, type: 2}
-    TickRate: 30
+    TickRate: 20
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 1
     ConnectionData: 
@@ -89,7 +89,7 @@ MonoBehaviour:
   m_HeartbeatTimeoutMS: 500
   m_ConnectTimeoutMS: 1000
   m_MaxConnectAttempts: 60
-  m_DisconnectTimeoutMS: 30000
+  m_DisconnectTimeoutMS: 120000
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777

@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Core;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
@@ -35,8 +36,12 @@ namespace RicoShot.Title.Tests
         public int FetchedPlayCount { get; private set; }
         public int FetchedHighScore { get; private set; }
 
+        private const string GuestUUID = "599cb64e-fced-4e71-a1f6-e73c4f69f972";
+        private const string GuestName = "ゲスト";
+
         private TitleState _titleState;
         private bool fetching = false;
+        private bool transiting = false;
         private string uuid;
 
         [Inject] private readonly IGameStateManager gameStateManager;
@@ -52,12 +57,25 @@ namespace RicoShot.Title.Tests
 
         public void Initialize()
         {
-            TitleInputs.Test.Enter.performed += OnEnter;
+            TitleInputs.Main.Skip.performed += StartAsGuest;
         }
 
         private void OnEnter(InputAction.CallbackContext context)
         {
+            if (transiting) return;
+            transiting = true;
             gameStateManager.NextScene();
+        }
+
+        private void StartAsGuest(InputAction.CallbackContext context)
+        {
+            if (TitleState != TitleState.Reading) return;
+            uuid = GuestUUID;
+            FetchedCharacterParams = CharacterParams.GetRandomCharacterParams();
+            FetchedDisplayName = GuestName;
+            FetchedHighScore = 0;
+            FetchedPlayCount = 0;
+            TitleState = TitleState.Confirming;
         }
 
         public void FetchData(string uuid)
@@ -103,6 +121,7 @@ namespace RicoShot.Title.Tests
             localPlayerManager.LocalPlayerUUID = uuid;
             localPlayerManager.CharacterParams = FetchedCharacterParams;
             localPlayerManager.LocalPlayerName = FetchedDisplayName;
+            TitleInputs.Main.Skip.performed -= StartAsGuest;
             TitleInputs.Disable();
         }
     }
