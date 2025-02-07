@@ -1,10 +1,9 @@
 using System;
-using Cysharp.Threading.Tasks;
 using R3;
 using RicoShot.Core;
 using RicoShot.Core.Interface;
-using RicoShot.Result.Interface;
 using RicoShot.InputActions;
+using RicoShot.Result.Interface;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -13,14 +12,17 @@ namespace RicoShot.Result
 {
     public class ResultSceneManager : IResultSceneManager, IInitializable, IDisposable
     {
-        public ResultInputs ResultInputs { get; }
-        public CharacterParams CharacterParams { get; set; }
-        public event Action<GameObject> OnLocalPlayerSpawned;
-
-        private GameObject _localPlayer;
+        [Inject] private readonly IGameStateManager _gameStateManager;
 
         [Inject] private readonly ILocalPlayerManager _localPlayerManager;
-        [Inject] private readonly IGameStateManager _gameStateManager;
+
+        private GameObject _localPlayer;
+        private readonly CompositeDisposable disposables = new();
+
+        private ResultSceneManager()
+        {
+            ResultInputs = new ResultInputs();
+        }
 
         public GameObject LocalPlayer
         {
@@ -32,9 +34,10 @@ namespace RicoShot.Result
             }
         }
 
-        private ResultSceneManager()
+        public void Dispose()
         {
-            ResultInputs = new ResultInputs();
+            disposables.Dispose();
+            ResultInputs.Disable();
         }
 
         public void Initialize()
@@ -45,12 +48,11 @@ namespace RicoShot.Result
             Observable.FromEvent<InputAction.CallbackContext>(h => ResultInputs.Main.Next.performed += h,
                 h => ResultInputs.Main.Next.performed -= h).Subscribe(
                 _ => _gameStateManager.NextScene()
-            );
+            ).AddTo(disposables);
         }
 
-        public void Dispose()
-        {
-            ResultInputs.Disable();
-        }
+        public ResultInputs ResultInputs { get; }
+        public CharacterParams CharacterParams { get; set; }
+        public event Action<GameObject> OnLocalPlayerSpawned;
     }
 }
