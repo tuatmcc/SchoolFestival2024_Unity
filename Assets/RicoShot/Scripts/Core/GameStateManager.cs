@@ -1,10 +1,8 @@
+using System;
 using Cysharp.Threading.Tasks;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,18 +13,41 @@ namespace RicoShot.Core
 {
     public class GameStateManager : IGameStateManager, IInitializable, IDisposable
     {
+        private GameState gameState;
+
+        private GameStateManager()
+        {
+            CoreInputs = new CoreInputs();
+            CoreInputs.Enable();
+            // Check if Application.dataPath is accessible, for example even on Android
+            if (Application.dataPath.Contains("Assets"))
+                GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
+            else
+                GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.persistentDataPath}/.env");
+        }
+
+        public void Dispose()
+        {
+            OnGameStateChanged -= TransitScene;
+            CoreInputs.Disable();
+            if (Application.dataPath.Contains("Assets"))
+                JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
+            else
+                JsonFileHandler.WriteJson($"{Application.persistentDataPath}/.env", GameConfig);
+        }
+
         public event Action<GameState> OnExitGameState;
         public event Action<GameState> OnGameStateChanged;
         public event Action OnReset;
 
-        public CoreInputs CoreInputs { get; private set; }
+        public CoreInputs CoreInputs { get; }
         public NetworkMode NetworkMode { get; set; }
-        public GameConfig GameConfig { get; private set; }
-        public bool ReadyToReset { private get; set; } = false;
+        public GameConfig GameConfig { get; }
+        public bool ReadyToReset { private get; set; }
 
         public GameState GameState
-        { 
-            get { return gameState; } 
+        {
+            get => gameState;
             set
             {
                 OnExitGameState?.Invoke(gameState);
@@ -34,22 +55,6 @@ namespace RicoShot.Core
                 OnGameStateChanged?.Invoke(gameState);
                 Debug.Log($"GameState changed to {value}");
             }
-        }
-
-        private GameState gameState;
-
-        GameStateManager()
-        {
-            CoreInputs = new();
-            CoreInputs.Enable();
-            GameConfig = JsonFileHandler.LoadJson<GameConfig>($"{Application.dataPath}/.env");
-        }
-
-        public void Initialize()
-        {
-            GameState = GameState.ModeSelect;
-            OnGameStateChanged += TransitScene;
-            CoreInputs.Main.Escape.performed += OnResetInput;
         }
 
         public void NextScene()
@@ -66,6 +71,7 @@ namespace RicoShot.Core
                             GameState = GameState.Matching;
                             break;
                     }
+
                     break;
                 case GameState.Title:
                     GameState = GameState.Matching;
@@ -87,8 +93,33 @@ namespace RicoShot.Core
                             GameState = GameState.Matching;
                             break;
                     }
+
                     break;
             }
+        }
+
+        public void ForceReset()
+        {
+            if (GameState == GameState.ModeSelect) return;
+            Debug.Log("Start force reset");
+            OnReset?.Invoke();
+            ReadyToReset = false;
+            UniTask.Create(async () =>
+            {
+                await UniTask.WaitUntil(() => ReadyToReset);
+                if (NetworkMode == NetworkMode.Server)
+                    GameState = GameState.Matching;
+                else if (NetworkMode == NetworkMode.Client) GameState = GameState.Title;
+
+                Debug.Log("Completed force reset");
+            }).Forget();
+        }
+
+        public void Initialize()
+        {
+            GameState = GameState.ModeSelect;
+            OnGameStateChanged += TransitScene;
+            CoreInputs.Main.Escape.performed += OnResetInput;
         }
 
         private void TransitScene(GameState gameState)
@@ -109,6 +140,7 @@ namespace RicoShot.Core
                         Debug.Log("[Server] Load Play scene");
                         NetworkManager.Singleton.SceneManager.LoadScene("Play", LoadSceneMode.Single);
                     }
+
                     break;
                 case GameState.Result:
                     if (NetworkMode == NetworkMode.Server)
@@ -116,6 +148,7 @@ namespace RicoShot.Core
                         Debug.Log("[Server] Load Result scene");
                         NetworkManager.Singleton.SceneManager.LoadScene("Result", LoadSceneMode.Single);
                     }
+
                     break;
             }
         }
@@ -123,34 +156,6 @@ namespace RicoShot.Core
         private void OnResetInput(InputAction.CallbackContext context)
         {
             ForceReset();
-        }
-
-        public void ForceReset()
-        {
-            if (GameState == GameState.ModeSelect) return;
-            Debug.Log("Start force reset");
-            OnReset?.Invoke();
-            ReadyToReset = false;
-            UniTask.Create(async () =>
-            {
-                await UniTask.WaitUntil(() => ReadyToReset);
-                if (NetworkMode == NetworkMode.Server)
-                {
-                    GameState = GameState.Matching;
-                }
-                else if (NetworkMode == NetworkMode.Client)
-                {
-                    GameState = GameState.Title;
-                }
-                Debug.Log("Completed force reset");
-            }).Forget();
-        }
-
-        public void Dispose()
-        {
-            OnGameStateChanged -= TransitScene;
-            CoreInputs.Disable();
-            JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
         }
     }
 }

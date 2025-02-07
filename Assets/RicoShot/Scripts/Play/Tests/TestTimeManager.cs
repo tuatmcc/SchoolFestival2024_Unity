@@ -1,52 +1,29 @@
-using Cysharp.Threading.Tasks;
-using RicoShot.Core.Interface;
-using RicoShot.Play.Interface;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using R3;
+using RicoShot.Core.Interface;
+using RicoShot.Play.Interface;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace RicoShot.Play.Tests
 {
     public class TestTimeManager : NetworkBehaviour, ITimeManager
     {
-        public event Action<int> OnCountChanged;
-        public event Action<long> OnPlayTimeChanged;
+        [SerializeField] private int countDownLength = 3;
 
-        public int Count
-        {
-            get => _count;
-            set
-            {
-                _count = value;
-                OnCountChanged?.Invoke(value);
-                Debug.Log($"Count changed: {value}");
-            }
-        }
+        private readonly List<float> _lagList = new();
+        [Inject] private readonly IGameStateManager gameStateManager;
 
-        public long PlayTime
-        {
-            get => _playTime;
-            set
-            {
-                _playTime = value;
-                OnPlayTimeChanged?.Invoke(value);
-            }
-        }
+        [Inject] private readonly IPlaySceneManager playSceneManager;
 
         private int _count;
         private long _playTime = 180;
         private long _startTime;
-
-        [SerializeField] private int countDownLength = 3;
-
-        private readonly List<float> _lagList = new();
-
-        [Inject] private readonly IPlaySceneManager playSceneManager;
-        [Inject] private readonly IGameStateManager gameStateManager;
 
         private void Start()
         {
@@ -68,6 +45,30 @@ namespace RicoShot.Play.Tests
                     await UniTask.WaitForSeconds(1, cancellationToken: destroyCancellationToken);
                     gameStateManager.NextScene();
                 });
+            }
+        }
+
+        public event Action<int> OnCountChanged;
+        public event Action<long> OnPlayTimeChanged;
+
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                _count = value;
+                OnCountChanged?.Invoke(value);
+                Debug.Log($"Count changed: {value}");
+            }
+        }
+
+        public long PlayTime
+        {
+            get => _playTime;
+            set
+            {
+                _playTime = value;
+                OnPlayTimeChanged?.Invoke(value);
             }
         }
 
@@ -102,6 +103,14 @@ namespace RicoShot.Play.Tests
 
             playSceneManager.PlayState = PlayState.Playing;
             _startTime = DateTime.Now.Ticks;
+
+            // スキップボタンが押されたらPlayTimeを0にする
+            if (IsServer)
+                Observable.FromEvent<InputAction.CallbackContext>(
+                        action => playSceneManager.PlayInputs.Main.Skip.performed += action,
+                        action => playSceneManager.PlayInputs.Main.Skip.performed -= action)
+                    .Subscribe(_ => PlayTime = 0)
+                    .AddTo(this);
         }
     }
 }
