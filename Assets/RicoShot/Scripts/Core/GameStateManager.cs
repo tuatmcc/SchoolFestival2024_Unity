@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using R3;
 using RicoShot.Core.Interface;
 using RicoShot.InputActions;
 using RicoShot.Utils;
@@ -13,6 +14,7 @@ namespace RicoShot.Core
 {
     public class GameStateManager : IGameStateManager, IInitializable, IDisposable
     {
+        private readonly CompositeDisposable disposables = new();
         private GameState gameState;
 
         private GameStateManager()
@@ -30,10 +32,7 @@ namespace RicoShot.Core
         {
             OnGameStateChanged -= TransitScene;
             CoreInputs.Disable();
-            if (Application.dataPath.Contains("Assets"))
-                JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
-            else
-                JsonFileHandler.WriteJson($"{Application.persistentDataPath}/.env", GameConfig);
+            disposables.Dispose();
         }
 
         public event Action<GameState> OnExitGameState;
@@ -120,6 +119,18 @@ namespace RicoShot.Core
             GameState = GameState.ModeSelect;
             OnGameStateChanged += TransitScene;
             CoreInputs.Main.Escape.performed += OnResetInput;
+
+            Observable.FromEvent<GameState>(h => OnGameStateChanged += h, h => OnGameStateChanged -= h)
+                .Where(state => state == GameState.Title)
+                .Subscribe(_ => SaveConfig()).AddTo(disposables);
+        }
+
+        private void SaveConfig()
+        {
+            if (Application.dataPath.Contains("Assets"))
+                JsonFileHandler.WriteJson($"{Application.dataPath}/.env", GameConfig);
+            else
+                JsonFileHandler.WriteJson($"{Application.persistentDataPath}/.env", GameConfig);
         }
 
         private void TransitScene(GameState gameState)
