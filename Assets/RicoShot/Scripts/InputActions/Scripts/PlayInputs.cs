@@ -64,6 +64,15 @@ namespace RicoShot.InputActions
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""1e38bf0b-0b46-4107-b3cc-63ef0b252e8d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -220,6 +229,28 @@ namespace RicoShot.InputActions
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5846c259-c42a-4b8b-89d8-41fe15458d4b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""76f009fe-7486-4d2e-a0cf-2fa86a3d57f0"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -260,6 +291,7 @@ namespace RicoShot.InputActions
             m_Main_Fire = m_Main.FindAction("Fire", throwIfNotFound: true);
             m_Main_DrawRay = m_Main.FindAction("DrawRay", throwIfNotFound: true);
             m_Main_Camera = m_Main.FindAction("Camera", throwIfNotFound: true);
+            m_Main_Skip = m_Main.FindAction("Skip", throwIfNotFound: true);
             // Test
             m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
             m_Test_Enter = m_Test.FindAction("Enter", throwIfNotFound: true);
@@ -334,6 +366,7 @@ namespace RicoShot.InputActions
         private readonly InputAction m_Main_Fire;
         private readonly InputAction m_Main_DrawRay;
         private readonly InputAction m_Main_Camera;
+        private readonly InputAction m_Main_Skip;
         public struct MainActions
         {
             private @PlayInputs m_Wrapper;
@@ -342,6 +375,7 @@ namespace RicoShot.InputActions
             public InputAction @Fire => m_Wrapper.m_Main_Fire;
             public InputAction @DrawRay => m_Wrapper.m_Main_DrawRay;
             public InputAction @Camera => m_Wrapper.m_Main_Camera;
+            public InputAction @Skip => m_Wrapper.m_Main_Skip;
             public InputActionMap Get() { return m_Wrapper.m_Main; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -363,6 +397,9 @@ namespace RicoShot.InputActions
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
+                @Skip.started += instance.OnSkip;
+                @Skip.performed += instance.OnSkip;
+                @Skip.canceled += instance.OnSkip;
             }
 
             private void UnregisterCallbacks(IMainActions instance)
@@ -379,6 +416,9 @@ namespace RicoShot.InputActions
                 @Camera.started -= instance.OnCamera;
                 @Camera.performed -= instance.OnCamera;
                 @Camera.canceled -= instance.OnCamera;
+                @Skip.started -= instance.OnSkip;
+                @Skip.performed -= instance.OnSkip;
+                @Skip.canceled -= instance.OnSkip;
             }
 
             public void RemoveCallbacks(IMainActions instance)
@@ -448,6 +488,7 @@ namespace RicoShot.InputActions
             void OnFire(InputAction.CallbackContext context);
             void OnDrawRay(InputAction.CallbackContext context);
             void OnCamera(InputAction.CallbackContext context);
+            void OnSkip(InputAction.CallbackContext context);
         }
         public interface ITestActions
         {
